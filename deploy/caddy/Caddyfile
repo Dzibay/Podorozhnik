@@ -1,0 +1,24 @@
+# TLS и reverse proxy → nginx (сервис web).
+# Переменные из docker-compose: SITE_ADDRESS, ACME_EMAIL.
+{
+	email {$ACME_EMAIL}
+}
+
+# Основной домен
+{$SITE_ADDRESS} {
+	encode gzip zstd
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "SAMEORIGIN"
+	}
+
+	reverse_proxy web:80
+}
+
+# www → без www
+www.{$SITE_ADDRESS} {
+	redir https://{$SITE_ADDRESS}{uri} permanent
+}

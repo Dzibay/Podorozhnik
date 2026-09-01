@@ -1,2 +1,49 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Normalize line endings
+* text=auto eol=lf
+
+# Windows scripts keep CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Source
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.mjs text
+*.cjs text
+*.css text
+*.scss text
+*.html text
+*.json text
+*.md text
+*.mdx text
+*.yml text
+*.yaml text
+*.svg text
+*.xml text
+*.toml text
+*.env.example text
+
+# Binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.icns binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.mp4 binary
+*.webm binary
+*.mov binary
+*.glb binary
+*.gltf binary
+*.bin binary
+*.pdf binary

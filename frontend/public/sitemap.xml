@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>/</loc></url>
+  <url><loc>/services</loc></url>
+  <url><loc>/services/analytics</loc></url>
+  <url><loc>/services/websites</loc></url>
+  <url><loc>/services/web-apps</loc></url>
+  <url><loc>/services/saas</loc></url>
+  <url><loc>/services/telegram-bots</loc></url>
+  <url><loc>/services/integrations</loc></url>
+  <url><loc>/services/crm</loc></url>
+  <url><loc>/services/automation</loc></url>
+  <url><loc>/services/promotion</loc></url>
+  <url><loc>/services/marketing</loc></url>
+  <url><loc>/services/targeting</loc></url>
+  <url><loc>/cases</loc></url>
+  <url><loc>/agency</loc></url>
+  <url><loc>/contacts</loc></url>
+</urlset>

@@ -1,0 +1,17 @@
+.env
+backend/.env
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+node_modules/
+.next/
+frontend/node_modules/
+frontend/dist/
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
