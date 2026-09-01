@@ -11,6 +11,11 @@
 @import "./header.css";
 @import "./blob.css";
 @import "./hero.css";
+@import "./pain.css";
+@import "./promise.css";
+@import "./capabilities.css";
+@import "./process.css";
+@import "./cta.css";
 @import "./footer.css";
 
 @import "./admin.css";
