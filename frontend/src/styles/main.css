@@ -16,6 +16,9 @@
 @import "./capabilities.css";
 @import "./process.css";
 @import "./cta.css";
+@import "./services.css";
+@import "./pages.css";
+@import "./email-chooser.css";
 @import "./footer.css";
 
 @import "./admin.css";

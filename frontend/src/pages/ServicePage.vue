@@ -11,41 +11,70 @@ const group = computed(() => (service.value ? getGroup(service.value.group) : nu
 </script>
 
 <template>
-  <main id="main" class="page">
-    <div v-if="service" class="container page__narrow">
-      <p class="kicker">
+  <main id="main" class="page page--service">
+    <div v-if="service" class="container service-detail">
+      <nav class="service-crumb" aria-label="Навигация">
         <RouterLink :to="routes.services">Услуги</RouterLink>
-        <template v-if="group"> / {{ group.title }}</template>
-      </p>
-      <h1>{{ service.title }}</h1>
-      <p class="lead">{{ service.lead }}</p>
+        <span class="service-crumb__sep" aria-hidden="true">/</span>
+        <RouterLink v-if="group" :to="`${routes.services}#${group.id}`">
+          {{ group.title }}
+        </RouterLink>
+        <template v-if="group">
+          <span class="service-crumb__sep" aria-hidden="true">/</span>
+        </template>
+        <span class="service-crumb__current">{{ service.shortTitle }}</span>
+      </nav>
 
-      <section class="block">
-        <h2>Что делаем</h2>
-        <p>{{ service.description }}</p>
-      </section>
+      <header class="service-hero">
+        <p class="kicker">{{ group?.title || 'Услуга' }}</p>
+        <h1 class="service-hero__title">{{ service.title }}</h1>
+        <p class="service-hero__lead">{{ service.lead }}</p>
+      </header>
 
-      <section class="block">
-        <h2>Что получите</h2>
-        <ul class="bullets">
-          <li v-for="item in service.outcomes" :key="item">{{ item }}</li>
-        </ul>
-      </section>
+      <div class="service-body">
+        <section class="service-block">
+          <h2 class="service-block__title">Что делаем</h2>
+          <p class="service-block__text">{{ service.description }}</p>
+        </section>
 
-      <section class="block">
-        <h2>Для кого</h2>
-        <p>{{ service.forWhom }}</p>
-      </section>
+        <section class="service-block">
+          <h2 class="service-block__title">Что получите</h2>
+          <ul class="service-outcomes">
+            <li v-for="item in service.outcomes" :key="item">{{ item }}</li>
+          </ul>
+        </section>
 
-      <section class="block block--cta">
-        <h2>Обсудить эту задачу</h2>
-        <p>Расскажите контекст — предложим объём, этапы и следующий шаг.</p>
-        <div class="button-row">
-          <AppButton :href="routes.contacts" :event-name="analyticsEvents.ctaDiscussProject">
+        <section class="service-block">
+          <h2 class="service-block__title">Для кого</h2>
+          <p class="service-block__text">{{ service.forWhom }}</p>
+        </section>
+      </div>
+
+      <section class="service-cta">
+        <div class="service-cta__copy">
+          <p class="kicker">Следующий шаг</p>
+          <h2 class="service-cta__title">Обсудить эту задачу</h2>
+          <p class="service-cta__lead">
+            Расскажите контекст — предложим объём, этапы и следующий шаг.
+          </p>
+        </div>
+        <div class="service-cta__actions">
+          <AppButton
+            class="service-cta__button"
+            :href="routes.contacts"
+            :event-name="analyticsEvents.ctaDiscussProject"
+          >
             Обсудить
+            <span class="service-cta__arrow" aria-hidden="true">&rarr;</span>
           </AppButton>
-          <AppButton :href="routes.services" variant="secondary" event-name="">
+          <AppButton
+            class="service-cta__button"
+            :href="routes.services"
+            variant="outline"
+            event-name=""
+          >
             Все услуги
+            <span class="service-cta__arrow" aria-hidden="true">&rarr;</span>
           </AppButton>
         </div>
       </section>

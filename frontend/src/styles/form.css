@@ -1,7 +1,7 @@
 .lead-form {
   display: grid;
-  gap: var(--space-16);
-  max-width: 28rem;
+  gap: var(--space-20);
+  width: 100%;
 }
 
 .lead-form__field {
@@ -10,9 +10,9 @@
 }
 
 .lead-form__field span {
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
@@ -20,10 +20,63 @@
 .lead-form input,
 .lead-form textarea {
   width: 100%;
-  padding: 0.85rem 1rem;
+  padding: 0.95rem 1.1rem;
   border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  transition:
+    border-color 220ms var(--ease),
+    background-color 220ms var(--ease);
+}
+
+.lead-form textarea {
   border-radius: var(--radius-s);
-  background: var(--color-surface);
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
+.lead-form input::placeholder,
+.lead-form textarea::placeholder {
+  color: color-mix(in srgb, var(--color-muted) 75%, transparent);
+}
+
+.lead-form input:hover,
+.lead-form textarea:hover {
+  border-color: color-mix(in srgb, var(--color-green) 35%, var(--color-line));
+}
+
+.lead-form input:focus,
+.lead-form textarea:focus {
+  outline: none;
+  border-color: var(--color-green);
+  background: color-mix(in srgb, var(--color-green) 4%, transparent);
+  box-shadow: var(--focus);
+}
+
+.lead-form__field--invalid input {
+  border-color: #ff8f7a;
+}
+
+.lead-form__field--invalid input:focus {
+  border-color: #ff8f7a;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #ff8f7a 35%, transparent);
+}
+
+.lead-form__hint {
+  font-size: 0.85rem;
+  color: #ff8f7a;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.lead-form .button {
+  margin-top: var(--space-8);
+  width: 100%;
+  justify-content: space-between;
+  padding-inline: 1.5rem;
 }
 
 .lead-form__honeypot {
@@ -35,10 +88,17 @@
 }
 
 .lead-form__error {
-  color: #b42318;
+  margin: 0;
+  color: #ff8f7a;
+  font-size: 0.95rem;
 }
 
 .lead-form__ok {
+  margin: 0;
   color: var(--color-green);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
 }

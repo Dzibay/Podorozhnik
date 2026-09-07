@@ -94,27 +94,23 @@
 
 .link-list,
 .bullets,
-.service-index,
 .process-list,
 .footer__list {
   display: grid;
   gap: var(--space-12);
 }
 
-.link-list a,
-.service-index a strong {
+.link-list a {
   color: var(--color-text);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-.link-list a:hover,
-.service-index a:hover strong {
+.link-list a:hover {
   color: var(--color-green);
 }
 
-.link-list span,
-.service-index span {
+.link-list span {
   color: var(--color-muted);
 }
 
@@ -144,17 +140,6 @@
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-}
-
-.services-group {
-  margin-bottom: var(--space-64);
-}
-
-.service-index a {
-  display: grid;
-  gap: var(--space-4);
-  padding: var(--space-16) 0;
-  border-bottom: 1px solid var(--color-line);
 }
 
 .block {

@@ -1,6 +1,7 @@
 <script setup>
-import { footerNav, routes, site } from '../../data/site'
+import { contacts, footerNav, routes, site } from '../../data/site'
 import { services } from '../../data/services'
+import EmailChooser from '../ui/EmailChooser.vue'
 </script>
 
 <template>
@@ -10,6 +11,10 @@ import { services } from '../../data/services'
         <div>
           <RouterLink :to="routes.home" class="footer__brand">{{ site.wordmark }}</RouterLink>
           <p class="footer__tagline">{{ site.tagline }}</p>
+          <div class="footer__contacts">
+            <a class="footer__phone" :href="contacts.phoneTel">{{ contacts.phoneDisplay }}</a>
+            <EmailChooser trigger-class="footer__email" />
+          </div>
         </div>
 
         <div>

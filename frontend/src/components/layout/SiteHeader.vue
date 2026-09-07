@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { analyticsEvents, headerCta, headerNav, routes, site } from '../../data/site'
+import { analyticsEvents, contacts, headerCta, headerNav, routes, site } from '../../data/site'
 import { track } from '../../analytics/tracker'
 import AppButton from '../ui/AppButton.vue'
 import { lockScroll, resetScrollLock, unlockScroll } from '../../utils/scrollLock'
@@ -81,6 +81,9 @@ const headerClass = computed(() => ({
       </nav>
 
       <div class="header__actions">
+        <a class="header__phone" :href="contacts.phoneTel">
+          {{ contacts.phoneDisplay }}
+        </a>
         <AppButton
           :href="headerCta.href"
           variant="outline"
@@ -129,6 +132,9 @@ const headerClass = computed(() => ({
         </ul>
 
         <div class="mobile-nav__cta">
+          <a class="mobile-nav__phone" :href="contacts.phoneTel">
+            {{ contacts.phoneDisplay }}
+          </a>
           <AppButton
             :href="headerCta.href"
             variant="outline"
