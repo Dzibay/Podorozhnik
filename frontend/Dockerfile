@@ -1,6 +1,9 @@
-FROM node:22-alpine AS build
+﻿FROM node:22-alpine AS build
 
 WORKDIR /app
+
+ARG VITE_SITE_URL=https://podorozhnik-agency.ru
+ENV VITE_SITE_URL=$VITE_SITE_URL
 
 COPY package.json package-lock.json ./
 RUN npm ci

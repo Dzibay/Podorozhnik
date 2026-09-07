@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getService } from '../data/services'
+import { getGroup, getService } from '../data/services'
 import { applyPageMeta } from '../utils/meta'
 
-const ADMIN_PATH = '/pd-panel-x7k2m9'
+export const ADMIN_PATH = '/pd-panel-x7k2m9'
 
 const routes = [
   {
@@ -36,6 +36,7 @@ const routes = [
     meta: {
       title: 'Проекты — Подорожник',
       description: 'Кейсы Подорожник. Раздел наполняется реальными проектами.',
+      noindex: true,
     },
   },
   {
@@ -53,7 +54,8 @@ const routes = [
     component: () => import('../pages/ContactsPage.vue'),
     meta: {
       title: 'Контакты — Подорожник',
-      description: 'Обсудим задачу и формат работы.',
+      description:
+        'Телефон 8 (800) 600-42-28 и почта podoroznik-gk@yandex.ru. Обсудим задачу и формат работы.',
     },
   },
   {
@@ -95,8 +97,15 @@ router.beforeEach((to) => {
   if (!service) {
     return { name: 'not-found', params: { pathMatch: to.path.slice(1).split('/') } }
   }
-  to.meta.title = `${service.shortTitle} — Подорожник`
+  const group = getGroup(service.group)
+  to.meta.title = `${service.title} — Подорожник`
   to.meta.description = service.lead
+  to.meta.breadcrumb = [
+    { name: 'Главная', path: '/' },
+    { name: 'Услуги', path: '/services' },
+    { name: group?.title || 'Услуга', path: `/services#${service.group}` },
+    { name: service.shortTitle, path: `/services/${service.slug}` },
+  ]
 })
 
 router.afterEach((to) => {

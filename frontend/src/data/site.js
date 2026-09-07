@@ -1,9 +1,10 @@
-export const site = {
+﻿export const site = {
   name: 'Podorozhnik',
   wordmark: 'ПОДОРОЖНИК',
   tagline: 'От идеи до реализации и продаж',
   brandLine: 'Full-cycle digital',
-  fallbackUrl: 'http://localhost:5173',
+  /** Дефолтный прод-хост; в сборке перекрывается VITE_SITE_URL */
+  fallbackUrl: 'https://podorozhnik-agency.ru',
 }
 
 /** Контакты агентства */

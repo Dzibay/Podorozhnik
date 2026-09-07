@@ -1,4 +1,4 @@
-# Стек: Postgres → FastAPI → Nginx (SPA + /api) → Caddy (HTTPS).
+﻿# Стек: Postgres → FastAPI → Nginx (SPA + /api) → Caddy (HTTPS).
 #
 # Запуск из корня репозитория:
 #   cp .env.example .env
@@ -56,7 +56,10 @@ services:
     networks: [internal]
 
   web:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_SITE_URL: https://${SITE_ADDRESS:?SITE_ADDRESS is required (e.g. podorozhnik-agency.ru)}
     restart: unless-stopped
     depends_on:
       backend:
@@ -71,7 +74,7 @@ services:
       - "443:443"
       - "443:443/udp"
     environment:
-      SITE_ADDRESS: ${SITE_ADDRESS:?SITE_ADDRESS is required (e.g. podorozhnik.ru)}
+      SITE_ADDRESS: ${SITE_ADDRESS:?SITE_ADDRESS is required (e.g. podorozhnik-agency.ru)}
       ACME_EMAIL: ${ACME_EMAIL:-}
     volumes:
       - ./deploy/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
