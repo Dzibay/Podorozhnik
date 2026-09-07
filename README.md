@@ -43,10 +43,23 @@ npm run dev
 
 ## Продакшен
 
+На сервере с Docker:
+
 ```bash
 cp .env.example .env
 cp backend/.env.example backend/.env
+# в .env: SITE_ADDRESS=podorozhnik-agency.ru, ACME_EMAIL, POSTGRES_PASSWORD
+# в backend/.env: ADMIN_PASSWORD, DB_PASSWORD (= POSTGRES_PASSWORD)
+
 docker compose up -d --build
 ```
 
-Internet → Caddy :443 → nginx (SPA) → FastAPI :8000 → PostgreSQL.
+DNS до запуска:
+
+- `A` → `podorozhnik-agency.ru` → IP сервера  
+- `A` → `www.podorozhnik-agency.ru` → тот же IP  
+
+Схема: Internet → Caddy :443 (TLS) → nginx (SPA + `/api`) → FastAPI → PostgreSQL.
+
+Caddyfile: `deploy/caddy/Caddyfile`.
+

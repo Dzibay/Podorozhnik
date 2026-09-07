@@ -9,9 +9,9 @@
 
 /** Контакты агентства */
 export const contacts = {
-  phoneRaw: '88006004228',
-  phoneDisplay: '8 (800) 600-42-28',
-  phoneTel: 'tel:+78006004228',
+  phoneRaw: '89956004228',
+  phoneDisplay: '8 (995) 600-42-28',
+  phoneTel: 'tel:+79956004228',
   email: 'podoroznik-gk@yandex.ru',
   emailSubject: 'Заявка с сайта Подорожник',
   emailBody: 'Здравствуйте!\n\nХочу обсудить задачу:\n',

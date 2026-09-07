@@ -1,10 +1,16 @@
 # TLS и reverse proxy → nginx (сервис web).
 # Переменные из docker-compose: SITE_ADDRESS, ACME_EMAIL.
+#
+# Перед запуском:
+# 1. A-запись podorozhnik-agency.ru → IP сервера
+# 2. A-запись www.podorozhnik-agency.ru → тот же IP (иначе блок www упадёт на ACME)
+# 3. В .env: SITE_ADDRESS=podorozhnik-agency.ru и ACME_EMAIL=ваш@email.ru
+# 4. Порты 80/443 открыты снаружи
+
 {
-	email {$ACME_EMAIL}
+	email {$ACME_EMAIL:admin@podorozhnik-agency.ru}
 }
 
-# Основной домен
 {$SITE_ADDRESS} {
 	encode gzip zstd
 
@@ -18,7 +24,6 @@
 	reverse_proxy web:80
 }
 
-# www → без www
 www.{$SITE_ADDRESS} {
 	redir https://{$SITE_ADDRESS}{uri} permanent
 }
