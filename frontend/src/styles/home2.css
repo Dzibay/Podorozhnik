@@ -719,10 +719,9 @@ a.card2:hover .card2__arrow {
   counter-reset: process;
 }
 
-@media (min-width: 1200px) {
-  .process2-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+.process2-card.card2--art {
+  padding-right: clamp(5rem, 12vw, 7rem);
+  min-height: 0;
 }
 
 .process2-card__num {
