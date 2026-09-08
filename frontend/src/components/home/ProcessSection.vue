@@ -13,7 +13,20 @@ const { process } = homeCopy
       </div>
 
       <ol class="process2-grid">
-        <li v-for="(phase, index) in process.phases" :key="phase.id" class="card2 process2-card">
+        <li
+          v-for="(phase, index) in process.phases"
+          :key="phase.id"
+          class="card2 card2--art process2-card"
+        >
+          <img
+            class="card2__art card2__art--sm"
+            :src="phase.icon"
+            alt=""
+            width="256"
+            height="256"
+            loading="lazy"
+            aria-hidden="true"
+          />
           <span class="process2-card__num">{{ index + 1 }}</span>
           <h3 class="process2-card__title">{{ phase.title }}</h3>
           <p class="process2-card__tagline">{{ phase.tagline }}</p>

@@ -11,6 +11,15 @@ const before = ['сайтщик', 'директолог', 'сеошник', 'а�
     <div class="container">
       <div class="promise2">
         <div class="promise2__glow" aria-hidden="true"></div>
+        <img
+          class="promise2__art"
+          :src="promise.icon"
+          alt=""
+          width="512"
+          height="512"
+          loading="lazy"
+          aria-hidden="true"
+        />
         <p class="kicker">{{ promise.kicker }}</p>
         <h2 class="promise2__title">
           Один <span class="promise2__accent">внешний отдел</span><br />

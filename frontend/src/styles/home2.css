@@ -56,10 +56,41 @@
   background:
     linear-gradient(160deg, color-mix(in srgb, var(--color-green) 4%, transparent), transparent 40%),
     var(--color-surface-2);
+  overflow: hidden;
   transition:
     border-color 260ms var(--ease),
     transform 260ms var(--ease),
     box-shadow 260ms var(--ease);
+}
+
+.card2--art {
+  padding-right: clamp(5.5rem, 14vw, 8rem);
+}
+
+.card2__art {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.15rem;
+  width: clamp(5.5rem, 14vw, 8rem);
+  height: auto;
+  max-height: 70%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.95;
+  filter: drop-shadow(0 8px 24px color-mix(in srgb, var(--color-green) 18%, transparent));
+  transition: transform 400ms var(--ease), opacity 260ms var(--ease);
+}
+
+.card2__art--sm {
+  width: clamp(4.5rem, 11vw, 6.5rem);
+  top: 0.5rem;
+  right: 0.25rem;
+}
+
+.card2:hover .card2__art {
+  transform: translateY(-4px) scale(1.04);
+  opacity: 1;
 }
 
 .card2:hover {
@@ -345,7 +376,15 @@ a.card2:hover .card2__arrow {
 }
 
 .niche2-card {
-  padding-right: clamp(4rem, 6vw, 5.5rem);
+  padding-right: clamp(5.5rem, 14vw, 8rem);
+  padding-bottom: 4rem;
+}
+
+.niche2-card .card2__arrow {
+  top: auto;
+  bottom: 1.25rem;
+  right: clamp(1.25rem, 2vw, 1.75rem);
+  z-index: 2;
 }
 
 .niche2-card__title {
@@ -407,10 +446,24 @@ a.card2:hover .card2__arrow {
 .promise2 {
   position: relative;
   padding: clamp(2.5rem, 5vw, 4.5rem);
+  padding-right: clamp(2.5rem, 28vw, 16rem);
   border: 1px solid var(--color-line-2);
   border-radius: var(--radius-l);
   background: var(--color-surface-2);
   overflow: hidden;
+}
+
+.promise2__art {
+  position: absolute;
+  top: 50%;
+  right: -2%;
+  width: clamp(10rem, 28vw, 18rem);
+  height: auto;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.92;
+  filter: drop-shadow(0 12px 40px color-mix(in srgb, var(--color-green) 22%, transparent));
 }
 
 .promise2__glow {
@@ -658,12 +711,18 @@ a.card2:hover .card2__arrow {
 
 .process2-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-16);
   margin: 0;
   padding: 0;
   list-style: none;
   counter-reset: process;
+}
+
+@media (min-width: 1200px) {
+  .process2-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .process2-card__num {
@@ -811,7 +870,7 @@ a.card2:hover .card2__arrow {
 
 .team2-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-16);
 }
 
@@ -1024,8 +1083,7 @@ a.card2:hover .card2__arrow {
 /* ---------- Адаптив ---------- */
 
 @media (max-width: 1080px) {
-  .pricing2-grid,
-  .process2-grid {
+  .pricing2-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1062,17 +1120,46 @@ a.card2:hover .card2__arrow {
   }
 
   .caps2-grid,
-  .pain2-grid,
-  .team2-grid {
+  .pain2-grid {
     grid-template-columns: 1fr;
+  }
+
+  .team2-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 720px) {
+  .card2--art {
+    padding-right: clamp(1.5rem, 2.5vw, 2rem);
+    padding-top: clamp(5rem, 18vw, 6.5rem);
+  }
+
+  .card2__art,
+  .card2__art--sm {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: clamp(4.5rem, 28vw, 6rem);
+    max-height: none;
+  }
+
+  .promise2 {
+    padding-right: clamp(1.5rem, 4vw, 2.5rem);
+    padding-top: clamp(8rem, 36vw, 11rem);
+  }
+
+  .promise2__art {
+    top: 0.5rem;
+    right: 0;
+    width: clamp(7rem, 42vw, 11rem);
+    transform: none;
+  }
+
   .niche2-grid,
   .pricing2-grid,
   .process2-grid,
-  .principles2-grid {
+  .principles2-grid,
+  .team2-grid {
     grid-template-columns: 1fr;
   }
 

@@ -205,7 +205,7 @@ const niche = computed(() => getNiche(route.params.slug))
             <h2>{{ niche.team.title }}</h2>
             <p class="lp-lead">{{ niche.team.lead }}</p>
           </div>
-          <div class="lp-grid-3">
+          <div class="lp-grid-4">
             <article v-for="m in niche.team.members" :key="m.role" class="lp-card">
               <h3>{{ m.role }}</h3>
               <p>{{ m.text }}</p>

@@ -18,9 +18,18 @@ const { forWhom } = homeCopy
         <RouterLink
           v-for="(niche, index) in forWhom.niches"
           :key="niche.id"
-          class="card2 niche2-card"
+          class="card2 card2--art niche2-card"
           :to="routes.niche(niche.slug)"
         >
+          <img
+            class="card2__art"
+            :src="niche.icon"
+            alt=""
+            width="256"
+            height="256"
+            loading="lazy"
+            aria-hidden="true"
+          />
           <span class="card2__index">0{{ index + 1 }}</span>
           <h3 class="niche2-card__title">{{ niche.title }}</h3>
           <p class="niche2-card__text">{{ niche.text }}</p>
