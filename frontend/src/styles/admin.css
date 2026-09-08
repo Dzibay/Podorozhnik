@@ -152,8 +152,222 @@
   text-align: center;
 }
 
+.adm__tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0 0 var(--space-24);
+  padding: 0.3rem;
+  border: 1px solid var(--color-line-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-2);
+  width: fit-content;
+  max-width: 100%;
+}
+
+.adm__tabs button {
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-muted);
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--ease),
+    color 180ms var(--ease);
+}
+
+.adm__tabs button:hover {
+  color: var(--color-text);
+}
+
+.adm__tabs--on {
+  background: color-mix(in srgb, var(--color-green) 16%, transparent) !important;
+  color: var(--color-green) !important;
+}
+
+/* ——— Telegram tab ——— */
+
+.tg {
+  display: grid;
+  gap: var(--space-16);
+}
+
+.tg__card {
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.tg__card h2 {
+  margin: 0 0 var(--space-12);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.tg__card h2 em {
+  font-style: normal;
+  color: var(--color-green);
+  margin-left: 0.35rem;
+}
+
+.tg__card-h {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-16);
+  margin-bottom: var(--space-12);
+}
+
+.tg__card-h h2 {
+  margin-bottom: 0;
+}
+
+.tg__card--warn {
+  border-color: color-mix(in srgb, #ff8f7a 45%, var(--color-line-2));
+}
+
+.tg__hint {
+  margin: var(--space-8) 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.tg__hint code {
+  color: var(--color-green);
+  font-size: 0.85em;
+}
+
+.tg__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.tg__list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tg__list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding: var(--space-14) 0;
+  border-top: 1px solid var(--color-line-2);
+}
+
+.tg__list li:first-child {
+  border-top: none;
+}
+
+.tg__list strong {
+  display: block;
+  color: var(--color-text);
+}
+
+.tg__off {
+  color: var(--color-muted) !important;
+}
+
+.tg__list small {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.tg__row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tg__empty {
+  margin: var(--space-12) 0 0;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.tg__empty code {
+  color: var(--color-green);
+}
+
+.tg__ok {
+  margin: 0;
+  color: var(--color-green);
+  font-size: 0.9rem;
+}
+
+.tg__checks {
+  display: grid;
+  gap: var(--space-12);
+  margin: var(--space-16) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tg__checks li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.tg__checks strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.tg__checks small {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.tg__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.4rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--color-muted);
+}
+
+.tg__checks--ok .tg__dot {
+  background: #3dcc7a;
+}
+
+.tg__checks--bad .tg__dot {
+  background: #ff8f7a;
+}
+
 @media (max-width: 640px) {
   .adm__item {
     grid-template-columns: 1fr;
+  }
+
+  .adm__tabs {
+    width: 100%;
+  }
+
+  .adm__tabs button {
+    flex: 1;
+  }
+
+  .tg__list li {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tg__row-actions .button {
+    flex: 1;
   }
 }

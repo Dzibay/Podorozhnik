@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import AdminTelegram from '../components/admin/AdminTelegram.vue'
 
 const TOKEN_KEY = 'pd_admin_token'
 const password = ref('')
@@ -8,6 +9,7 @@ const error = ref('')
 const leads = ref([])
 const total = ref(0)
 const loading = ref(false)
+const tab = ref('leads')
 
 function authHeaders() {
   return { Authorization: `Bearer ${token.value}` }
@@ -67,6 +69,7 @@ async function removeLead(id) {
 function logout() {
   token.value = ''
   sessionStorage.removeItem(TOKEN_KEY)
+  tab.value = 'leads'
 }
 
 function formatDate(value) {
@@ -107,39 +110,69 @@ onMounted(() => {
       <section v-else>
         <header class="adm__head">
           <div>
-            <p class="kicker">Заявки с сайта</p>
-            <h1 class="adm__title">Всего · {{ total }}</h1>
+            <p class="kicker">Админ-панель</p>
+            <h1 class="adm__title">
+              <template v-if="tab === 'leads'">Заявки · {{ total }}</template>
+              <template v-else>Telegram</template>
+            </h1>
           </div>
           <div class="adm__actions">
-            <button class="button button--outline" type="button" :disabled="loading" @click="loadLeads">
+            <button
+              v-if="tab === 'leads'"
+              class="button button--outline"
+              type="button"
+              :disabled="loading"
+              @click="loadLeads"
+            >
               Обновить
             </button>
             <button class="button button--outline" type="button" @click="logout">Выйти</button>
           </div>
         </header>
 
-        <p v-if="error" class="adm__error">{{ error }}</p>
-        <p v-if="loading" class="adm__hint">Загрузка…</p>
+        <nav class="adm__tabs" aria-label="Разделы админки">
+          <button type="button" :class="{ 'adm__tabs--on': tab === 'leads' }" @click="tab = 'leads'">
+            Заявки
+          </button>
+          <button
+            type="button"
+            :class="{ 'adm__tabs--on': tab === 'telegram' }"
+            @click="tab = 'telegram'"
+          >
+            Telegram
+          </button>
+        </nav>
 
-        <ul v-else-if="leads.length" class="adm__list">
-          <li v-for="lead in leads" :key="lead.id" class="adm__item card2">
-            <div class="adm__item-copy">
-              <strong class="adm__item-phone">#{{ lead.id }} · {{ lead.phone }}</strong>
-              <p class="adm__item-name">{{ lead.name || 'Без имени' }}</p>
-              <p v-if="lead.comment" class="adm__item-comment">{{ lead.comment }}</p>
-              <p class="adm__meta">
-                {{ formatDate(lead.created_at) }}
-                · страница
-                <code>{{ lead.source || '/' }}</code>
-              </p>
-            </div>
-            <button class="button button--outline" type="button" @click="removeLead(lead.id)">
-              Удалить
-            </button>
-          </li>
-        </ul>
+        <AdminTelegram
+          v-if="tab === 'telegram'"
+          :token="token"
+          @unauthorized="logout"
+        />
 
-        <p v-else class="adm__empty card2">Заявок пока нет</p>
+        <div v-else>
+          <p v-if="error" class="adm__error">{{ error }}</p>
+          <p v-if="loading" class="adm__hint">Загрузка…</p>
+
+          <ul v-else-if="leads.length" class="adm__list">
+            <li v-for="lead in leads" :key="lead.id" class="adm__item card2">
+              <div class="adm__item-copy">
+                <strong class="adm__item-phone">#{{ lead.id }} · {{ lead.phone }}</strong>
+                <p class="adm__item-name">{{ lead.name || 'Без имени' }}</p>
+                <p v-if="lead.comment" class="adm__item-comment">{{ lead.comment }}</p>
+                <p class="adm__meta">
+                  {{ formatDate(lead.created_at) }}
+                  · страница
+                  <code>{{ lead.source || '/' }}</code>
+                </p>
+              </div>
+              <button class="button button--outline" type="button" @click="removeLead(lead.id)">
+                Удалить
+              </button>
+            </li>
+          </ul>
+
+          <p v-else class="adm__empty card2">Заявок пока нет</p>
+        </div>
       </section>
     </div>
   </main>
