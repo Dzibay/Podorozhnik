@@ -10,7 +10,7 @@ const publicDir = join(__dirname, '..', 'public')
 const raw = (process.env.VITE_SITE_URL || process.env.SITE_ADDRESS || 'https://podorozhnik-agency.ru').trim()
 const siteUrl = (raw.startsWith('http') ? raw : `https://${raw}`).replace(/\/$/, '')
 
-const ADMIN_PATH = '/pd-panel-x7k2m9'
+const ADMIN_PATH = '/admin-panel'
 
 const staticPaths = ['/', '/services', '/agency', '/contacts']
 const servicePaths = services.map((item) => `/services/${item.slug}`)

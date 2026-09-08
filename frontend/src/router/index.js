@@ -3,7 +3,8 @@ import { getGroup, getService, legacyServiceRedirects } from '../data/services'
 import { getNiche } from '../data/niches'
 import { applyPageMeta } from '../utils/meta'
 
-export const ADMIN_PATH = '/pd-panel-x7k2m9'
+export const ADMIN_PATH = '/admin-panel'
+const LEGACY_ADMIN_PATH = '/pd-panel-x7k2m9'
 
 const routes = [
   {
@@ -78,6 +79,10 @@ const routes = [
       noindex: true,
       title: 'Админка — Подорожник',
     },
+  },
+  {
+    path: LEGACY_ADMIN_PATH,
+    redirect: ADMIN_PATH,
   },
   {
     path: '/:pathMatch(.*)*',

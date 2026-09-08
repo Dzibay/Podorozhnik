@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /pd-panel-x7k2m9
+Disallow: /admin-panel
 
 Sitemap: https://podorozhnik-agency.ru/sitemap.xml
 

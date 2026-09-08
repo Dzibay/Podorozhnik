@@ -140,7 +140,8 @@ function deviceType() {
 
 function isAdminRoute(route) {
   if (route?.meta?.bare) return true
-  return location.pathname.includes('pd-panel-')
+  const path = location.pathname
+  return path === '/admin-panel' || path.startsWith('/admin-panel/') || path.includes('pd-panel-')
 }
 
 export function getIds() {

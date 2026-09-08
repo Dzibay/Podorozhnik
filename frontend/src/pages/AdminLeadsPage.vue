@@ -27,6 +27,7 @@ async function login() {
   const data = await res.json()
   token.value = data.token
   sessionStorage.setItem(TOKEN_KEY, data.token)
+  password.value = ''
   await loadLeads()
 }
 
@@ -36,6 +37,12 @@ async function loadLeads() {
   const res = await fetch('/api/admin/leads', { headers: authHeaders() })
   if (res.status === 401) {
     logout()
+    loading.value = false
+    return
+  }
+  if (!res.ok) {
+    error.value = 'Не удалось загрузить заявки'
+    loading.value = false
     return
   }
   const data = await res.json()
@@ -50,6 +57,10 @@ async function removeLead(id) {
     method: 'DELETE',
     headers: authHeaders(),
   })
+  if (res.status === 401) {
+    logout()
+    return
+  }
   if (res.ok) await loadLeads()
 }
 
@@ -73,34 +84,62 @@ onMounted(() => {
 
 <template>
   <main class="adm">
+    <div class="adm__glow" aria-hidden="true"></div>
     <div class="adm__box">
-      <form v-if="!token" class="adm__login" @submit.prevent="login">
-        <h1>Админка</h1>
-        <input v-model="password" type="password" placeholder="Пароль" />
+      <form v-if="!token" class="adm__login card2" @submit.prevent="login">
+        <p class="kicker">Админ-панель</p>
+        <h1 class="adm__title">Вход</h1>
+        <p class="adm__hint">Пароль задаётся в <code>ADMIN_PASSWORD</code> (backend/.env)</p>
+        <label class="adm__field">
+          <span>Пароль</span>
+          <input
+            v-model="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="••••••••"
+            required
+          />
+        </label>
         <p v-if="error" class="adm__error">{{ error }}</p>
         <button class="button button--primary" type="submit">Войти</button>
       </form>
 
       <section v-else>
         <header class="adm__head">
-          <h1>Заявки · {{ total }}</h1>
+          <div>
+            <p class="kicker">Заявки с сайта</p>
+            <h1 class="adm__title">Всего · {{ total }}</h1>
+          </div>
           <div class="adm__actions">
-            <button class="button button--secondary" type="button" @click="loadLeads">Обновить</button>
-            <button class="button button--ghost" type="button" @click="logout">Выйти</button>
+            <button class="button button--outline" type="button" :disabled="loading" @click="loadLeads">
+              Обновить
+            </button>
+            <button class="button button--outline" type="button" @click="logout">Выйти</button>
           </div>
         </header>
-        <p v-if="loading">Загрузка…</p>
-        <ul v-else class="adm__list">
-          <li v-for="lead in leads" :key="lead.id" class="adm__item">
-            <div>
-              <strong>#{{ lead.id }} · {{ lead.phone }}</strong>
-              <p>{{ lead.name || 'Без имени' }}</p>
-              <p v-if="lead.comment">{{ lead.comment }}</p>
-              <p class="adm__meta">{{ formatDate(lead.created_at) }} · {{ lead.source || '/' }}</p>
+
+        <p v-if="error" class="adm__error">{{ error }}</p>
+        <p v-if="loading" class="adm__hint">Загрузка…</p>
+
+        <ul v-else-if="leads.length" class="adm__list">
+          <li v-for="lead in leads" :key="lead.id" class="adm__item card2">
+            <div class="adm__item-copy">
+              <strong class="adm__item-phone">#{{ lead.id }} · {{ lead.phone }}</strong>
+              <p class="adm__item-name">{{ lead.name || 'Без имени' }}</p>
+              <p v-if="lead.comment" class="adm__item-comment">{{ lead.comment }}</p>
+              <p class="adm__meta">
+                {{ formatDate(lead.created_at) }}
+                · страница
+                <code>{{ lead.source || '/' }}</code>
+              </p>
             </div>
-            <button class="button button--ghost" type="button" @click="removeLead(lead.id)">Удалить</button>
+            <button class="button button--outline" type="button" @click="removeLead(lead.id)">
+              Удалить
+            </button>
           </li>
         </ul>
+
+        <p v-else class="adm__empty card2">Заявок пока нет</p>
       </section>
     </div>
   </main>
