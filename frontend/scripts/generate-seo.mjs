@@ -2,6 +2,7 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { services } from '../src/data/services.js'
+import { nicheList } from '../src/data/niches.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const publicDir = join(__dirname, '..', 'public')
@@ -13,7 +14,8 @@ const ADMIN_PATH = '/pd-panel-x7k2m9'
 
 const staticPaths = ['/', '/services', '/agency', '/contacts']
 const servicePaths = services.map((item) => `/services/${item.slug}`)
-const paths = [...staticPaths, ...servicePaths]
+const nichePaths = nicheList.map((item) => `/dlya/${item.slug}`)
+const paths = [...staticPaths, ...servicePaths, ...nichePaths]
 
 const today = new Date().toISOString().slice(0, 10)
 

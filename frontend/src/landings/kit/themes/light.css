@@ -1,0 +1,11 @@
+/* Светлая тема (заготовка под будущие A/B). Сейчас посадочные идут в dark. */
+.lp--light {
+  color-scheme: light;
+  --lp-bg: #f4f4f1;
+  --lp-surface: #ffffff;
+  --lp-text: #121212;
+  --lp-muted: #5c5c58;
+  --lp-line: #e2e2dc;
+  --lp-accent: #6a8f00;
+  --lp-ink: #121212;
+}

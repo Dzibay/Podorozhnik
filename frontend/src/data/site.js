@@ -1,8 +1,8 @@
 ﻿export const site = {
   name: 'Podorozhnik',
   wordmark: 'ПОДОРОЖНИК',
-  tagline: 'От идеи до реализации и продаж',
-  brandLine: 'Full-cycle digital',
+  tagline: 'Внешний отдел маркетинга и IT',
+  brandLine: 'Маркетинг и IT для реального бизнеса',
   /** Дефолтный прод-хост; в сборке перекрывается VITE_SITE_URL */
   fallbackUrl: 'https://podorozhnik-agency.ru',
 }
@@ -21,6 +21,7 @@ export const routes = {
   home: '/',
   services: '/services',
   service: (slug) => `/services/${slug}`,
+  niche: (slug) => `/dlya/${slug}`,
   cases: '/cases',
   agency: '/agency',
   contacts: '/contacts',
@@ -28,21 +29,21 @@ export const routes = {
 
 export const headerNav = [
   { href: routes.services, label: 'Услуги' },
-  { href: routes.cases, label: 'Проекты' },
+  { href: '/#pricing', label: 'Тарифы' },
   { href: routes.agency, label: 'Агентство' },
   { href: routes.contacts, label: 'Контакты' },
 ]
 
 export const headerCta = {
   href: routes.contacts,
-  label: 'Обсудить',
+  label: 'Бесплатный аудит',
   event: 'cta_discuss_project',
 }
 
 export const footerNav = {
   company: [
     { href: routes.services, label: 'Услуги' },
-    { href: routes.cases, label: 'Проекты' },
+    { href: '/#pricing', label: 'Тарифы' },
     { href: routes.agency, label: 'Агентство' },
     { href: routes.contacts, label: 'Контакты' },
   ],

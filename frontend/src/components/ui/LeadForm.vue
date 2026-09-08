@@ -4,6 +4,10 @@ import { getIds, track } from '../../analytics/tracker'
 import { analyticsEvents } from '../../data/site'
 import { formatRuPhone, isValidRuPhone, toE164 } from '../../utils/phone'
 
+const props = defineProps({
+  submitLabel: { type: String, default: 'Отправить' },
+})
+
 const form = reactive({
   name: '',
   phone: '',
@@ -118,7 +122,7 @@ async function submit() {
       </label>
       <p v-if="error" class="lead-form__error">{{ error }}</p>
       <button class="button button--primary" type="submit" :disabled="sending">
-        {{ sending ? 'Отправляем…' : 'Отправить' }}
+        {{ sending ? 'Отправляем…' : submitLabel }}
         <span aria-hidden="true">&rarr;</span>
       </button>
     </template>

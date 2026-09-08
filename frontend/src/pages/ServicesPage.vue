@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
 import { analyticsEvents, routes } from '../data/site'
 import { serviceGroups, getServicesByGroup } from '../data/services'
 import AppButton from '../components/ui/AppButton.vue'
@@ -8,119 +7,68 @@ const groups = serviceGroups.map((group) => ({
   ...group,
   items: getServicesByGroup(group.id),
 }))
-
-const listRef = ref(null)
-let fitObserver = null
-
-function fitTitles() {
-  const root = listRef.value
-  if (!root) return
-
-  for (const title of root.querySelectorAll('.services-group__title')) {
-    const maxW = title.parentElement.clientWidth
-    if (maxW <= 0) continue
-
-    title.style.removeProperty('font-size')
-
-    let lo = 28
-    let hi = 220
-    let best = lo
-
-    while (lo <= hi) {
-      const mid = (lo + hi) >> 1
-      title.style.fontSize = `${mid}px`
-      if (title.scrollWidth <= maxW) {
-        best = mid
-        lo = mid + 1
-      } else {
-        hi = mid - 1
-      }
-    }
-
-    title.style.fontSize = `${best}px`
-  }
-}
-
-onMounted(async () => {
-  if (document.fonts?.ready) await document.fonts.ready
-  fitTitles()
-  requestAnimationFrame(fitTitles)
-  fitObserver = new ResizeObserver(fitTitles)
-  if (listRef.value) fitObserver.observe(listRef.value)
-  window.addEventListener('resize', fitTitles, { passive: true })
-})
-
-onUnmounted(() => {
-  fitObserver?.disconnect()
-  window.removeEventListener('resize', fitTitles)
-})
 </script>
 
 <template>
   <main id="main" class="page page--services">
+    <div class="page-glow" aria-hidden="true"></div>
     <div class="container">
-      <header class="services-hero">
+      <header class="page-hero2">
         <p class="kicker">Услуги</p>
-        <h1 class="services-hero__title">Продукт. Система. Рост.</h1>
-        <p class="services-hero__lead">
-          Три направления full-cycle digital. Выберите тему — разберём задачу, результат и формат
-          работы.
+        <h1 class="page-hero2__title">
+          Трафик. Разработка. <span class="page-hero2__accent">Продажи.</span>
+        </h1>
+        <p class="page-hero2__lead">
+          Четыре направления одного внешнего отдела: заявки, сайт, работа с вашим отделом продаж и
+          стратегия. Выберите тему — разберём задачу и формат работы.
         </p>
       </header>
 
-      <div ref="listRef" class="services-groups">
+      <div class="svc-groups">
         <section
-          v-for="group in groups"
+          v-for="(group, index) in groups"
           :id="group.id"
           :key="group.id"
-          class="services-group"
+          class="card2 svc-group"
         >
-          <header class="services-group__head">
-            <div class="services-group__stage">
-              <h2 class="services-group__title">{{ group.title }}</h2>
+          <header class="svc-group__head">
+            <span class="card2__index">0{{ index + 1 }}</span>
+            <div>
+              <h2 class="svc-group__title">{{ group.title }}</h2>
+              <p class="svc-group__lead">{{ group.lead }}</p>
             </div>
-            <p class="services-group__lead">{{ group.lead }}</p>
           </header>
 
-          <ul class="services-list">
+          <ul class="svc-list">
             <li v-for="item in group.items" :key="item.slug">
-              <RouterLink class="services-list__link" :to="routes.service(item.slug)">
-                <span class="services-list__copy">
-                  <strong class="services-list__name">{{ item.shortTitle }}</strong>
-                  <span class="services-list__desc">{{ item.lead }}</span>
+              <RouterLink class="svc-list__link" :to="routes.service(item.slug)">
+                <span class="svc-list__copy">
+                  <strong class="svc-list__name">{{ item.shortTitle }}</strong>
+                  <span class="svc-list__desc">{{ item.lead }}</span>
                 </span>
-                <span class="services-list__arrow" aria-hidden="true">&rarr;</span>
+                <span class="svc-list__arrow" aria-hidden="true">&rarr;</span>
               </RouterLink>
             </li>
           </ul>
         </section>
       </div>
 
-      <section class="services-foot">
-        <div class="services-foot__copy">
+      <section class="page-cta2">
+        <div class="page-cta2__copy">
           <p class="kicker">Следующий шаг</p>
-          <h2 class="services-foot__title">Не уверены, с чего начать?</h2>
-          <p class="services-foot__lead">
-            Опишите задачу коротко — предложим формат: анализ, продукт, рост или полный цикл.
+          <h2 class="page-cta2__title">Не уверены, с чего начать?</h2>
+          <p class="page-cta2__lead">
+            Начните с бесплатного экспресс-аудита: за 24 часа разберём ваш маркетинг и предложим
+            план с цифрами.
           </p>
         </div>
-        <div class="services-foot__actions">
-          <AppButton
-            class="services-foot__button"
-            :href="routes.contacts"
-            :event-name="analyticsEvents.ctaDiscussProject"
-          >
-            Обсудить проект
-            <span class="services-foot__arrow" aria-hidden="true">&rarr;</span>
+        <div class="page-cta2__actions">
+          <AppButton :href="routes.contacts" :event-name="analyticsEvents.ctaDiscussProject">
+            Получить бесплатный аудит
+            <span aria-hidden="true">&rarr;</span>
           </AppButton>
-          <AppButton
-            class="services-foot__button"
-            :href="routes.agency"
-            variant="outline"
-            event-name=""
-          >
+          <AppButton :href="routes.agency" variant="outline" event-name="">
             Об агентстве
-            <span class="services-foot__arrow" aria-hidden="true">&rarr;</span>
           </AppButton>
         </div>
       </section>

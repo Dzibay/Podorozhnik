@@ -10,24 +10,20 @@ defineProps({
 
 <template>
   <main id="main" class="page page--empty">
-    <div class="container empty-page">
+    <div class="page-glow" aria-hidden="true"></div>
+    <div class="container empty2">
       <p class="kicker">404</p>
-      <h1 class="empty-page__title">{{ title }}</h1>
-      <p v-if="description" class="empty-page__lead">{{ description }}</p>
+      <p class="empty2__giant" aria-hidden="true">404</p>
+      <h1 class="empty2__title">{{ title }}</h1>
+      <p v-if="description" class="empty2__lead">{{ description }}</p>
 
-      <div class="empty-page__actions">
-        <AppButton class="page-cta__button" :href="routes.home" event-name="">
+      <div class="empty2__actions">
+        <AppButton :href="routes.home" event-name="">
           На главную
-          <span class="page-cta__arrow" aria-hidden="true">&rarr;</span>
+          <span aria-hidden="true">&rarr;</span>
         </AppButton>
-        <AppButton
-          class="page-cta__button"
-          :href="routes.services"
-          variant="outline"
-          event-name=""
-        >
+        <AppButton :href="routes.services" variant="outline" event-name="">
           Все услуги
-          <span class="page-cta__arrow" aria-hidden="true">&rarr;</span>
         </AppButton>
       </div>
     </div>

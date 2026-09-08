@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getGroup, getService } from '../data/services'
+import { getGroup, getService, legacyServiceRedirects } from '../data/services'
+import { getNiche } from '../data/niches'
 import { applyPageMeta } from '../utils/meta'
 
 export const ADMIN_PATH = '/pd-panel-x7k2m9'
@@ -10,9 +11,9 @@ const routes = [
     name: 'home',
     component: () => import('../pages/HomePage.vue'),
     meta: {
-      title: 'Подорожник — от идеи до продаж',
+      title: 'Подорожник — внешний отдел маркетинга и IT',
       description:
-        'Full-cycle digital: сайты, SaaS, боты, CRM, автоматизация, маркетинг и таргетинг.',
+        'Заявки для производства, стройки и услуг: сайт за 24 часа, Яндекс.Директ, SEO, аналитика. Тарифы от 45 000 ₽/мес. Начните с бесплатного аудита.',
     },
   },
   {
@@ -21,7 +22,8 @@ const routes = [
     component: () => import('../pages/ServicesPage.vue'),
     meta: {
       title: 'Услуги — Подорожник',
-      description: 'Продукт, система и рост: полный digital-цикл в одном агентстве.',
+      description:
+        'Трафик, разработка, отдел продаж и стратегия: сайт за 24 часа, Яндекс.Директ, SEO, боты и аналитика в одной команде.',
     },
   },
   {
@@ -45,7 +47,8 @@ const routes = [
     component: () => import('../pages/AgencyPage.vue'),
     meta: {
       title: 'Агентство — Подорожник',
-      description: 'Как работает Подорожник: один цикл от идеи до продаж.',
+      description:
+        'Как работает Подорожник: внешний отдел маркетинга и IT. Одна команда отвечает за сайт, трафик и заявки.',
     },
   },
   {
@@ -56,6 +59,14 @@ const routes = [
       title: 'Контакты — Подорожник',
       description:
         'Телефон 8 (995) 600-42-28 и почта podoroznik-gk@yandex.ru. Обсудим задачу и формат работы.',
+    },
+  },
+  {
+    path: '/dlya/:slug',
+    name: 'niche',
+    component: () => import('../pages/NicheLandingPage.vue'),
+    meta: {
+      bare: true,
     },
   },
   {
@@ -86,13 +97,30 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior() {
+  scrollBehavior(to) {
+    if (to.hash) {
+      return { el: to.hash, top: 80, behavior: 'smooth' }
+    }
     return { top: 0 }
   },
 })
 
 router.beforeEach((to) => {
+  if (to.name === 'niche') {
+    const niche = getNiche(to.params.slug)
+    if (!niche) {
+      return { name: 'not-found', params: { pathMatch: to.path.slice(1).split('/') } }
+    }
+    to.meta.title = niche.meta.title
+    to.meta.description = niche.meta.description
+    return
+  }
+
   if (to.name !== 'service') return
+  const legacyTarget = legacyServiceRedirects[to.params.slug]
+  if (legacyTarget) {
+    return { name: 'service', params: { slug: legacyTarget }, replace: true }
+  }
   const service = getService(to.params.slug)
   if (!service) {
     return { name: 'not-found', params: { pathMatch: to.path.slice(1).split('/') } }

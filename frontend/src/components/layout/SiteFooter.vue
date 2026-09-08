@@ -1,6 +1,7 @@
 <script setup>
 import { contacts, footerNav, routes, site } from '../../data/site'
-import { services } from '../../data/services'
+import { serviceGroups } from '../../data/services'
+import { nicheList, nichePath } from '../../data/niches'
 import EmailChooser from '../ui/EmailChooser.vue'
 </script>
 
@@ -18,16 +19,22 @@ import EmailChooser from '../ui/EmailChooser.vue'
         </div>
 
         <div>
-          <p class="footer__title">Услуги</p>
+          <p class="footer__title">Направления</p>
           <ul class="footer__list">
-            <li v-for="service in services" :key="service.slug">
-              <RouterLink :to="routes.service(service.slug)">{{ service.shortTitle }}</RouterLink>
+            <li v-for="group in serviceGroups" :key="group.id">
+              <RouterLink :to="`${routes.services}#${group.id}`">{{ group.title }}</RouterLink>
             </li>
           </ul>
         </div>
 
         <div>
-          <p class="footer__title">Компания</p>
+          <p class="footer__title">Ниши</p>
+          <ul class="footer__list">
+            <li v-for="niche in nicheList" :key="niche.slug">
+              <RouterLink :to="nichePath(niche.slug)">{{ niche.label }}</RouterLink>
+            </li>
+          </ul>
+          <p class="footer__title" style="margin-top: 1.5rem">Компания</p>
           <ul class="footer__list">
             <li v-for="item in footerNav.company" :key="item.href">
               <RouterLink :to="item.href">{{ item.label }}</RouterLink>

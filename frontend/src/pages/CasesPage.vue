@@ -4,56 +4,51 @@ import { analyticsEvents, routes } from '../data/site'
 import AppButton from '../components/ui/AppButton.vue'
 
 const placeholders = [
-  { label: 'Проект 01', note: 'Задача · решение · результат' },
-  { label: 'Проект 02', note: 'Задача · решение · результат' },
-  { label: 'Проект 03', note: 'Задача · решение · результат' },
+  { label: 'Производство / металлоконструкции', note: 'Сайт · трафик · структура под SEO' },
+  { label: 'Стройка и ремонт', note: 'Посадочные · Директ · качество лидов' },
+  { label: 'Кейс с цифрами', note: 'Публикуем после согласования с клиентом' },
 ]
 </script>
 
 <template>
   <main id="main" class="page page--cases">
+    <div class="page-glow" aria-hidden="true"></div>
     <div class="container">
-      <header class="page-hero">
+      <header class="page-hero2">
         <p class="kicker">{{ casesCopy.kicker }}</p>
-        <h1 class="page-hero__title">{{ casesCopy.title }}</h1>
-        <p class="page-hero__lead">{{ casesCopy.lead }}</p>
+        <h1 class="page-hero2__title">
+          Кейсы <span class="page-hero2__accent">без выдуманных метрик</span>
+        </h1>
+        <p class="page-hero2__lead">{{ casesCopy.lead }}</p>
       </header>
 
-      <ul class="cases-soon" aria-label="Кейсы в подготовке">
-        <li v-for="item in placeholders" :key="item.label" class="cases-soon__item">
-          <span class="cases-soon__badge">Скоро</span>
-          <div class="cases-soon__copy">
-            <strong class="cases-soon__name">{{ item.label }}</strong>
-            <span class="cases-soon__note">{{ item.note }}</span>
+      <div class="cases2-grid">
+        <article v-for="(item, index) in placeholders" :key="item.label" class="card2 cases2-card">
+          <div class="cases2-card__top">
+            <span class="card2__index">0{{ index + 1 }}</span>
+            <span class="cases2-card__badge">Скоро</span>
           </div>
-        </li>
-      </ul>
+          <h2 class="cases2-card__name">{{ item.label }}</h2>
+          <p class="cases2-card__note">{{ item.note }}</p>
+        </article>
+      </div>
 
-      <section class="page-cta">
-        <div class="page-cta__copy">
+      <section class="page-cta2">
+        <div class="page-cta2__copy">
           <p class="kicker">Пока готовим кейсы</p>
-          <h2 class="page-cta__title">Можем разобрать вашу задачу</h2>
-          <p class="page-cta__lead">
-            Без выдуманных метрик — обсудим реальный контекст и формат работы.
+          <h2 class="page-cta2__title">Можем разобрать вашу задачу</h2>
+          <p class="page-cta2__lead">
+            Без выдуманных цифр — обсудим реальный контекст и формат работы. Старт с бесплатного
+            аудита.
           </p>
         </div>
-        <div class="page-cta__actions">
-          <AppButton
-            class="page-cta__button"
-            :href="routes.contacts"
-            :event-name="analyticsEvents.ctaDiscussProject"
-          >
-            Обсудить проект
-            <span class="page-cta__arrow" aria-hidden="true">&rarr;</span>
+        <div class="page-cta2__actions">
+          <AppButton :href="routes.contacts" :event-name="analyticsEvents.ctaDiscussProject">
+            Получить бесплатный аудит
+            <span aria-hidden="true">&rarr;</span>
           </AppButton>
-          <AppButton
-            class="page-cta__button"
-            :href="routes.services"
-            variant="outline"
-            event-name=""
-          >
+          <AppButton :href="routes.services" variant="outline" event-name="">
             Все услуги
-            <span class="page-cta__arrow" aria-hidden="true">&rarr;</span>
           </AppButton>
         </div>
       </section>

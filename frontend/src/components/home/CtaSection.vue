@@ -7,40 +7,25 @@ const { cta } = homeCopy
 </script>
 
 <template>
-  <section id="cta" class="section section--cta" data-section="cta" data-blob-zone="cta">
-    <div class="container cta-split">
-      <div class="cta-copy">
-        <p class="kicker">{{ cta.kicker }}</p>
-        <h2 class="cta-copy__title">{{ cta.title }}</h2>
-        <p class="cta-copy__lead">{{ cta.lead }}</p>
+  <section id="cta" class="cta2" data-section="cta">
+    <div class="cta2__glow" aria-hidden="true"></div>
 
-        <div class="cta-actions">
-          <div class="cta-actions__item" data-blob="heart">
-            <AppButton
-              class="cta-button"
-              :href="routes.contacts"
-              :event-name="analyticsEvents.ctaDiscussProject"
-            >
-              {{ cta.primary }}
-              <span class="cta-button__arrow" aria-hidden="true">&rarr;</span>
-            </AppButton>
-          </div>
-          <AppButton
-            class="cta-button"
-            :href="routes.services"
-            variant="outline"
-            event-name=""
-          >
-            {{ cta.secondary }}
-            <span class="cta-button__arrow" aria-hidden="true">&rarr;</span>
-          </AppButton>
-        </div>
+    <div class="container cta2__inner">
+      <p class="kicker">{{ cta.kicker }}</p>
+      <h2 class="cta2__title">{{ cta.title }}</h2>
+      <p class="cta2__lead">{{ cta.lead }}</p>
+
+      <div class="cta2__actions">
+        <AppButton :href="routes.contacts" :event-name="analyticsEvents.ctaDiscussProject">
+          {{ cta.primary }}
+          <span aria-hidden="true">&rarr;</span>
+        </AppButton>
+        <AppButton :href="routes.services" variant="outline" event-name="">
+          {{ cta.secondary }}
+        </AppButton>
       </div>
-
-      <div class="cta-divider" aria-hidden="true"></div>
-
-      <!-- Правая половина: сюда подплывает пятно-сердце -->
-      <div class="cta-stage" data-blob-zone-anchor="cta" aria-hidden="true"></div>
     </div>
+
+    <p class="cta2__giant" aria-hidden="true">ПОДОРОЖНИК</p>
   </section>
 </template>
