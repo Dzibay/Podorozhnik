@@ -38,6 +38,7 @@ import EmailChooser from '../components/ui/EmailChooser.vue'
       </header>
 
       <div class="card2 contacts2-panel">
+        <div class="contacts2-panel__bg" aria-hidden="true" />
         <p class="contacts2-panel__label">Заявка на аудит</p>
         <LeadForm submit-label="Получить бесплатный аудит" />
       </div>

@@ -46,6 +46,8 @@ onUnmounted(clearRoot)
       <div class="lp-wrap lp-footer__inner">
         <RouterLink :to="routes.home">{{ site.wordmark }}</RouterLink>
         <a :href="contacts.phoneTel">{{ contacts.phoneDisplay }}</a>
+        <RouterLink :to="routes.privacy">Политика</RouterLink>
+        <RouterLink :to="routes.consent">Согласие</RouterLink>
         <RouterLink :to="routes.contacts">Контакты</RouterLink>
       </div>
     </footer>

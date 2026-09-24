@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getGroup, getService, legacyServiceRedirects } from '../data/services'
 import { getNiche } from '../data/niches'
+import { getCase } from '../data/cases'
 import { applyPageMeta } from '../utils/meta'
 
 export const ADMIN_PATH = '/admin-panel'
@@ -37,10 +38,15 @@ const routes = [
     name: 'cases',
     component: () => import('../pages/CasesPage.vue'),
     meta: {
-      title: 'Проекты — Подорожник',
-      description: 'Кейсы Подорожник. Раздел наполняется реальными проектами.',
-      noindex: true,
+      title: 'Кейсы — Подорожник',
+      description:
+        'Кейсы Подорожник: белорусские блоки, кухни Noris, Семиозерье, GoodFood — заявки, CPL и ROMI в цифрах.',
     },
+  },
+  {
+    path: '/cases/:slug',
+    name: 'case',
+    component: () => import('../pages/CasePage.vue'),
   },
   {
     path: '/agency',
@@ -68,6 +74,30 @@ const routes = [
     component: () => import('../pages/NicheLandingPage.vue'),
     meta: {
       bare: true,
+    },
+  },
+  {
+    path: '/privacy',
+    alias: ['/privacy/'],
+    name: 'privacy',
+    component: () => import('../pages/LegalPage.vue'),
+    props: { doc: 'privacy' },
+    meta: {
+      title: 'Политика обработки персональных данных — Подорожник',
+      description:
+        'Политика в отношении обработки персональных данных самозанятого Колесникова Никиты Андреевича.',
+    },
+  },
+  {
+    path: '/consent',
+    alias: ['/consent/'],
+    name: 'consent',
+    component: () => import('../pages/LegalPage.vue'),
+    props: { doc: 'consent' },
+    meta: {
+      title: 'Согласие на обработку персональных данных — Подорожник',
+      description:
+        'Согласие на обработку персональных данных пользователей сайта podorozhnik-agency.ru.',
     },
   },
   {
@@ -118,6 +148,21 @@ router.beforeEach((to) => {
     }
     to.meta.title = niche.meta.title
     to.meta.description = niche.meta.description
+    return
+  }
+
+  if (to.name === 'case') {
+    const item = getCase(to.params.slug)
+    if (!item) {
+      return { name: 'not-found', params: { pathMatch: to.path.slice(1).split('/') } }
+    }
+    to.meta.title = `${item.title} — кейс Подорожник`
+    to.meta.description = `${item.client}: ${item.task}`
+    to.meta.breadcrumb = [
+      { name: 'Главная', path: '/' },
+      { name: 'Кейсы', path: '/cases' },
+      { name: item.title, path: `/cases/${item.slug}` },
+    ]
     return
   }
 

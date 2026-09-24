@@ -45,6 +45,10 @@ import EmailChooser from '../ui/EmailChooser.vue'
 
       <div class="footer__bottom">
         <p>{{ site.brandLine }}</p>
+        <p class="footer__docs">
+          <RouterLink :to="routes.privacy">Политика обработки персональных данных</RouterLink>
+          <RouterLink :to="routes.consent">Согласие на обработку персональных данных</RouterLink>
+        </p>
         <p>© {{ new Date().getFullYear() }} {{ site.name }}</p>
       </div>
     </div>

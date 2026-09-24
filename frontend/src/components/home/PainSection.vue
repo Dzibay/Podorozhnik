@@ -13,7 +13,7 @@ const { pain } = homeCopy
         <p class="section2__lead">{{ pain.lead }}</p>
       </div>
 
-      <div class="pain2-grid">
+      <div class="pain2-grid pain2-grid--5">
         <article
           v-for="(item, index) in pain.items"
           :key="item.title"
@@ -33,6 +33,8 @@ const { pain } = homeCopy
           <p class="pain2-card__text">{{ item.text }}</p>
         </article>
       </div>
+
+      <p class="note2">{{ pain.summary }}</p>
     </div>
   </section>
 </template>

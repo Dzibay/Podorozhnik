@@ -19,6 +19,8 @@
 
 @import "./form.css";
 
+@import "./float.css";
+
 body.is-scroll-locked {
   overflow: hidden;
   padding-right: var(--scrollbar-gap, 0px);

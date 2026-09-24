@@ -15,6 +15,8 @@ export const contacts = {
   email: 'podoroznik-gk@yandex.ru',
   emailSubject: 'Заявка с сайта Подорожник',
   emailBody: 'Здравствуйте!\n\nХочу обсудить задачу:\n',
+  /** Публичный Telegram для кнопки на сайте; пока пусто — ведём на контакты */
+  telegramUrl: '',
 }
 
 export const routes = {
@@ -23,12 +25,16 @@ export const routes = {
   service: (slug) => `/services/${slug}`,
   niche: (slug) => `/dlya/${slug}`,
   cases: '/cases',
+  case: (slug) => `/cases/${slug}`,
   agency: '/agency',
   contacts: '/contacts',
+  privacy: '/privacy',
+  consent: '/consent',
 }
 
 export const headerNav = [
   { href: routes.services, label: 'Услуги' },
+  { href: routes.cases, label: 'Кейсы' },
   { href: '/#pricing', label: 'Тарифы' },
   { href: routes.agency, label: 'Агентство' },
   { href: routes.contacts, label: 'Контакты' },
@@ -43,6 +49,7 @@ export const headerCta = {
 export const footerNav = {
   company: [
     { href: routes.services, label: 'Услуги' },
+    { href: routes.cases, label: 'Кейсы' },
     { href: '/#pricing', label: 'Тарифы' },
     { href: routes.agency, label: 'Агентство' },
     { href: routes.contacts, label: 'Контакты' },

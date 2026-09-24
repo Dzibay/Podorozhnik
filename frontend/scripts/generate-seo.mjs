@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { services } from '../src/data/services.js'
 import { nicheList } from '../src/data/niches.js'
+import { cases } from '../src/data/cases.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const publicDir = join(__dirname, '..', 'public')
@@ -12,10 +13,11 @@ const siteUrl = (raw.startsWith('http') ? raw : `https://${raw}`).replace(/\/$/,
 
 const ADMIN_PATH = '/admin-panel'
 
-const staticPaths = ['/', '/services', '/agency', '/contacts']
+const staticPaths = ['/', '/services', '/cases', '/agency', '/contacts', '/privacy', '/consent']
 const servicePaths = services.map((item) => `/services/${item.slug}`)
 const nichePaths = nicheList.map((item) => `/dlya/${item.slug}`)
-const paths = [...staticPaths, ...servicePaths, ...nichePaths]
+const casePaths = cases.map((item) => `/cases/${item.slug}`)
+const paths = [...staticPaths, ...servicePaths, ...nichePaths, ...casePaths]
 
 const today = new Date().toISOString().slice(0, 10)
 

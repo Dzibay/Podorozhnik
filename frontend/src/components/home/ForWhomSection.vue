@@ -3,6 +3,11 @@ import { homeCopy } from '../../data/home'
 import { routes } from '../../data/site'
 
 const { forWhom } = homeCopy
+
+function nicheTo(niche) {
+  if (niche.to === 'contacts' || !niche.slug) return routes.contacts
+  return routes.niche(niche.slug)
+}
 </script>
 
 <template>
@@ -14,12 +19,12 @@ const { forWhom } = homeCopy
         <p class="section2__lead">{{ forWhom.lead }}</p>
       </div>
 
-      <div class="niche2-grid">
+      <div class="niche2-grid niche2-grid--3">
         <RouterLink
           v-for="(niche, index) in forWhom.niches"
           :key="niche.id"
           class="card2 card2--art niche2-card"
-          :to="routes.niche(niche.slug)"
+          :to="nicheTo(niche)"
         >
           <img
             class="card2__art"
@@ -33,6 +38,7 @@ const { forWhom } = homeCopy
           <span class="card2__index">0{{ index + 1 }}</span>
           <h3 class="niche2-card__title">{{ niche.title }}</h3>
           <p class="niche2-card__text">{{ niche.text }}</p>
+          <p v-if="niche.metric" class="niche2-card__metric">{{ niche.metric }}</p>
           <ul class="niche2-card__tags">
             <li v-for="tag in niche.tags" :key="tag">{{ tag }}</li>
           </ul>

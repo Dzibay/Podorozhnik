@@ -33,6 +33,7 @@ PAGE_NAMES = {
     "/contacts": "Контакты",
     "/insights": "Insights",
     "/privacy": "Политика конфиденциальности",
+    "/consent": "Согласие на обработку ПДн",
 }
 TG_FILE_LIMIT = 45 * 1024 * 1024
 _OFFICIAL_API = "https://api.telegram.org"

@@ -24,6 +24,7 @@
 .page--agency,
 .page--cases,
 .page--contacts,
+.page--legal,
 .page--empty {
   position: relative;
   overflow: hidden;
