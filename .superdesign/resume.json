@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "targets": {
+    "/": {
+      "targetKind": "existing-ui",
+      "projectId": "7a8fbe26-0a44-4e9e-a98f-eaa6fb38dbb4",
+      "baselineDraftId": "1e6aa580-cc27-4217-82e8-4d0ed8688427",
+      "activeDraftId": "1e6aa580-cc27-4217-82e8-4d0ed8688427",
+      "designSystemPath": ".superdesign/design-system.md",
+      "referenceIds": [
+        "04822ece-4f35-4b94-9b0f-9685c791b2ac"
+      ],
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        ".superdesign/init/theme.md",
+        "frontend/src/pages/HomePage.vue",
+        "frontend/src/components/home/HeroSection.vue",
+        "frontend/src/components/home/ForWhomSection.vue",
+        "frontend/src/components/home/PricingSection.vue",
+        "frontend/src/components/home/CtaSection.vue",
+        "frontend/src/components/layout/SiteHeader.vue",
+        "frontend/src/components/layout/SiteFooter.vue",
+        "frontend/src/data/home.js",
+        "frontend/src/data/site.js"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "c66386c0cb844cdc3e1c038430a08fa48050fb1e30d23f6dbb4f1d722f3e02f7",
+        ".superdesign/init/theme.md": "801f03a0a45b280873e7ecb73c49b520d8fac0d7257e3e846b9105ed6002ae64",
+        "frontend/src/pages/HomePage.vue": "05ef9154a918a693bfa5d2fa1f452c571568370fb7f4abfd21b13b9e3bd22cb4",
+        "frontend/src/components/home/HeroSection.vue": "268caf0ada546bd77dc05c6b6a06965c151bf1b413649fe57d247235d5ebdadf",
+        "frontend/src/components/home/ForWhomSection.vue": "32ce6a09e17422b66bebbde30ae5de57405d7afb98e0ca641e1bf93e53482eec",
+        "frontend/src/components/home/PricingSection.vue": "eaff73dae3e1d49779833163b3b174e5cb55d6395478190313fb3bab1beae8cb",
+        "frontend/src/components/home/CtaSection.vue": "2085445b482cb67044e2a9407a4637fdfc4289e29fb3eb936fbde4538970f7ce",
+        "frontend/src/components/layout/SiteHeader.vue": "6f1e37549ed8ba064e2df9371d6c36207e0baa789534a69d21ee34809351cc53",
+        "frontend/src/components/layout/SiteFooter.vue": "9056d5fa9830a20be59893bf74efff1ae9d324c921074bae06cb0049cfa158a2",
+        "frontend/src/data/home.js": "ebb23fa0c8502d18c16b8fd257f94a9f648750cecb272e0bca60efb853226ccf",
+        "frontend/src/data/site.js": "cc2f20f6735a993414cbc539721efa7cd0fd13397e372e648bb81ffb83f06051",
+        "frontend/src/components/ui/AppButton.vue": "5c641b5f8b6165cf696ce145e028bfeacfcc1719b205e44b229ad7a5f49e24da",
+        "frontend/src/styles/tokens.css": "02b22f864ec4657181e1cc679354e4bf6bacc47aac61b5ad080c60f0648813eb",
+        "frontend/src/styles/buttons.css": "91c21f20b84ace08724aa02cc7be0d52971a357128a90847b965398dd68f4827",
+        "frontend/src/styles/header.css": "fa008e3bb6caa603b5c126d0294a4e83bb6485b666cecaeced81f78772a32eac",
+        "frontend/src/styles/home2.css": "b1f0a3e537e3d8c1328a2e3c6b259039224459ec02fa51751a26dcce859b4257",
+        "frontend/src/styles/base.css": "43b992c9e6496f4a2c92e92a02908c3dc21819087e32193b4fd6b300e3de3094"
+      },
+      "components": [],
+      "drafts": {
+        "1e6aa580-cc27-4217-82e8-4d0ed8688427": {
+          "title": "Current Homepage Baseline",
+          "visualDirection": "current dark lime agency UI reproduction"
+        },
+        "a0ee28aa-9ba6-417c-8d12-f082ed0255b9": {
+          "title": "Podorozhnik Raw Form Redesign",
+          "visualDirection": "Raw Form brutalist poster full homepage",
+          "parentDraftId": "1e6aa580-cc27-4217-82e8-4d0ed8688427"
+        },
+        "e1ce074e-6673-4724-9b5d-be22e9732276": {
+          "title": "Podorozhnik — Raw Form Redesign (interactive asymmetric)",
+          "visualDirection": "Raw Form interactive scroll narrative asymmetric",
+          "parentDraftId": "1e6aa580-cc27-4217-82e8-4d0ed8688427"
+        }
+      },
+      "updatedAt": "2026-10-15T22:45:38.150Z"
+    }
+  }
+}

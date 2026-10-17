@@ -1,18 +1,29 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --color-bg: #050505;
-  --color-surface: #0c0c0c;
-  --color-text: #f5f5f5;
-  --color-muted: #9b9b9b;
-  --color-line: #1e1e1e;
-  --color-green: #c8ff00;
-  --color-green-2: #a8e000;
-  --color-cta-ink: #050505;
+  /* Raw Form */
+  --color-base: #e4e2dd;
+  --color-primary: #1e1e1e;
+  --color-accent: #db4a2b;
+  --color-warm: #f8a348;
+  --color-pink: #ff89a9;
+  --color-campaign: #d9d6d0;
+  --color-inverse: #e4e2dd;
 
-  --font-display: "Manrope", sans-serif;
-  --font-hero: "Inter Tight", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --color-bg: var(--color-base);
+  --color-surface: var(--color-campaign);
+  --color-surface-2: var(--color-campaign);
+  --color-text: var(--color-primary);
+  --color-muted: #444444;
+  --color-line: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  --color-line-2: color-mix(in srgb, var(--color-primary) 16%, transparent);
+  --color-green: var(--color-accent);
+  --color-green-2: #c43e22;
+  --color-cta-ink: var(--color-inverse);
+
+  --font-display: "Unbounded", sans-serif;
+  --font-hero: "Unbounded", sans-serif;
+  --font-body: "Golos Text", sans-serif;
 
   --space-4: 0.25rem;
   --space-8: 0.5rem;
@@ -29,27 +40,25 @@
   --space-120: 7.5rem;
 
   --container: 1200px;
-  --container-pad: 1.75rem;
-  --radius-s: 12px;
-  --radius-m: 20px;
-  --radius-l: 28px;
-  --radius-pill: 999px;
-  --color-surface-2: #121410;
-  --color-line-2: #26281f;
+  --container-pad: 2rem;
+  --radius-s: 0;
+  --radius-m: 0;
+  --radius-l: 0;
+  --radius-pill: 0;
   --glow-green: radial-gradient(
     ellipse 60% 55% at 50% 0%,
-    color-mix(in srgb, var(--color-green) 14%, transparent),
+    color-mix(in srgb, var(--color-warm) 28%, transparent),
     transparent 70%
   );
-  --header-height: 4.5rem;
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --focus: 0 0 0 3px color-mix(in srgb, var(--color-green) 45%, transparent);
+  --header-height: 4.75rem;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --focus: 0 0 0 3px color-mix(in srgb, var(--color-accent) 45%, transparent);
 }
 
 @media (max-width: 720px) {
   :root {
-    --container-pad: 1.125rem;
-    --header-height: 4rem;
+    --container-pad: 1.25rem;
+    --header-height: 4.25rem;
   }
 }
-

@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { analyticsEvents, contacts, headerCta, headerNav, routes, site } from '../../data/site'
+import { analyticsEvents, contacts, headerNav, routes, site } from '../../data/site'
 import { track } from '../../analytics/tracker'
 import AppButton from '../ui/AppButton.vue'
 import { lockScroll, resetScrollLock, unlockScroll } from '../../utils/scrollLock'
@@ -65,7 +65,7 @@ const headerClass = computed(() => ({
 
 <template>
   <header :class="headerClass">
-    <div class="container header__inner">
+    <div class="header__inner">
       <RouterLink :to="routes.home" class="header__brand">{{ site.wordmark }}</RouterLink>
 
       <nav class="header__nav" aria-label="Основная навигация">
@@ -81,17 +81,18 @@ const headerClass = computed(() => ({
       </nav>
 
       <div class="header__actions">
-        <a class="header__phone" :href="contacts.phoneTel">
-          {{ contacts.phoneDisplay }}
-        </a>
-        <AppButton
-          :href="headerCta.href"
-          variant="outline"
-          class="header__cta"
-          :event-name="analyticsEvents.ctaDiscussProject"
-        >
-          {{ headerCta.label }}
-        </AppButton>
+        <RouterLink class="header__icon header__icon--search" :to="routes.services" aria-label="Поиск">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+        </RouterLink>
+        <RouterLink class="header__icon" :to="routes.contacts" aria-label="Написать нам">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect width="20" height="16" x="2" y="4" />
+            <path d="m22 7-10 7L2 7" />
+          </svg>
+        </RouterLink>
         <button
           type="button"
           class="menu-toggle"
@@ -136,12 +137,11 @@ const headerClass = computed(() => ({
             {{ contacts.phoneDisplay }}
           </a>
           <AppButton
-            :href="headerCta.href"
-            variant="outline"
+            :href="routes.contacts"
             class="header__cta header__cta--mobile"
             :event-name="analyticsEvents.ctaDiscussProject"
           >
-            {{ headerCta.label }}
+            Обсудить проект
           </AppButton>
         </div>
       </nav>

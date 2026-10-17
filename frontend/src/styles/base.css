@@ -11,6 +11,7 @@ body {
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 1.0625rem;
+  font-weight: 400;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
@@ -27,9 +28,13 @@ body {
   z-index: 80;
   transform: translateY(-160%);
   padding: 0.7rem 1rem;
-  border-radius: var(--radius-pill);
-  background: var(--color-green);
-  color: var(--color-cta-ink);
+  border-radius: 0;
+  background: var(--color-primary);
+  color: var(--color-inverse);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .skip-link:focus {
@@ -38,10 +43,11 @@ body {
 
 .kicker {
   margin-bottom: var(--space-12);
-  color: var(--color-green);
+  color: var(--color-accent);
+  font-family: var(--font-body);
   font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -67,4 +73,3 @@ body {
   white-space: nowrap;
   border: 0;
 }
-

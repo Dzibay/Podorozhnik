@@ -4,6 +4,8 @@
 
 @import "./base.css";
 
+@import "./raw.css";
+
 @import "./layout.css";
 
 @import "./buttons.css";
@@ -28,4 +30,11 @@ body.is-scroll-locked {
 
 body.is-scroll-locked .header {
   padding-right: var(--scrollbar-gap, 0px);
+}
+
+body.is-scroll-locked .live-toast,
+body.is-scroll-locked .site-float__fab,
+body.is-scroll-locked .site-float__bar {
+  opacity: 0;
+  pointer-events: none;
 }
