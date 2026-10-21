@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { contacts, routes, site } from '../../data/site'
 import BrandMark from '../../components/ui/BrandMark.vue'
@@ -10,10 +10,13 @@ const props = defineProps({
   theme: { type: String, default: 'light' },
   ctaLabel: { type: String, default: '' },
   ctaHref: { type: String, default: '#lp-form' },
+  // своя палитра страницы (CSS-переменные) и класс оформления — у нишевых витрин
+  vars: { type: Object, default: null },
+  variant: { type: String, default: '' },
 })
 
 const root = ref(null)
-const themeClass = computed(() => `lp lp--${props.theme === 'light' ? 'light' : 'dark'}`)
+const themeClass = computed(() => [`lp lp--${props.theme === 'light' ? 'light' : 'dark'}`, props.variant && `lp--${props.variant}`])
 
 function paintRoot() {
   if (!root.value) return
@@ -28,11 +31,13 @@ function clearRoot() {
 }
 
 onMounted(paintRoot)
+// переход между нишами переиспользует компонент — перекрашиваем фон под новую палитру
+watch(() => props.vars, () => nextTick(paintRoot))
 onUnmounted(clearRoot)
 </script>
 
 <template>
-  <div ref="root" :class="themeClass">
+  <div ref="root" :class="themeClass" :style="vars">
     <header class="lp-header">
       <div class="lp-wrap lp-header__inner">
         <RouterLink class="lp-header__brand brand" :to="routes.home" aria-label="Подорожник — на главную">

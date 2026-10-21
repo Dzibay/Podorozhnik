@@ -1,0 +1,764 @@
+/* ============================================================
+   Нишевые витрины: палитра ниши поверх базовой посадочной,
+   3D-первый экран, калькулятор потерь, путь клиента и кейсы.
+   Палитра приходит CSS-переменными из nicheShowcase.js.
+   ============================================================ */
+
+.lp--showcase {
+  color-scheme: dark;
+  --ns-glow: color-mix(in srgb, var(--lp-accent) 22%, transparent);
+}
+
+/* ---------- Цвета базовых элементов под палитру ниши ---------- */
+
+.lp--showcase .lp-btn {
+  border-color: var(--lp-accent);
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+}
+
+.lp--showcase .lp-btn::before {
+  background: var(--lp-text);
+}
+
+.lp--showcase .lp-btn:hover {
+  border-color: var(--lp-text);
+}
+
+.lp--showcase .lp-btn--outline {
+  border-color: var(--lp-line);
+  background: transparent;
+  color: var(--lp-text);
+}
+
+.lp--showcase .lp-btn--outline::before {
+  background: var(--lp-accent);
+}
+
+.lp--showcase .lp-btn--outline:hover {
+  border-color: var(--lp-accent);
+  color: var(--ns-on-accent);
+}
+
+.lp--showcase .lp-hero__title-accent {
+  background: linear-gradient(100deg, var(--lp-accent), var(--ns-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.lp--showcase .lp-card--featured {
+  --lp-text: inherit;
+  --lp-muted: inherit;
+  background: color-mix(in srgb, var(--lp-accent) 10%, var(--lp-surface));
+  box-shadow: inset 0 0 0 1px var(--lp-accent);
+  color: inherit;
+}
+
+.lp--showcase .lp-badge {
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+}
+
+.lp--showcase .lp-faq details[open] summary::after {
+  border-color: var(--lp-accent);
+  background: var(--lp-accent);
+}
+
+.lp--showcase .lp-section--dark {
+  /* у каждой переменной свой источник — ссылаться друг на друга на одном элементе нельзя */
+  --lp-bg: var(--ns-surface);
+  --lp-surface: var(--ns-bg);
+  --lp-text: var(--ns-ink);
+  --lp-muted: var(--ns-muted);
+  --lp-line: color-mix(in srgb, var(--ns-ink) 14%, transparent);
+  background:
+    radial-gradient(50% 70% at 0% 100%, var(--ns-glow), transparent 70%),
+    var(--ns-surface);
+}
+
+.lp--showcase .lp-form-block .lead-form {
+  background: color-mix(in srgb, var(--lp-bg) 70%, transparent);
+}
+
+.lp--showcase .lp-big-phone:hover,
+.lp--showcase .lp-footer a:hover {
+  color: var(--lp-accent);
+}
+
+.lp--showcase .lp-magnet {
+  border-left-color: var(--lp-accent);
+}
+
+.lp--showcase .lp-footer {
+  background: color-mix(in srgb, #000 35%, var(--lp-bg));
+}
+
+/* ---------- Первый экран со сценой ---------- */
+
+.ns-hero {
+  align-items: flex-end;
+  min-height: max(calc(100svh - var(--lp-header-h)), 42rem);
+  padding-bottom: clamp(2rem, 5vh, 3.5rem);
+}
+
+.ns-hero .ns-hero__scene {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: -2;
+  width: 62%;
+}
+
+.ns-scene,
+.ns-scene__canvas,
+.ns-scene__still {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ns-scene__still {
+  object-fit: cover;
+}
+
+.ns-hero__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 50% at 75% 60%, var(--ns-glow), transparent 70%),
+    linear-gradient(90deg, var(--lp-bg) 30%, color-mix(in srgb, var(--lp-bg) 0%, transparent) 62%);
+}
+
+.ns-hero__inner {
+  position: relative;
+}
+
+.ns-hero .lp-hero__title {
+  max-width: min(13ch, 60%);
+  font-size: clamp(2.4rem, 4.8vw, 4.8rem);
+}
+
+.ns-hero .lp-hero__lead {
+  color: var(--lp-muted);
+}
+
+.ns-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 14rem));
+  gap: 1px;
+  margin: 0;
+  border: 1px solid var(--lp-line);
+  background: var(--lp-line);
+  width: max-content;
+  max-width: 100%;
+}
+
+.ns-facts > div {
+  padding: 1rem 1.2rem;
+  background: color-mix(in srgb, var(--lp-bg) 82%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.ns-facts dt {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--lp-accent);
+}
+
+.ns-facts dd {
+  margin: 0.35rem 0 0;
+  color: var(--lp-muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.ns-note {
+  margin: 0.9rem 0 0;
+  color: var(--lp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* ---------- Калькулятор потерь ---------- */
+
+.ns-calc__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  border: 1px solid var(--lp-line);
+}
+
+.ns-calc__inputs {
+  display: grid;
+  gap: 1.6rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.ns-range {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.ns-range__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  color: var(--lp-muted);
+  font-size: 0.92rem;
+}
+
+.ns-range output {
+  color: var(--lp-text);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.ns-range input {
+  width: 100%;
+  height: 1.6rem;
+  margin: 0;
+  background: transparent;
+  accent-color: var(--lp-accent);
+  cursor: pointer;
+}
+
+.ns-leaks {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.ns-leaks legend {
+  margin-bottom: 0.7rem;
+  color: var(--lp-accent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ns-leak {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25rem minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--lp-line);
+  cursor: pointer;
+  transition: border-color 0.3s var(--lp-ease), background-color 0.3s var(--lp-ease);
+}
+
+.ns-leak:hover {
+  border-color: color-mix(in srgb, var(--lp-accent) 50%, transparent);
+}
+
+.ns-leak.is-on {
+  border-color: var(--lp-accent);
+  background: color-mix(in srgb, var(--lp-accent) 8%, transparent);
+}
+
+.ns-leak input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ns-leak__box {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.1rem;
+  border: 1px solid var(--lp-muted);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.ns-leak.is-on .ns-leak__box {
+  border-color: var(--lp-accent);
+  background:
+    linear-gradient(45deg, transparent 44%, var(--ns-on-accent) 44% 56%, transparent 56%) 0.2rem 0.35rem / 0.4rem 0.4rem no-repeat,
+    linear-gradient(-45deg, transparent 44%, var(--ns-on-accent) 44% 56%, transparent 56%) 0.42rem 0.18rem / 0.65rem 0.65rem no-repeat,
+    var(--lp-accent);
+}
+
+.ns-leak input:focus-visible + .ns-leak__box {
+  outline: 2px solid var(--lp-accent);
+  outline-offset: 2px;
+}
+
+.ns-leak__text {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.ns-leak__text strong {
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.ns-leak__text span {
+  color: var(--lp-muted);
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.ns-leak__share {
+  color: var(--lp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.ns-leak.is-on .ns-leak__share {
+  color: var(--lp-accent);
+}
+
+.ns-calc__result {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-left: 1px solid var(--lp-line);
+  background:
+    radial-gradient(80% 60% at 100% 0%, var(--ns-glow), transparent 70%),
+    var(--lp-surface);
+}
+
+.ns-calc__label {
+  margin: 0;
+  color: var(--lp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ns-calc__money {
+  margin: 0.6rem 0 1.6rem;
+  color: var(--lp-accent);
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ns-calc__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  margin: 0 0 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--lp-line);
+}
+
+.ns-calc__facts dt {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.ns-calc__facts dd {
+  margin: 0.25rem 0 0;
+  color: var(--lp-muted);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.ns-calc__ok {
+  margin: 0 0 1.25rem;
+  color: var(--lp-muted);
+  font-size: 0.9rem;
+}
+
+.ns-calc__result .ns-note {
+  margin-top: 1.25rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+
+/* ---------- Путь клиента ---------- */
+
+.ns-search {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  max-width: 42rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  padding: 0.5rem 0.5rem 0.5rem 0.9rem;
+  border: 2px solid var(--lp-accent);
+  border-radius: 0.9rem;
+  background: var(--lp-surface);
+  box-shadow: 0 1.5rem 4rem -1.5rem var(--ns-glow);
+}
+
+.ns-search__brand {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #fc3f1d;
+  color: #fff;
+  font-weight: 700;
+}
+
+.ns-search__query {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ns-search__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--lp-accent);
+  animation: ns-caret 1s steps(1) infinite;
+}
+
+@keyframes ns-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.ns-search__btn {
+  flex: none;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.55rem;
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.ns-path {
+  position: relative;
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* линия маршрута: серая подложка и акцентная часть, которая растёт с прокруткой */
+.ns-path::before,
+.ns-path::after {
+  content: "";
+  position: absolute;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  width: 2px;
+  translate: -50% 0;
+  background: var(--lp-line);
+}
+
+.ns-path::after {
+  background: linear-gradient(var(--lp-accent), var(--ns-accent-2));
+  transform: scaleY(var(--draw, 1));
+  transform-origin: top;
+}
+
+.ns-path__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.ns-path__dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 50%;
+  background: var(--lp-bg);
+  color: var(--lp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  transition: background-color 0.4s var(--lp-ease), color 0.4s var(--lp-ease), border-color 0.4s var(--lp-ease), box-shadow 0.4s var(--lp-ease);
+}
+
+.ns-path__step.is-lit .ns-path__dot {
+  border-color: var(--lp-accent);
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+  box-shadow: 0 0 0 6px var(--ns-glow);
+}
+
+.ns-path__body {
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  border-bottom: 1px solid var(--lp-line);
+  opacity: 0.55;
+  transition: opacity 0.5s var(--lp-ease);
+}
+
+.ns-path__step:last-child .ns-path__body {
+  border-bottom: 0;
+}
+
+.ns-path__step.is-lit .ns-path__body {
+  opacity: 1;
+}
+
+.ns-path__stage {
+  margin: 0.2rem 0 0.4rem;
+  color: var(--lp-accent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ns-path__body h3 {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.ns-path__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ns-path__cols p {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--lp-line);
+  color: var(--lp-muted);
+  font-size: 0.93rem;
+  line-height: 1.45;
+}
+
+.ns-path__cols span {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ns-path__leak span {
+  color: color-mix(in srgb, #ff5a4f 80%, var(--lp-text));
+}
+
+.ns-path__fix {
+  background: color-mix(in srgb, var(--lp-accent) 7%, transparent);
+  border-color: color-mix(in srgb, var(--lp-accent) 35%, transparent) !important;
+  color: var(--lp-text) !important;
+}
+
+.ns-path__fix span {
+  color: var(--lp-accent);
+}
+
+/* ---------- Кейсы ---------- */
+
+.ns-cases__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ns-case {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 19rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(70% 90% at 100% 100%, color-mix(in srgb, var(--c-accent) 35%, transparent), transparent 70%),
+    var(--c-bg);
+  color: var(--c-ink);
+  isolation: isolate;
+  transition: transform 0.5s var(--lp-ease);
+}
+
+.ns-case::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-ink) 12%, transparent);
+}
+
+.ns-case:hover {
+  transform: translateY(-4px);
+}
+
+.ns-case__niche {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.ns-case__metric {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  color: var(--c-accent);
+}
+
+.ns-case__result {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.ns-case__client {
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
+
+.ns-case__more {
+  margin-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 960px) {
+  .ns-hero {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: auto;
+    padding-top: 0;
+  }
+
+  .ns-hero .ns-hero__scene {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: min(82vw, 30rem);
+    margin: 0 calc(var(--lp-pad) * -1) -3rem;
+  }
+
+  .ns-hero__shade {
+    background:
+      radial-gradient(60% 40% at 50% 30%, var(--ns-glow), transparent 70%),
+      linear-gradient(0deg, var(--lp-bg) 45%, transparent 75%);
+  }
+
+  .ns-hero .lp-hero__title {
+    max-width: none;
+  }
+
+  .ns-calc__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ns-calc__result {
+    border-left: 0;
+    border-top: 1px solid var(--lp-line);
+  }
+}
+
+@media (max-width: 720px) {
+  .ns-hero .lp-hero__title {
+    font-size: clamp(1.5rem, 7.2vw, 2.4rem);
+  }
+
+  .ns-facts {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+
+  .ns-facts > div {
+    display: grid;
+    grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: baseline;
+  }
+
+  .ns-facts dt {
+    white-space: normal;
+  }
+
+  .ns-facts dd {
+    margin: 0;
+  }
+
+  .ns-path__step {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+
+  .ns-path::before,
+  .ns-path::after {
+    left: 1.125rem;
+  }
+
+  .ns-path__dot {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.68rem;
+  }
+
+  .ns-path__cols,
+  .ns-cases__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ns-calc__money {
+    font-size: clamp(1.9rem, 10vw, 2.6rem);
+  }
+
+  .ns-search__btn {
+    display: none;
+  }
+
+  .ns-case {
+    min-height: 15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ns-search__caret {
+    animation: none;
+  }
+}

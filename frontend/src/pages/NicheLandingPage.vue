@@ -3,12 +3,38 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LandingShell from '../landings/kit/LandingShell.vue'
 import LeadForm from '../components/ui/LeadForm.vue'
+import NicheScene from '../landings/showcase/NicheScene.vue'
+import NicheCalc from '../landings/showcase/NicheCalc.vue'
+import NicheJourney from '../landings/showcase/NicheJourney.vue'
+import NicheCases from '../landings/showcase/NicheCases.vue'
+import '../landings/showcase/showcase.css'
 import { getNiche } from '../data/niches'
+import { estimateNote, getShowcase } from '../data/nicheShowcase'
 import { contacts } from '../data/site'
 import { track } from '../analytics/tracker'
 
 const route = useRoute()
 const niche = computed(() => getNiche(route.params.slug))
+// у пилотных ниш своя палитра, 3D-сцена, калькулятор и путь клиента
+const show = computed(() => getShowcase(route.params.slug))
+const showVars = computed(() => {
+  const t = show.value?.theme
+  if (!t) return null
+  return {
+    '--lp-bg': t.bg,
+    '--lp-surface': t.surface,
+    '--lp-text': t.ink,
+    '--lp-muted': t.muted,
+    '--lp-line': `color-mix(in srgb, ${t.ink} 14%, transparent)`,
+    '--lp-accent': t.accent,
+    '--ns-bg': t.bg,
+    '--ns-surface': t.surface,
+    '--ns-ink': t.ink,
+    '--ns-muted': t.muted,
+    '--ns-accent-2': t.accent2,
+    '--ns-on-accent': t.onAccent,
+  }
+})
 
 function onCall(place) {
   track('click_phone', { place: `landing-${place}`, niche: route.params.slug })
@@ -18,13 +44,44 @@ function onCall(place) {
 <template>
   <LandingShell
     v-if="niche"
-    theme="light"
+    :theme="show ? 'dark' : 'light'"
+    :variant="show ? 'showcase' : ''"
+    :vars="showVars"
     cta-label="Позвонить"
     :cta-href="contacts.phoneTel"
   >
     <main id="main">
-      <!-- 1. Hero -->
-      <section class="lp-hero">
+      <!-- 1. Hero: у витрины — 3D-сцена ниши и рыночные ориентиры -->
+      <section v-if="show" class="lp-hero ns-hero">
+        <NicheScene class="ns-hero__scene" :scene="show.scene" :still="show.still" />
+        <div class="ns-hero__shade" aria-hidden="true" />
+        <div class="lp-wrap ns-hero__inner">
+          <p class="lp-kicker">{{ niche.hero.kicker }}</p>
+          <h1 class="lp-hero__title">
+            {{ niche.hero.titleStart }}
+            <span class="lp-hero__title-accent">{{ niche.hero.titleAccent }}</span>
+            {{ niche.hero.titleEnd }}
+          </h1>
+          <p class="lp-hero__lead">{{ niche.hero.lead }}</p>
+          <div class="lp-hero__actions">
+            <a class="lp-btn lp-btn--call" :href="contacts.phoneTel" @click="onCall('hero')">
+              <span class="live-dot" aria-hidden="true" />
+              Позвонить
+              <span class="lp-btn__num">{{ contacts.phoneDisplay }}</span>
+            </a>
+            <a class="lp-btn lp-btn--outline" href="#lp-calc">Посчитать потери</a>
+          </div>
+          <dl class="ns-facts">
+            <div v-for="fact in show.facts" :key="fact.label">
+              <dt>{{ fact.value }}</dt>
+              <dd>{{ fact.label }}</dd>
+            </div>
+          </dl>
+          <p class="ns-note ns-hero__note" :title="estimateNote">Оценка по рынку, не обещание результата</p>
+        </div>
+      </section>
+
+      <section v-else class="lp-hero">
         <div class="lp-hero__glow" aria-hidden="true" />
         <div class="lp-wrap">
           <p class="lp-kicker">{{ niche.hero.kicker }}</p>
@@ -64,6 +121,8 @@ function onCall(place) {
         </div>
       </section>
 
+      <NicheCalc v-if="show" :calc="show.calc" :slug="route.params.slug" />
+
       <!-- 3. Alternatives -->
       <section class="lp-section" id="lp-alts">
         <div class="lp-wrap">
@@ -96,6 +155,8 @@ function onCall(place) {
           </div>
         </div>
       </section>
+
+      <NicheJourney v-if="show" :journey="show.journey" />
 
       <!-- 5. Killer offer 24h -->
       <section class="lp-section" id="lp-offer">
@@ -139,7 +200,8 @@ function onCall(place) {
       </section>
 
       <!-- 7. Cases / niche experience (без выдуманных цифр) -->
-      <section class="lp-section" id="lp-cases">
+      <NicheCases v-if="show" :slugs="show.cases" />
+      <section v-else class="lp-section" id="lp-cases">
         <div class="lp-wrap">
           <p class="lp-kicker">{{ niche.cases.kicker }}</p>
           <div class="lp-section__head">
