@@ -15,6 +15,10 @@ const loaders = {
   production: () => import('../scenes/production').then((m) => m.mountProduction),
   stroika: () => import('../scenes/stroika').then((m) => m.mountStroika),
   mebel: () => import('../scenes/mebel').then((m) => m.mountMebel),
+  law: () => import('../scenes/law').then((m) => m.mountLaw),
+  clinic: () => import('../scenes/clinic').then((m) => m.mountClinic),
+  logistics: () => import('../scenes/logistics').then((m) => m.mountLogistics),
+  school: () => import('../scenes/school').then((m) => m.mountSchool),
 }
 
 const canvas = ref(null)
