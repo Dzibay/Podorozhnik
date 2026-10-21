@@ -40,7 +40,7 @@ const routes = [
     meta: {
       title: 'Кейсы — Подорожник',
       description:
-        'Кейсы Подорожник: белорусские блоки, кухни Noris, Семиозерье, GoodFood — заявки, CPL и ROMI в цифрах.',
+        'Кейсы Подорожник: производство, премиальные кухни, загородная недвижимость, онлайн-школа, дизайн продукта — что сделали и к чему это привело.',
     },
   },
   {
@@ -157,7 +157,8 @@ router.beforeEach((to) => {
       return { name: 'not-found', params: { pathMatch: to.path.slice(1).split('/') } }
     }
     to.meta.title = `${item.title} — кейс Подорожник`
-    to.meta.description = `${item.client}: ${item.task}`
+    to.meta.description = `${item.client}. ${item.lead}`
+    to.meta.darkTop = item.theme.dark
     to.meta.breadcrumb = [
       { name: 'Главная', path: '/' },
       { name: 'Кейсы', path: '/cases' },

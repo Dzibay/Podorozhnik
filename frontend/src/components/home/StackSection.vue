@@ -8,11 +8,11 @@ const root = ref(null)
 
 /** Стартовые позиции «подрядчиков» вокруг центра (в долях экрана) */
 const spots = [
-  { x: -0.33, y: -0.24, r: -7 },
-  { x: 0.31, y: -0.27, r: 5 },
-  { x: -0.36, y: 0.2, r: 6 },
-  { x: 0.34, y: 0.22, r: -6 },
-  { x: 0.02, y: 0.33, r: 3 },
+  { x: -0.32, y: -0.1, r: -6 },
+  { x: 0.31, y: -0.13, r: 5 },
+  { x: -0.35, y: 0.17, r: 5 },
+  { x: 0.33, y: 0.15, r: -5 },
+  { x: 0.01, y: 0.25, r: 3 },
 ]
 
 let frame = 0
@@ -29,7 +29,7 @@ function update() {
   const p = clamp(-rect.top / total)
   el.style.setProperty('--e', ease(clamp((p - 0.12) / 0.5)).toFixed(4))
   el.style.setProperty('--r', ease(clamp((p - 0.58) / 0.25)).toFixed(4))
-  el.style.setProperty('--t', clamp((p - 0.3) / 0.2).toFixed(4))
+  el.style.setProperty('--t', ease(clamp((p - 0.34) / 0.1)).toFixed(4))
 }
 
 function onScroll() {

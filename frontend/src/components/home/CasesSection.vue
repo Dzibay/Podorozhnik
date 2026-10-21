@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import { homeCopy } from '../../data/home'
-import { cases } from '../../data/cases'
+import { caseThemeVars, cases, formatMetric } from '../../data/cases'
 import { routes } from '../../data/site'
 
 const { casesBlock } = homeCopy
@@ -80,6 +80,7 @@ onUnmounted(() => {
             :key="item.slug"
             :to="routes.case(item.slug)"
             class="case"
+            :style="caseThemeVars(item)"
             data-spot
             data-cursor="Кейс"
           >
@@ -92,7 +93,7 @@ onUnmounted(() => {
             <span class="case__title">{{ item.title }}</span>
             <span class="case__metrics">
               <span v-for="metric in item.metrics.slice(0, 3)" :key="metric.label" class="case__m">
-                <b>{{ metric.value }}</b>
+                <b>{{ formatMetric(metric) }}</b>
                 <small>{{ metric.label }}</small>
               </span>
             </span>

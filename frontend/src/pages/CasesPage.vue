@@ -1,78 +1,57 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { caseNiches, casesByNiche } from '../data/cases'
+import { caseThemeVars, cases } from '../data/cases'
 import { casesCopy } from '../data/home'
-import { analyticsEvents, routes } from '../data/site'
-import AppButton from '../components/ui/AppButton.vue'
-
-const activeNiche = ref('all')
-const filtered = computed(() => casesByNiche(activeNiche.value))
+import { contacts, routes } from '../data/site'
+import { track } from '../analytics/tracker'
+import CaseScene from '../components/cases/CaseScene.vue'
 </script>
 
 <template>
-  <main id="main" class="page page--cases">
-    <div class="page-glow" aria-hidden="true"></div>
+  <main id="main" class="page cl">
     <div class="container">
-      <header class="page-hero2 cases-page__head">
-        <p class="kicker">{{ casesCopy.kicker }}</p>
-        <h1 class="page-hero2__title">
-          Кейсы <span class="page-hero2__accent">с цифрами</span>
-        </h1>
-        <p class="page-hero2__lead">{{ casesCopy.lead }}</p>
-
-        <div class="cases-filter" role="tablist" aria-label="Фильтр по нише">
-          <button
-            v-for="niche in caseNiches"
-            :key="niche.id"
-            type="button"
-            class="cases-filter__btn"
-            :class="{ 'cases-filter__btn--on': activeNiche === niche.id }"
-            role="tab"
-            :aria-selected="activeNiche === niche.id"
-            @click="activeNiche = niche.id"
-          >
-            {{ niche.label }}
-          </button>
+      <header class="cl-hero">
+        <p v-reveal class="kicker">{{ casesCopy.kicker }}</p>
+        <div class="cl-hero__row">
+          <h1 v-reveal.lines class="cl-hero__title lines">
+            <span><span>Цифры,</span></span>
+            <span><span :style="{ '--l': 1 }"><em>а не обещания</em></span></span>
+          </h1>
+          <p v-reveal class="cl-hero__lead">{{ casesCopy.lead }}</p>
         </div>
       </header>
 
-      <div class="cases-grid">
+      <div class="cl-grid">
         <RouterLink
-          v-for="(item, index) in filtered"
-          :key="item.id"
-          class="card2 cases-card"
+          v-for="(item, index) in cases"
+          :key="item.slug"
+          v-reveal
           :to="routes.case(item.slug)"
+          class="cl-card"
+          :class="item.theme.dark ? 'cl-card--dark' : 'cl-card--light'"
+          :style="{ ...caseThemeVars(item), '--i': index % 2 }"
+          data-cursor="Кейс"
         >
-          <div class="cases-card__top">
-            <span class="card2__index">0{{ index + 1 }}</span>
-            <span class="cases-card__badge">{{ item.nicheLabel }}</span>
-          </div>
-          <h2 class="cases-card__title">{{ item.title }}</h2>
-          <p class="cases-card__meta">{{ item.client }} · {{ item.period }}</p>
-          <div class="cases-card__stats">
-            <p class="cases-card__metric">{{ item.preview.metric }}</p>
-            <p class="cases-card__result">{{ item.preview.result }}</p>
-          </div>
-          <p class="cases-card__more">Смотреть кейс →</p>
+          <CaseScene :scene="item.scene" />
+          <span class="cl-card__top mono">
+            <span>{{ String(index + 1).padStart(2, '0') }} · {{ item.team ? 'Опыт команды' : 'Проект агентства' }}</span>
+            <span>{{ item.nicheLabel }}</span>
+          </span>
+          <span class="cl-card__metric">{{ item.preview.metric }}</span>
+          <span class="cl-card__result">{{ item.preview.result }}</span>
+          <span class="cl-card__bottom">
+            <span class="cl-card__title">{{ item.title }}</span>
+            <span class="cl-card__arrow" aria-hidden="true">→</span>
+          </span>
         </RouterLink>
       </div>
 
-      <section class="page-cta2">
-        <div class="page-cta2__copy">
-          <p class="kicker">Следующий шаг</p>
-          <h2 class="page-cta2__title">Разберём вашу нишу так же</h2>
-          <p class="page-cta2__lead">
-            Бесплатный аудит за 24 часа: где теряются деньги и какой формат работы подойдёт.
-          </p>
-        </div>
-        <div class="page-cta2__actions">
-          <AppButton :href="routes.contacts" :event-name="analyticsEvents.ctaDiscussProject">
-            Получить бесплатный аудит
-            <span aria-hidden="true">&rarr;</span>
-          </AppButton>
-          <AppButton :href="routes.services" variant="outline" event-name="">
-            Все услуги
-          </AppButton>
+      <section v-reveal class="cl-cta">
+        <h2 class="cl-cta__title">Следующий кейс <em>может быть вашим</em></h2>
+        <div class="cl-cta__actions">
+          <a class="cl-cta__phone" :href="contacts.phoneTel" @click="track('click_phone', { place: 'cases' })">
+            {{ contacts.phoneDisplay }}
+          </a>
+          <RouterLink :to="routes.contacts" class="button button--accent">Перезвоните мне</RouterLink>
         </div>
       </section>
     </div>

@@ -64,7 +64,8 @@ function isCurrent(href) {
 
 const headerClass = computed(() => ({
   header: true,
-  'header--scrolled': isScrolled.value || menuOpen.value,
+  // Над тёмным первым экраном шапка сразу «плавающая», иначе её не видно
+  'header--scrolled': isScrolled.value || menuOpen.value || Boolean(route.meta.darkTop),
   'header--hidden': isHidden.value,
   'header--open': menuOpen.value,
 }))

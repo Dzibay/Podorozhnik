@@ -15,8 +15,8 @@ export const contacts = {
   email: 'podoroznik-gk@yandex.ru',
   emailSubject: 'Заявка с сайта Подорожник',
   emailBody: 'Здравствуйте!\n\nХочу обсудить задачу:\n',
-  /** Публичный Telegram для кнопки на сайте; пока пусто — ведём на контакты */
-  telegramUrl: '',
+  /** Telegram по номеру телефона; заменить на t.me/<username>, если поиск по номеру закрыт */
+  telegramUrl: 'https://t.me/+79956004228',
 }
 
 export const routes = {
