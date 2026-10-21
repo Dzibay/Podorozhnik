@@ -67,7 +67,7 @@ def main() -> None:
     write(
         "Бесплатный экспресс-аудит за 24 часа:\n"
         "https://podorozhnik-agency.ru/contacts\n"
-        "Телефон: 8 (995) 600-42-28"
+        "Телефон: +7 (995) 630-42-81"
     )
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

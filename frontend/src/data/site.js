@@ -9,14 +9,14 @@
 
 /** Контакты агентства */
 export const contacts = {
-  phoneRaw: '89956004228',
-  phoneDisplay: '8 (995) 600-42-28',
-  phoneTel: 'tel:+79956004228',
+  phoneRaw: '+79956304281',
+  phoneDisplay: '+7 (995) 630-42-81',
+  phoneTel: 'tel:+79956304281',
   email: 'podoroznik-gk@yandex.ru',
   emailSubject: 'Заявка с сайта Подорожник',
   emailBody: 'Здравствуйте!\n\nХочу обсудить задачу:\n',
   /** Telegram по номеру телефона; заменить на t.me/<username>, если поиск по номеру закрыт */
-  telegramUrl: 'https://t.me/+79956004228',
+  telegramUrl: 'https://t.me/+79956304281',
 }
 
 export const routes = {
