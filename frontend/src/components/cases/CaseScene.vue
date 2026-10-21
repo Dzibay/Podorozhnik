@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
+import SteelScene from './SteelScene.vue'
 
 /**
  * Уникальная сцена первого экрана кейса. Всё нарисовано кодом (SVG/CSS),
@@ -60,8 +61,11 @@ onUnmounted(() => window.removeEventListener('pointermove', onMove))
 
 <template>
   <div ref="root" class="scene" :class="`scene--${props.scene}`" aria-hidden="true">
+    <!-- Металлоконструкции: 3D-каркас цеха собирается из балок -->
+    <SteelScene v-if="scene === 'steel'" />
+
     <!-- Перегородки: стеклянные панели в алюминиевых рамах -->
-    <div v-if="scene === 'glass'" class="glass">
+    <div v-else-if="scene === 'glass'" class="glass">
       <span v-for="n in 7" :key="n" class="glass__panel" :style="{ '--n': n }">
         <span class="glass__sheen" />
         <span v-if="n === 4" class="glass__door" />

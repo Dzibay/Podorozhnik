@@ -6,6 +6,12 @@ import { routes } from '../data/site'
 import CaseCounter from '../components/cases/CaseCounter.vue'
 import CaseScene from '../components/cases/CaseScene.vue'
 import CtaSection from '../components/home/CtaSection.vue'
+import CaseBrief from '../components/cases/blocks/CaseBrief.vue'
+import CaseCompare from '../components/cases/blocks/CaseCompare.vue'
+import CaseDecisions from '../components/cases/blocks/CaseDecisions.vue'
+import CaseJourney from '../components/cases/blocks/CaseJourney.vue'
+import CaseOutcome from '../components/cases/blocks/CaseOutcome.vue'
+import CaseSite from '../components/cases/blocks/CaseSite.vue'
 
 const route = useRoute()
 const item = computed(() => getCase(route.params.slug))
@@ -74,8 +80,20 @@ const numberFormat = new Intl.NumberFormat('ru-RU')
     </section>
 
     <template v-for="block in item.blocks" :key="block">
+      <CaseBrief v-if="block === 'brief'" :brief="item.brief" />
+      <CaseSite v-else-if="block === 'site'" :site="item.site" :url="item.url" />
+      <CaseDecisions
+        v-else-if="block === 'decisions'"
+        :decisions="item.decisions"
+        :shot="item.site.desktop"
+        :label="item.site.label"
+      />
+      <CaseCompare v-else-if="block === 'compare'" :compare="item.compare" />
+      <CaseJourney v-else-if="block === 'journey'" :journey="item.journey" />
+      <CaseOutcome v-else-if="block === 'outcome'" :outcome="item.outcome" />
+
       <!-- Было -->
-      <section v-if="block === 'before'" class="cp-sec cp-before">
+      <section v-else-if="block === 'before'" class="cp-sec cp-before">
         <div class="container cp-before__grid">
           <div>
             <p v-reveal class="kicker">Как было</p>
