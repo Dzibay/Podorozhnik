@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { prefersReducedMotion, useScrollProgress } from '../useScrollProgress'
+import { calmMotion, useScrollProgress } from '../useScrollProgress'
 
 /** Задача клиента: цитата «проявляется» слово за словом по мере прокрутки */
 const props = defineProps({
@@ -10,7 +10,7 @@ const props = defineProps({
 const root = ref(null)
 const progress = useScrollProgress(root)
 const words = computed(() => props.brief.quote.split(' '))
-const reduced = prefersReducedMotion()
+const reduced = calmMotion()
 const lit = computed(() => {
   if (reduced) return words.value.length
   const p = Math.min(1, Math.max(0, (progress.value - 0.18) / 0.42))

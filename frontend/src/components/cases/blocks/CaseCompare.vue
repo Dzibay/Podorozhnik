@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-import { prefersReducedMotion } from '../useScrollProgress'
+import { calmMotion } from '../useScrollProgress'
 
 /** До/после: шторка между старым и новым сайтом. При появлении сама показывает, что её можно тянуть */
 defineProps({
@@ -34,7 +34,7 @@ function onInput(event) {
 }
 
 onMounted(() => {
-  if (prefersReducedMotion()) return
+  if (calmMotion()) return
   observer = new IntersectionObserver(
     ([entry]) => {
       if (!entry.isIntersecting) return
@@ -69,10 +69,17 @@ onUnmounted(() => {
         class="cp-cmp__frame"
         :style="{ '--pos': `${pos}%`, aspectRatio: `${compare.w} / ${compare.h}` }"
       >
-        <img class="cp-cmp__img" :src="compare.after.src" :width="compare.w" :height="compare.h" alt="Новый сайт" loading="lazy" decoding="async" />
+        <img
+          class="cp-cmp__img"
+          :src="compare.after.src"
+          :srcset="compare.after.small && `${compare.after.small} 800w, ${compare.after.src} ${compare.w}w`"
+          sizes="(max-width: 960px) 100vw, 75rem"
+          :width="compare.w" :height="compare.h" alt="Новый сайт" loading="lazy" decoding="async" />
         <img
           class="cp-cmp__img cp-cmp__img--before"
           :src="compare.before.src"
+          :srcset="compare.before.small && `${compare.before.small} 800w, ${compare.before.src} ${compare.w}w`"
+          sizes="(max-width: 960px) 100vw, 75rem"
           :width="compare.w"
           :height="compare.h"
           alt="Старый сайт"

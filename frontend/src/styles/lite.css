@@ -1,0 +1,53 @@
+/* ============================================================
+   Облегчённый режим (html.is-lite): телефоны и слабые компьютеры.
+   Включается в utils/perf.js. Убираем то, что дорого рисовать
+   каждый кадр: размытие подложки, шум поверх секций, крупные blur-фильтры.
+   ============================================================ */
+
+.is-lite .grain::after {
+  display: none;
+}
+
+/* матовое стекло → почти непрозрачная подложка того же цвета */
+.is-lite .header--scrolled .header__inner {
+  background: color-mix(in srgb, var(--paper) 96%, transparent);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.is-lite .site-float__bar {
+  background: var(--color-bg);
+  backdrop-filter: none;
+}
+
+.is-lite .hero__status {
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: none;
+}
+
+.is-lite .final__form,
+.is-lite .stack__role {
+  background: var(--ink-2);
+  backdrop-filter: none;
+}
+
+.is-lite .cp-hero__facts,
+.is-lite .cl-card__top span:last-child {
+  background: color-mix(in srgb, var(--case-bg) 92%, transparent);
+  backdrop-filter: none;
+}
+
+.is-lite .cp-cmp__tag {
+  backdrop-filter: none;
+}
+
+.is-lite .stack__title-a,
+.is-lite .stack__title-b,
+.is-lite .orbit__core {
+  filter: none;
+}
+
+.is-lite .blob {
+  animation: none;
+  will-change: auto;
+}

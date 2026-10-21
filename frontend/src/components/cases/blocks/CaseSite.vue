@@ -1,11 +1,15 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { perf } from '../../../utils/perf'
 import { useScrollProgress } from '../useScrollProgress'
 
 /**
  * Живой сайт: ноутбук и телефон с реальными скриншотами, которые сами
  * прокручиваются. Сцена «раскладывается» из наклона по мере прокрутки
  * и слегка поворачивается за курсором.
+ *
+ * В облегчённом режиме — только телефон без анимаций: экран листается пальцем,
+ * а длинный скриншот разрезан на куски, чтобы телефон не держал в памяти одну огромную картинку.
  */
 const props = defineProps({
   site: { type: Object, required: true },
@@ -20,6 +24,17 @@ const unfold = computed(() => Math.min(1, progress.value / 0.42))
 /* соотношение сторон скриншота: высота / ширина */
 const desktopRatio = computed(() => props.site.desktop.h / props.site.desktop.w)
 const mobileRatio = computed(() => props.site.mobile.h / props.site.mobile.w)
+
+const TILE = 1800
+const tiles = computed(() => {
+  const { src, w, h, tiles: count } = props.site.mobile
+  if (!count) return [{ src, w, h }]
+  return Array.from({ length: count }, (_, i) => ({
+    src: src.replace('-mobile.webp', `-m${i}.webp`),
+    w,
+    h: Math.min(TILE, h - i * TILE),
+  }))
+})
 
 const tilt = ref({ x: 0, y: 0 })
 function onMove(event) {
@@ -54,7 +69,27 @@ function onLeave() {
         </div>
       </div>
 
+      <div v-if="perf.lite" class="cp-site__solo">
+        <div class="cp-phone cp-phone--solo">
+          <div class="cp-phone__view cp-phone__scroll" tabindex="0" :aria-label="`Сайт ${site.label} — мобильная версия, можно листать`">
+            <img
+              v-for="(tile, i) in tiles"
+              :key="tile.src"
+              :src="tile.src"
+              :width="tile.w"
+              :height="tile.h"
+              :alt="i === 0 ? `Сайт ${site.label} — мобильная версия` : ''"
+              :loading="i < 2 ? 'eager' : 'lazy'"
+              decoding="async"
+            />
+          </div>
+          <span class="cp-phone__notch" aria-hidden="true" />
+        </div>
+        <p class="cp-site__hint mono">↕ Листайте экран телефона</p>
+      </div>
+
       <div
+        v-else
         ref="stage"
         class="cp-site__stage"
         :style="{ '--u': unfold.toFixed(3), '--tx': tilt.x.toFixed(3), '--ty': tilt.y.toFixed(3) }"

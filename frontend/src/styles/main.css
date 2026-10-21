@@ -28,6 +28,8 @@
 @import "./form.css";
 
 @import "./float.css";
+@import "./narrow.css";
+@import "./lite.css";
 
 body.is-scroll-locked {
   overflow: hidden;

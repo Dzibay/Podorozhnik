@@ -55,10 +55,21 @@ function onWrite() {
     </RouterLink>
 
     <div class="site-float__bar">
-      <a class="site-float__btn" :href="contacts.phoneTel" @click="onCall">Позвонить</a>
+      <!-- звонок — главное действие, поэтому он шире и залит цветом -->
+      <a class="site-float__btn site-float__btn--primary" :href="contacts.phoneTel" @click="onCall">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M5 3.5h3.2l1.6 4.2-2 1.3a11 11 0 0 0 7.2 7.2l1.3-2 4.2 1.6V19a2 2 0 0 1-2 2A16.5 16.5 0 0 1 3 5.5a2 2 0 0 1 2-2Z"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Позвонить
+      </a>
       <a
         v-if="hasTelegram"
-        class="site-float__btn site-float__btn--primary"
+        class="site-float__btn"
         :href="contacts.telegramUrl"
         target="_blank"
         rel="noopener noreferrer"
@@ -68,7 +79,7 @@ function onWrite() {
       </a>
       <RouterLink
         v-else
-        class="site-float__btn site-float__btn--primary"
+        class="site-float__btn"
         :to="routes.contacts"
         @click="onWrite"
       >

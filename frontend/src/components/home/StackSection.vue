@@ -1,10 +1,13 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { homeCopy } from '../../data/home'
+import { calmMotion } from '../../utils/perf'
 import BrandMark from '../ui/BrandMark.vue'
 
 const { stack } = homeCopy
 const root = ref(null)
+/* спокойный режим: обычная секция без закрепления — подрядчики списком, под ними итог */
+const calm = computed(calmMotion)
 
 /** Стартовые позиции «подрядчиков» вокруг центра (в долях экрана) */
 const spots = [
@@ -23,7 +26,7 @@ const ease = (t) => 1 - Math.pow(1 - t, 3)
 function update() {
   frame = 0
   const el = root.value
-  if (!el) return
+  if (!el || calm.value) return
   const rect = el.getBoundingClientRect()
   const total = rect.height - window.innerHeight
   const p = clamp(-rect.top / total)
@@ -37,12 +40,7 @@ function onScroll() {
 }
 
 onMounted(() => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    root.value.style.setProperty('--e', 1)
-    root.value.style.setProperty('--r', 1)
-    root.value.style.setProperty('--t', 1)
-    return
-  }
+  if (calm.value) return
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', onScroll)
   update()
@@ -56,7 +54,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section ref="root" class="stack" data-section="stack" aria-labelledby="stack-title">
+  <section ref="root" class="stack" :class="{ 'stack--calm': calm }" data-section="stack" aria-labelledby="stack-title">
     <div class="stack__pin">
       <div class="stack__grid" aria-hidden="true" />
 

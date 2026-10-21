@@ -1,9 +1,11 @@
 import { onMounted, onUnmounted, ref } from 'vue'
+import { calmMotion } from '../../utils/perf'
 
 /**
  * Прогресс прокрутки элемента, 0…1.
  * pass — от момента, когда верх элемента показался снизу, до ухода низа за верх экрана.
  * pin  — для секций со sticky-содержимым: от верха секции у верха экрана до её конца.
+ * В спокойном режиме сразу 1 и без слушателей прокрутки.
  */
 export function useScrollProgress(target, mode = 'pass') {
   const progress = ref(0)
@@ -24,6 +26,10 @@ export function useScrollProgress(target, mode = 'pass') {
   }
 
   onMounted(() => {
+    if (calmMotion()) {
+      progress.value = 1
+      return
+    }
     measure()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
@@ -38,5 +44,4 @@ export function useScrollProgress(target, mode = 'pass') {
   return progress
 }
 
-export const prefersReducedMotion = () =>
-  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+export { calmMotion }

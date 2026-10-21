@@ -1,0 +1,129 @@
+/* ============================================================
+   Узкие телефоны (320–430px). Заголовки набраны широким Unbounded,
+   поэтому длинные слова и номера телефона на маленьком экране
+   вылезали за край — здесь их размеры подогнаны под ширину экрана.
+   ============================================================ */
+
+@media (max-width: 960px) {
+  /* 1fr растягивается под самое длинное слово, minmax(0, 1fr) — нет */
+  .ct-hero,
+  .page-cta2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ct-hero__title {
+    font-size: clamp(1.9rem, 9vw, 2.6rem);
+    hyphens: auto;
+  }
+
+  .cp-result__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cp-result__title {
+    font-size: clamp(1.6rem, 7.6vw, 2.2rem);
+    hyphens: auto;
+  }
+
+  .cp-next__title {
+    font-size: clamp(1.7rem, 8vw, 2.4rem);
+    hyphens: auto;
+  }
+
+  .pipe__caption {
+    display: none;
+  }
+
+  .page-cta2__actions > * {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .legal__body {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 430px) {
+  :root {
+    --fs-h1: clamp(1.6rem, 8vw, 2.6rem);
+    --fs-h2: clamp(1.7rem, 8.4vw, 2.1rem);
+  }
+
+  .final__phone,
+  .footer__phone {
+    font-size: clamp(1.35rem, 7.2vw, 1.85rem);
+  }
+
+  .ct-phone {
+    font-size: clamp(1.5rem, 8.6vw, 2.2rem);
+  }
+
+  .proof__item {
+    padding-right: 0.75rem;
+  }
+
+  .proof__value {
+    font-size: clamp(2.2rem, 10.5vw, 3.5rem);
+  }
+
+  .case .case__metric {
+    font-size: clamp(1.6rem, 8vw, 2.5rem);
+    white-space: normal;
+  }
+
+  .pipe__node {
+    padding-inline: 0.15rem;
+  }
+
+  .pipe__name {
+    font-size: 0.9rem;
+  }
+
+  .cp-step {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+  }
+
+  .cp-step__num {
+    font-size: 1.9rem;
+  }
+
+  .cp-insight__text {
+    font-size: clamp(1.3rem, 6.4vw, 1.7rem);
+  }
+
+  .service2-niche {
+    padding-right: 2.5rem;
+  }
+
+  .stack__title {
+    font-size: clamp(1.6rem, 8.6vw, 2.25rem);
+  }
+
+  .proof__label {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .calc__saving-num {
+    font-size: clamp(1.8rem, 9.5vw, 2.25rem);
+  }
+
+  /* бейдж «24 ч» над текстом, а не сбоку — иначе тексту остаётся 90px */
+  .pricing__offer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .page .service2-hero__title {
+    font-size: clamp(1.5rem, 7.6vw, 1.9rem);
+    hyphens: auto;
+  }
+
+  .cp-before__pain {
+    font-size: 1.05rem;
+  }
+}

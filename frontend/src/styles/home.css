@@ -577,6 +577,83 @@
   font-size: 0.85rem;
 }
 
+/* спокойный режим (телефоны, слабые ПК, «уменьшить движение») — без закрепления */
+.stack--calm {
+  height: auto;
+}
+
+.stack--calm .stack__pin {
+  position: relative;
+  display: block;
+  height: auto;
+  padding: var(--section-y) 0;
+}
+
+.stack--calm .stack__grid {
+  opacity: 0.35;
+}
+
+.stack--calm .stack__head {
+  position: relative;
+  top: auto;
+  left: auto;
+  margin: 0 auto;
+  transform: none;
+}
+
+.stack--calm .stack__title {
+  display: block;
+}
+
+.stack--calm .stack__title > span {
+  display: block;
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+.stack--calm .stack__title-a {
+  color: var(--color-muted-inv);
+  text-decoration: line-through;
+  text-decoration-thickness: 0.06em;
+}
+
+.stack--calm .stack__lead {
+  opacity: 1;
+}
+
+.stack--calm .stack__roles {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  width: min(100% - 2 * var(--container-pad), 62rem);
+  margin: clamp(2rem, 5vw, 3rem) auto 0;
+}
+
+.stack--calm .stack__role {
+  position: relative;
+  top: auto;
+  left: auto;
+  max-width: 19rem;
+  opacity: 0.7;
+  transform: none;
+  backdrop-filter: none;
+  will-change: auto;
+}
+
+.stack--calm .stack__result {
+  width: min(60rem, 100%);
+  margin: clamp(3rem, 7vw, 5rem) auto 0;
+  opacity: 1;
+  transform: none;
+}
+
+.stack--calm .stack__result .brand__mark {
+  transform: none;
+}
+
 /* ---------- Цепочка услуг ---------- */
 
 .pipe__flow {
@@ -996,6 +1073,7 @@
 }
 
 .cases:not(.cases--pinned) .case {
+  flex-basis: min(22rem, 84vw);
   scroll-snap-align: start;
 }
 
@@ -1850,6 +1928,14 @@
     display: none;
   }
 
+  .stack__result {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stack__result-title {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+
   .calc__saving {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -1873,16 +1959,5 @@
   .hero__in,
   .hero-shader canvas {
     animation: none;
-  }
-
-  .stack {
-    height: auto;
-  }
-
-  .stack__pin {
-    position: relative;
-    height: auto;
-    min-height: 100vh;
-    padding: var(--section-y) 0;
   }
 }

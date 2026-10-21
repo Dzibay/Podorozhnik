@@ -37,8 +37,8 @@ export const cases = [
       goals: ['Заявки от коммерческих объектов', 'Расчёт стоимости без звонка', 'Доверие с первого экрана'],
     },
     compare: {
-      before: { src: '/img/cases/greydstroy-old.webp', label: 'Было' },
-      after: { src: '/img/cases/greydstroy-new.webp', label: 'Стало' },
+      before: { src: '/img/cases/greydstroy-old.webp', small: '/img/cases/greydstroy-old-800.webp', label: 'Было' },
+      after: { src: '/img/cases/greydstroy-new.webp', small: '/img/cases/greydstroy-new-800.webp', label: 'Стало' },
       w: 1600,
       h: 743,
       title: ['Тот же завод.', 'Другой сайт.'],
@@ -48,8 +48,8 @@ export const cases = [
       label: 'greydstroy.ru',
       title: ['Сайт, который', 'считает за менеджера'],
       text: 'Калькулятор, фильтр «от 50 м²», семь шагов заказа и фото из цеха. Заказчик получает ориентир цены и срока до первого звонка.',
-      desktop: { src: '/img/cases/greydstroy-desktop.webp', w: 1440, h: 14000 },
-      mobile: { src: '/img/cases/greydstroy-mobile.webp', w: 600, h: 12307 },
+      desktop: { src: '/img/cases/greydstroy-desktop.webp', w: 1440, h: 14000, crops: true },
+      mobile: { src: '/img/cases/greydstroy-mobile.webp', w: 600, h: 12307, tiles: 7 },
       chips: ['Расчёт за 1 рабочий день', 'Заказы от 50 м²', 'Паспорт на каждое изделие'],
     },
     decisions: [
@@ -198,8 +198,8 @@ export const cases = [
       label: 'astralogy.ru',
       title: ['Небо, которое', 'двигается руками'],
       text: 'Живая главная, натальная карта за три поля, прогнозы и ИИ-астролог. Всё — в одном спокойном интерфейсе.',
-      desktop: { src: '/img/cases/astra-desktop.webp', w: 1440, h: 4942 },
-      mobile: { src: '/img/cases/astra-mobile.webp', w: 600, h: 11070 },
+      desktop: { src: '/img/cases/astra-desktop.webp', w: 1440, h: 4942, crops: true },
+      mobile: { src: '/img/cases/astra-mobile.webp', w: 600, h: 11070, tiles: 7 },
       chips: ['Солнце и Луну можно тянуть', 'Карта — бесплатно навсегда', 'ИИ-астролог знает вашу карту'],
     },
     decisions: [

@@ -901,6 +901,13 @@
 
 /* ---------- Адаптив ---------- */
 
+@media (max-width: 640px) {
+  .cp-brief__quote {
+    font-size: clamp(1.4rem, 6.6vw, 1.9rem);
+    hyphens: auto;
+  }
+}
+
 @media (max-width: 960px) {
   .scene--steel {
     width: 100%;
@@ -1014,6 +1021,25 @@
   .cp-jrn__map {
     aspect-ratio: auto;
   }
+}
+
+/* ---------- Спокойная версия пути клиента на широких экранах (уменьшенное движение, облегчённый режим); ---------- */
+/* на узких путь и так обычный вертикальный список — см. адаптив выше */
+@media (min-width: 961px) {
+  .cp-jrn--static {
+    height: auto;
+    padding: var(--section-y) 0;
+  }
+
+  .cp-jrn--static .cp-jrn__sticky {
+    position: static;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .cp-jrn--static .cp-jrn__map {
+    aspect-ratio: auto;
+  }
 
   .cp-jrn--static .cp-jrn__svg,
   .cp-jrn--static .cp-jrn__runner {
@@ -1047,3 +1073,79 @@
     transform: none !important;
   }
 }
+
+/* ---------- Облегчённый режим: телефоны и слабые компьютеры ---------- */
+
+.steel__still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cp-site__solo {
+  display: grid;
+  justify-items: center;
+  gap: 1.2rem;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.cp-phone--solo {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  width: min(16rem, 66vw);
+  transform: none;
+  transition: none;
+}
+
+.cp-phone__scroll {
+  --view: 1.8;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-x: none;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--case-accent) 60%, transparent) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cp-phone__scroll img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cp-phone--solo .cp-phone__notch {
+  top: 1rem;
+  pointer-events: none;
+}
+
+.cp-site__hint {
+  color: var(--cp-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.cp-dec__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: clamp(2rem, 4vw, 3rem) 2rem;
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+.cp-dec__card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--case-ink) 14%, transparent);
+  border-radius: 0.8rem;
+  background: #15171b;
+}
+
+.cp-dec__card .cp-dec__title {
+  margin-top: 0.6rem;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+}
+

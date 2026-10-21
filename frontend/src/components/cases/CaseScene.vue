@@ -4,13 +4,15 @@ import SteelScene from './SteelScene.vue'
 
 /**
  * Уникальная сцена первого экрана кейса. Всё нарисовано кодом (SVG/CSS),
- * слегка следует за курсором через --px/--py.
+ * слегка следует за курсором через --px/--py. Вне экрана анимации стоят на паузе.
  */
 const props = defineProps({
   scene: { type: String, required: true },
 })
 
 const root = ref(null)
+const idle = ref(false)
+let observer = null
 
 /* Детерминированный «рандом», чтобы сцена не прыгала между рендерами */
 function seeded(seed) {
@@ -54,13 +56,18 @@ function onMove(event) {
 
 onMounted(() => {
   if (window.matchMedia('(pointer: fine)').matches) window.addEventListener('pointermove', onMove, { passive: true })
+  observer = new IntersectionObserver(([entry]) => (idle.value = !entry.isIntersecting))
+  observer.observe(root.value)
 })
 
-onUnmounted(() => window.removeEventListener('pointermove', onMove))
+onUnmounted(() => {
+  window.removeEventListener('pointermove', onMove)
+  observer?.disconnect()
+})
 </script>
 
 <template>
-  <div ref="root" class="scene" :class="`scene--${props.scene}`" aria-hidden="true">
+  <div ref="root" class="scene" :class="[`scene--${props.scene}`, { 'is-idle': idle }]" aria-hidden="true">
     <!-- Металлоконструкции: 3D-каркас цеха собирается из балок -->
     <SteelScene v-if="scene === 'steel'" />
 

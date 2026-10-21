@@ -1,15 +1,20 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { perf } from '../../../utils/perf'
 
 /**
  * Разбор решений: слева — решения, справа — закреплённое окно браузера.
  * Когда решение доходит до середины экрана, скриншот доезжает до нужного места сайта.
+ * В облегчённом режиме окна нет: у каждого решения свой небольшой кадр, огромный скриншот не грузится.
  */
 const props = defineProps({
   decisions: { type: Array, required: true },
   shot: { type: Object, required: true },
   label: { type: String, default: '' },
 })
+
+const lite = computed(() => perf.lite && props.shot.crops)
+const crop = (i) => props.shot.src.replace('-desktop.webp', `-d${i + 1}.webp`)
 
 const active = ref(0)
 const items = ref([])
@@ -43,7 +48,16 @@ onUnmounted(() => observer?.disconnect())
       <p v-reveal class="kicker">Разбор решений</p>
       <h2 v-reveal class="cp-h2">Почему сайт <span class="cp-accent">устроен именно так</span></h2>
 
-      <div class="cp-dec__grid">
+      <ol v-if="lite" class="cp-dec__cards">
+        <li v-for="(item, i) in decisions" :key="item.title" v-reveal class="cp-dec__card">
+          <img :src="crop(i)" width="720" height="450" alt="" loading="lazy" decoding="async" />
+          <span class="cp-dec__num mono">{{ String(i + 1).padStart(2, '0') }} / {{ String(decisions.length).padStart(2, '0') }}</span>
+          <h3 class="cp-dec__title">{{ item.title }}</h3>
+          <p class="cp-dec__text">{{ item.text }}</p>
+        </li>
+      </ol>
+
+      <div v-else class="cp-dec__grid">
         <ol class="cp-dec__list">
           <li
             v-for="(item, i) in decisions"

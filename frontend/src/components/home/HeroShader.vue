@@ -3,8 +3,10 @@
  * Живой градиент первого экрана на чистом WebGL: шум с «доменным
  * искажением» в цветах бренда, мягко тянется к курсору. Если WebGL
  * недоступен — остаётся CSS-градиент подложки.
+ * В спокойном режиме (телефоны, слабые ПК) рисуется один неподвижный кадр.
  */
 import { onMounted, onUnmounted, ref } from 'vue'
+import { calmMotion } from '../../utils/perf'
 
 const canvas = ref(null)
 const failed = ref(false)
@@ -84,7 +86,6 @@ let running = false
 let observer
 const mouse = { x: 0.7, y: 0.35, tx: 0.7, ty: 0.35 }
 const start = performance.now()
-const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 function compile(type, source) {
   const shader = gl.createShader(type)
@@ -102,12 +103,14 @@ function resize() {
   el.width = Math.max(1, Math.round(el.clientWidth * scale))
   el.height = Math.max(1, Math.round(el.clientHeight * scale))
   gl.viewport(0, 0, el.width, el.height)
+  // смена размера очищает холст — неподвижный кадр нужно перерисовать
+  if (!running || calmMotion()) draw()
 }
 
 function draw() {
   mouse.x += (mouse.tx - mouse.x) * 0.04
   mouse.y += (mouse.ty - mouse.y) * 0.04
-  const time = reduced ? 12 : (performance.now() - start) / 1000
+  const time = calmMotion() ? 12 : (performance.now() - start) / 1000
   gl.uniform2f(gl.getUniformLocation(program, 'uRes'), canvas.value.width, canvas.value.height)
   gl.uniform2f(gl.getUniformLocation(program, 'uMouse'), mouse.x, mouse.y)
   gl.uniform1f(gl.getUniformLocation(program, 'uTime'), time)
@@ -116,7 +119,7 @@ function draw() {
 
 function loop() {
   draw()
-  if (running && !reduced) frame = requestAnimationFrame(loop)
+  if (running && !calmMotion()) frame = requestAnimationFrame(loop)
 }
 
 function play() {
@@ -155,7 +158,7 @@ onMounted(() => {
 
     resize()
     window.addEventListener('resize', resize)
-    window.addEventListener('pointermove', onPointer, { passive: true })
+    if (!calmMotion()) window.addEventListener('pointermove', onPointer, { passive: true })
 
     observer = new IntersectionObserver(([entry]) => (entry.isIntersecting ? play() : pause()))
     observer.observe(canvas.value)

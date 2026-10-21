@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { homeCopy } from '../../data/home'
+import { calmMotion, perf } from '../../utils/perf'
 import { caseThemeVars, cases, formatMetric } from '../../data/cases'
 import { routes } from '../../data/site'
 
@@ -24,13 +25,13 @@ function update() {
 }
 
 function onScroll() {
-  if (!frame) frame = requestAnimationFrame(update)
+  if (enabled && !frame) frame = requestAnimationFrame(update)
 }
 
 function setHeight() {
   const el = root.value
   if (!el || !track.value) return
-  enabled = window.innerWidth > 960 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  enabled = window.innerWidth > 960 && !calmMotion()
   el.classList.toggle('cases--pinned', enabled)
   if (!enabled) {
     el.style.height = ''
@@ -48,6 +49,9 @@ onMounted(() => {
   window.addEventListener('resize', setHeight)
   document.fonts?.ready.then(setHeight)
 })
+
+// режим мог облегчиться на ходу — лента становится обычной сеткой
+watch(() => perf.lite, setHeight)
 
 onUnmounted(() => {
   cancelAnimationFrame(frame)

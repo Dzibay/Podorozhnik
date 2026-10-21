@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import { homeCopy } from '../../data/home'
+import { calmMotion } from '../../utils/perf'
 
 const { process } = homeCopy
 const list = ref(null)
@@ -29,6 +30,12 @@ function onScroll() {
 }
 
 onMounted(() => {
+  // в спокойном режиме линия сразу заполнена, а все шаги подсвечены
+  if (calmMotion()) {
+    list.value.style.setProperty('--fill', 1)
+    current.value = process.phases.length - 1
+    return
+  }
   window.addEventListener('scroll', onScroll, { passive: true })
   update()
 })
