@@ -70,14 +70,14 @@ export function mountSchool(canvas, options) {
       part(geo.cyl, white, { pos: [-2.35, 0, 0], size: [0.44, 0.3, 0.44], rot: [0, 0, Math.PI / 2], order: o++, parent: pencil, from: [-4, 0, 0], glow: false })
 
       return {
-        target: new Vector3(-0.6, 1.3, 0.4),
-        radius: 17,
+        target: new Vector3(-1.7, 1.3, 0.4),
+        radius: 20,
         height: 6.8,
         angle: 1.05,
         sway: 0.45,
         spin: 0.2,
         step: 0.09,
-        fog: [18, 40],
+        fog: [20, 44],
         update({ elapsed, done, assembled }) {
           if (!done) return
           const t = elapsed - assembled

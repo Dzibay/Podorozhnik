@@ -633,11 +633,12 @@
 .ns-case__metric {
   margin-top: auto;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-size: clamp(1.6rem, 4vw, 3.4rem);
   font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 1;
   color: var(--c-accent);
+  overflow-wrap: anywhere;
 }
 
 .ns-case__result {

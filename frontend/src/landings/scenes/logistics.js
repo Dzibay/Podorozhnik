@@ -69,14 +69,14 @@ export function mountLogistics(canvas, options) {
 
       let speed = 0
       return {
-        target: new Vector3(-0.5, 1.6, 0),
-        radius: 21,
+        target: new Vector3(0.2, 1.6, 0),
+        radius: 25,
         height: 6.4,
         angle: 0.75,
         sway: 0.4,
         spin: 0.17,
         step: 0.045,
-        fog: [20, 46],
+        fog: [24, 54],
         update({ elapsed, dt, done }) {
           if (!done) return
           // фура плавно трогается

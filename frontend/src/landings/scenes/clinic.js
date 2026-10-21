@@ -39,7 +39,7 @@ export function mountClinic(canvas, options) {
 
       // крест из кубиков
       const cross = new Group()
-      cross.position.set(-6.8, 2.6, 1.4)
+      cross.position.set(6.4, 3.6, 0.2)
       scene.add(cross)
       const cells = [[0, 2], [0, 1], [0, 0], [0, -1], [0, -2], [-1, 0], [-2, 0], [1, 0], [2, 0]]
       cells.forEach(([x, y], i) => {
@@ -52,14 +52,14 @@ export function mountClinic(canvas, options) {
 
       const tmp = new Color()
       return {
-        target: new Vector3(-1, 2.8, 0),
-        radius: 22,
+        target: new Vector3(0.7, 2.6, 0),
+        radius: 28,
         height: 6.5,
         angle: 1.3,
         sway: 0.38,
         spin: 0.17,
         step: 0.035,
-        fog: [22, 48],
+        fog: [26, 56],
         update({ elapsed, dt, done, assembled }) {
           cross.rotation.y = elapsed * 0.5
           if (!done) return

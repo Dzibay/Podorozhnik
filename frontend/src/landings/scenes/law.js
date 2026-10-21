@@ -47,8 +47,8 @@ export function mountLaw(canvas, options) {
       part(pediment, stone, { pos: [0, 5.4, 0.2], order: o++, from: [0, 3, 0], flash: true })
 
       // весы справа от портика
-      const sx = 7
-      const sz = 2.6
+      const sx = 6.2
+      const sz = 3.4
       part(geo.cyl, wall, { pos: [sx, 0.08, sz], size: [1.6, 0.16, 1.6], order: o++ })
       part(geo.cyl, gold, { pos: [sx, 1.7, sz], size: [0.14, 3.2, 0.14], order: o++, from: [0, 4, 0] })
       part(geo.cyl, gold, { pos: [sx, 3.35, sz], size: [0.35, 0.2, 0.35], order: o++ })
@@ -67,14 +67,14 @@ export function mountLaw(canvas, options) {
       })
 
       return {
-        target: new Vector3(1.8, 2.9, 0.4),
-        radius: 25,
+        target: new Vector3(0.2, 2.7, 0.6),
+        radius: 30,
         height: 7.5,
         angle: 1.15,
         sway: 0.35,
         spin: 0.16,
         step: 0.07,
-        fog: [24, 52],
+        fog: [28, 60],
         update({ elapsed, done, assembled }) {
           if (!done) return
           // чаши качаются и успокаиваются; раз в несколько секунд — новый «довод»
