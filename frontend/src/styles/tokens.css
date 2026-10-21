@@ -1,30 +1,66 @@
+/* ============================================================
+   Подорожник — дизайн-система
+   Светлая «бумага», почти чёрные чернила, тёплый градиент
+   красный → оранжевый → розовый. Unbounded для заголовков,
+   Golos Text для текста, JetBrains Mono для служебных подписей.
+   ============================================================ */
+
 :root {
   color-scheme: light;
 
-  /* Raw Form */
-  --color-base: #e4e2dd;
-  --color-primary: #1e1e1e;
-  --color-accent: #db4a2b;
-  --color-warm: #f8a348;
-  --color-pink: #ff89a9;
-  --color-campaign: #d9d6d0;
-  --color-inverse: #e4e2dd;
+  /* Палитра бренда */
+  --paper: #ebe9e4;
+  --paper-2: #e2dfd8;
+  --paper-3: #d8d4cc;
+  --ink: #141312;
+  --ink-2: #1d1b19;
+  --ink-3: #2a2724;
+  --red: #e0461f;
+  --red-deep: #b8361a;
+  --orange: #f8a348;
+  --pink: #ff89a9;
+  --cream: #f6f3ec;
 
-  --color-bg: var(--color-base);
-  --color-surface: var(--color-campaign);
-  --color-surface-2: var(--color-campaign);
-  --color-text: var(--color-primary);
-  --color-muted: #444444;
-  --color-line: color-mix(in srgb, var(--color-primary) 20%, transparent);
-  --color-line-2: color-mix(in srgb, var(--color-primary) 16%, transparent);
-  --color-green: var(--color-accent);
-  --color-green-2: #c43e22;
-  --color-cta-ink: var(--color-inverse);
+  --grad-brand: linear-gradient(110deg, var(--red) 0%, #ef6a32 38%, var(--orange) 70%, var(--pink) 100%);
+  --grad-warm: radial-gradient(ellipse 60% 60% at 50% 50%, color-mix(in srgb, var(--orange) 45%, transparent), transparent 70%);
 
-  --font-display: "Unbounded", sans-serif;
-  --font-hero: "Unbounded", sans-serif;
-  --font-body: "Golos Text", sans-serif;
+  /* Семантика (имена сохранены для совместимости со страницами) */
+  --color-base: var(--paper);
+  --color-primary: var(--ink);
+  --color-accent: var(--red);
+  --color-warm: var(--orange);
+  --color-pink: var(--pink);
+  --color-campaign: var(--paper-2);
+  --color-inverse: var(--paper);
 
+  --color-bg: var(--paper);
+  --color-surface: var(--paper-2);
+  --color-surface-2: var(--paper-2);
+  --color-text: var(--ink);
+  --color-muted: #5a5650;
+  --color-muted-inv: #a29d95;
+  --color-line: color-mix(in srgb, var(--ink) 14%, transparent);
+  --color-line-2: color-mix(in srgb, var(--ink) 10%, transparent);
+  --color-line-inv: color-mix(in srgb, var(--paper) 14%, transparent);
+  --color-green: var(--red);
+  --color-green-2: var(--red-deep);
+  --color-cta-ink: var(--paper);
+
+  /* Типографика */
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-hero: "Unbounded", system-ui, sans-serif;
+  --font-body: "Golos Text", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --fs-mega: clamp(4.5rem, 15.5vw, 16rem);
+  --fs-h1: clamp(2.6rem, 6vw, 5.6rem);
+  --fs-h2: clamp(2.1rem, 4.6vw, 4.2rem);
+  --fs-h3: clamp(1.25rem, 1.8vw, 1.6rem);
+  --fs-lead: clamp(1.05rem, 1.4vw, 1.3rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.75rem;
+
+  /* Отступы */
   --space-4: 0.25rem;
   --space-8: 0.5rem;
   --space-12: 0.75rem;
@@ -38,27 +74,31 @@
   --space-80: 5rem;
   --space-96: 6rem;
   --space-120: 7.5rem;
+  --section-y: clamp(5rem, 10vw, 9rem);
 
-  --container: 1200px;
-  --container-pad: 2rem;
+  /* Сетка и формы */
+  --container: 1320px;
+  --container-pad: clamp(1.25rem, 3vw, 2.5rem);
   --radius-s: 0;
   --radius-m: 0;
   --radius-l: 0;
-  --radius-pill: 0;
-  --glow-green: radial-gradient(
-    ellipse 60% 55% at 50% 0%,
-    color-mix(in srgb, var(--color-warm) 28%, transparent),
-    transparent 70%
-  );
+  --radius-pill: 999px;
+
   --header-height: 4.75rem;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --focus: 0 0 0 3px color-mix(in srgb, var(--color-accent) 45%, transparent);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --focus: 0 0 0 3px color-mix(in srgb, var(--red) 45%, transparent);
+  --shadow-lift: 0 30px 80px -40px color-mix(in srgb, var(--ink) 45%, transparent);
+  --glow-green: radial-gradient(
+    ellipse 60% 55% at 50% 0%,
+    color-mix(in srgb, var(--orange) 28%, transparent),
+    transparent 70%
+  );
 }
 
 @media (max-width: 720px) {
   :root {
-    --container-pad: 1.25rem;
     --header-height: 4.25rem;
   }
 }

@@ -1,4 +1,9 @@
-/* Тёмная тема посадочных — токены уже в landing-base; файл нужен для импорта оболочки */
+/* Тёмная тема посадочных: оставлена для A/B, по умолчанию посадочные идут в светлой теме бренда */
 .lp--dark {
   color-scheme: dark;
+  --lp-bg: var(--ink);
+  --lp-surface: var(--ink-2);
+  --lp-text: var(--paper);
+  --lp-muted: var(--color-muted-inv);
+  --lp-line: var(--color-line-inv);
 }

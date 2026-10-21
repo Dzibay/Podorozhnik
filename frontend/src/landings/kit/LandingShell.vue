@@ -2,12 +2,12 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { contacts, routes, site } from '../../data/site'
+import BrandMark from '../../components/ui/BrandMark.vue'
 import './landing-base.css'
 import './themes/dark.css'
-import './themes/light.css'
 
 const props = defineProps({
-  theme: { type: String, default: 'dark' },
+  theme: { type: String, default: 'light' },
   ctaLabel: { type: String, default: '' },
   ctaHref: { type: String, default: '#lp-form' },
 })
@@ -35,8 +35,17 @@ onUnmounted(clearRoot)
   <div ref="root" :class="themeClass">
     <header class="lp-header">
       <div class="lp-wrap lp-header__inner">
-        <RouterLink class="lp-header__brand" :to="routes.home">{{ site.wordmark }}</RouterLink>
-        <a class="lp-header__phone" :href="contacts.phoneTel">{{ contacts.phoneDisplay }}</a>
+        <RouterLink class="lp-header__brand brand" :to="routes.home" aria-label="Подорожник — на главную">
+          <BrandMark />
+          <span class="brand__word">{{ site.wordmark }}</span>
+        </RouterLink>
+        <div class="lp-header__actions">
+          <a class="lp-header__phone" :href="contacts.phoneTel">
+            <span class="live-dot" aria-hidden="true" />
+            {{ contacts.phoneDisplay }}
+          </a>
+          <a class="lp-btn lp-btn--sm" :href="contacts.phoneTel">Позвонить</a>
+        </div>
       </div>
     </header>
 

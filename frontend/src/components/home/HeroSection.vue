@@ -1,39 +1,128 @@
 <script setup>
-import { analyticsEvents, routes } from '../../data/site'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { homeCopy } from '../../data/home'
-import AppButton from '../ui/AppButton.vue'
+import { contacts } from '../../data/site'
+import { track } from '../../analytics/tracker'
+import HeroShader from './HeroShader.vue'
 
 const { hero } = homeCopy
+const rows = [['П', 'О', 'Д', 'О'], ['Р', 'О', 'Ж', 'Н', 'И', 'К']]
+
+const wordmark = ref(null)
+const tickerIndex = ref(0)
+let tickerTimer = 0
+let frame = 0
+let letters = []
+const pointer = { x: -9999, y: -9999 }
+
+/** Буквы рядом с курсором становятся тоньше — логотип «дышит» под рукой */
+function animate() {
+  for (const item of letters) {
+    const rect = item.el.getBoundingClientRect()
+    const dx = pointer.x - (rect.left + rect.width / 2)
+    const dy = pointer.y - (rect.top + rect.height / 2)
+    const near = Math.max(0, 1 - Math.hypot(dx, dy) / 420)
+    const target = 820 - near * near * 560
+    item.w += (target - item.w) * 0.12
+    item.el.style.fontVariationSettings = `"wght" ${item.w.toFixed(0)}`
+  }
+  frame = requestAnimationFrame(animate)
+}
+
+function onPointer(event) {
+  pointer.x = event.clientX
+  pointer.y = event.clientY
+}
+
+function onLeave() {
+  pointer.x = -9999
+  pointer.y = -9999
+}
+
+function onCall() {
+  track('click_phone', { place: 'hero' })
+}
+
+onMounted(() => {
+  tickerTimer = window.setInterval(() => {
+    tickerIndex.value = (tickerIndex.value + 1) % hero.ticker.length
+  }, 2200)
+
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!fine || reduced) return
+  letters = [...wordmark.value.querySelectorAll('.hero__char')].map((el) => ({ el, w: 820 }))
+  window.addEventListener('pointermove', onPointer, { passive: true })
+  document.addEventListener('pointerleave', onLeave)
+  frame = requestAnimationFrame(animate)
+})
+
+onUnmounted(() => {
+  window.clearInterval(tickerTimer)
+  cancelAnimationFrame(frame)
+  window.removeEventListener('pointermove', onPointer)
+  document.removeEventListener('pointerleave', onLeave)
+})
 </script>
 
 <template>
-  <section id="hero" class="hero-poster" data-section="hero" aria-label="Подорожник">
-    <div class="blobs" aria-hidden="true">
-      <div class="blob blob--red blob--a"></div>
-      <div class="blob blob--orange blob--b"></div>
-      <div class="blob blob--red blob--c"></div>
-    </div>
+  <section id="hero" class="hero" data-section="hero" aria-label="Подорожник">
+    <HeroShader />
 
-    <div class="hero-poster__content">
-      <h1 class="hero-poster__title anim" style="--d: 0.05s">
-        <span>{{ hero.titleStart }}</span>
-        <span class="indent">{{ hero.titleAccent }}</span>
+    <div class="hero__inner container">
+      <div class="hero__top">
+        <p class="kicker hero__in" style="--d: 0.1s">{{ hero.kicker }}</p>
+        <p class="hero__status mono hero__in" style="--d: 0.2s">
+          <span class="live-dot" aria-hidden="true" />
+          {{ hero.status }}
+        </p>
+      </div>
+
+      <h1 ref="wordmark" class="hero__wordmark" aria-label="Подорожник — внешний отдел маркетинга и IT">
+        <span v-for="(row, r) in rows" :key="r" class="hero__row" :class="`hero__row--${r}`" aria-hidden="true">
+          <span
+            v-for="(char, c) in row"
+            :key="c"
+            class="hero__char"
+            :style="{ '--c': r * 4 + c }"
+          >{{ char }}</span>
+        </span>
       </h1>
-      <p class="hero-poster__sub anim" style="--d: 0.2s">{{ hero.sub }}</p>
-      <div class="hero-poster__cta anim" style="--d: 0.35s">
-        <AppButton :href="routes.contacts" :event-name="analyticsEvents.ctaDiscussProject">
-          {{ hero.cta }}
-        </AppButton>
-        <AppButton :href="routes.cases" variant="accent" event-name="">
-          {{ hero.ctaSecondary }}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </AppButton>
+
+      <div class="hero__bottom">
+        <p class="hero__lead hero__in" style="--d: 0.75s">{{ hero.lead }}</p>
+
+        <p class="hero__ticker hero__in" style="--d: 0.85s" aria-live="polite">
+          <span class="mono">{{ hero.tickerPrefix }}</span>
+          <span class="hero__ticker-window">
+            <Transition name="tick" mode="out-in">
+              <span :key="tickerIndex" class="hero__ticker-word">{{ hero.ticker[tickerIndex] }}</span>
+            </Transition>
+          </span>
+        </p>
+
+        <div class="hero__cta hero__in" style="--d: 0.95s">
+          <a
+            v-magnetic="0.25"
+            class="button button--lg hero__call"
+            :href="contacts.phoneTel"
+            data-cursor="Звоним"
+            @click="onCall"
+          >
+            <span class="live-dot" aria-hidden="true" />
+            {{ hero.primary }}
+            <span class="hero__call-num">{{ contacts.phoneDisplay }}</span>
+          </a>
+          <a v-magnetic="0.2" class="button button--outline button--lg" href="#cta">
+            {{ hero.secondary }}
+          </a>
+        </div>
       </div>
     </div>
 
-    <p class="hero-poster__meta anim" style="--d: 0.45s">{{ hero.meta }}</p>
+    <a class="hero__scroll mono" href="#niches" aria-label="К следующему разделу">
+      <span class="hero__scroll-line" aria-hidden="true" />
+      {{ hero.scroll }}
+    </a>
   </section>
 </template>

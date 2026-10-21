@@ -4,6 +4,7 @@ import SiteHeader from './components/layout/SiteHeader.vue'
 import SiteFooter from './components/layout/SiteFooter.vue'
 import LiveNotifications from './components/layout/LiveNotifications.vue'
 import SiteFloat from './components/layout/SiteFloat.vue'
+import SiteCursor from './components/layout/SiteCursor.vue'
 
 const route = useRoute()
 </script>
@@ -15,4 +16,5 @@ const route = useRoute()
   <SiteFooter v-if="!route.meta.bare" />
   <LiveNotifications />
   <SiteFloat />
+  <SiteCursor />
 </template>

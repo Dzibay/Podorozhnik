@@ -34,8 +34,9 @@ export const routes = {
 
 export const headerNav = [
   { href: routes.services, label: 'Услуги' },
+  { href: '/#niches', label: 'Ниши' },
   { href: routes.cases, label: 'Кейсы' },
-  { href: routes.agency, label: 'Подход' },
+  { href: '/#pricing', label: 'Тарифы' },
   { href: routes.contacts, label: 'Контакты' },
 ]
 
@@ -50,7 +51,7 @@ export const footerNav = {
     { href: routes.services, label: 'Услуги' },
     { href: routes.cases, label: 'Кейсы' },
     { href: '/#pricing', label: 'Тарифы' },
-    { href: routes.agency, label: 'Агентство' },
+    { href: routes.agency, label: 'Подход' },
     { href: routes.contacts, label: 'Контакты' },
   ],
 }

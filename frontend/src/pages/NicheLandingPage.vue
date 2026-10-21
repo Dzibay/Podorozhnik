@@ -4,21 +4,28 @@ import { useRoute } from 'vue-router'
 import LandingShell from '../landings/kit/LandingShell.vue'
 import LeadForm from '../components/ui/LeadForm.vue'
 import { getNiche } from '../data/niches'
+import { contacts } from '../data/site'
+import { track } from '../analytics/tracker'
 
 const route = useRoute()
 const niche = computed(() => getNiche(route.params.slug))
+
+function onCall(place) {
+  track('click_phone', { place: `landing-${place}`, niche: route.params.slug })
+}
 </script>
 
 <template>
   <LandingShell
     v-if="niche"
-    theme="dark"
-    :cta-label="niche.hero.primary"
-    cta-href="#lp-form"
+    theme="light"
+    cta-label="Позвонить"
+    :cta-href="contacts.phoneTel"
   >
     <main id="main">
       <!-- 1. Hero -->
       <section class="lp-hero">
+        <div class="lp-hero__glow" aria-hidden="true" />
         <div class="lp-wrap">
           <p class="lp-kicker">{{ niche.hero.kicker }}</p>
           <h1 class="lp-hero__title">
@@ -28,8 +35,12 @@ const niche = computed(() => getNiche(route.params.slug))
           </h1>
           <p class="lp-hero__lead">{{ niche.hero.lead }}</p>
           <div class="lp-hero__actions">
-            <a class="lp-btn" href="#lp-form">{{ niche.hero.primary }}</a>
-            <a class="lp-btn lp-btn--outline" href="#lp-pricing">{{ niche.hero.secondary }}</a>
+            <a class="lp-btn lp-btn--call" :href="contacts.phoneTel" @click="onCall('hero')">
+              <span class="live-dot" aria-hidden="true" />
+              Позвонить
+              <span class="lp-btn__num">{{ contacts.phoneDisplay }}</span>
+            </a>
+            <a class="lp-btn lp-btn--outline" href="#lp-form">Перезвоните мне</a>
           </div>
           <ul class="lp-hero__trust">
             <li v-for="item in niche.hero.trust" :key="item">{{ item }}</li>
@@ -157,7 +168,7 @@ const niche = computed(() => getNiche(route.params.slug))
               :key="phase.id"
               class="lp-process__item"
             >
-              <span class="lp-process__idx">Шаг {{ index + 1 }}</span>
+              <span class="lp-process__idx">{{ String(index + 1).padStart(2, '0') }}</span>
               <div>
                 <h3>{{ phase.title }} — {{ phase.tagline }}</h3>
                 <p>{{ phase.text }}</p>
@@ -188,7 +199,7 @@ const niche = computed(() => getNiche(route.params.slug))
               <ul>
                 <li v-for="item in plan.includes" :key="item">{{ item }}</li>
               </ul>
-              <p class="lp-muted-sm" style="margin-top: 1rem">{{ plan.forWhom }}</p>
+              <p class="lp-muted-sm lp-plan-for">{{ plan.forWhom }}</p>
             </article>
           </div>
           <div class="lp-pricing-foot">
@@ -247,14 +258,16 @@ const niche = computed(() => getNiche(route.params.slug))
       </section>
 
       <!-- 13. Form + lead magnet -->
-      <section class="lp-section" id="lp-form">
+      <section class="lp-section lp-section--dark" id="lp-form">
         <div class="lp-wrap lp-form-block">
           <div>
             <p class="lp-kicker">{{ niche.form.kicker }}</p>
-            <h2 style="font-family: var(--lp-font); font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -0.03em; margin: 0 0 1rem">
-              {{ niche.form.title }}
-            </h2>
+            <h2 class="lp-form-title">{{ niche.form.title }}</h2>
             <p class="lp-lead">{{ niche.form.lead }}</p>
+            <a class="lp-big-phone" :href="contacts.phoneTel" @click="onCall('form')">
+              <span class="live-dot" aria-hidden="true" />
+              {{ contacts.phoneDisplay }}
+            </a>
             <p class="lp-magnet">{{ niche.form.magnet }}</p>
           </div>
           <LeadForm :submit-label="niche.form.submit" />

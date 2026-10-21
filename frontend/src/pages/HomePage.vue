@@ -1,17 +1,14 @@
 <script setup>
 import HeroSection from '../components/home/HeroSection.vue'
-import ForWhomSection from '../components/home/ForWhomSection.vue'
-import PainSection from '../components/home/PainSection.vue'
-import AlternativesSection from '../components/home/AlternativesSection.vue'
-import PromiseSection from '../components/home/PromiseSection.vue'
-import CapabilitiesSection from '../components/home/CapabilitiesSection.vue'
-import OfferSection from '../components/home/OfferSection.vue'
-import EconomicsSection from '../components/home/EconomicsSection.vue'
+import MarqueeBand from '../components/home/MarqueeBand.vue'
+import NichesSection from '../components/home/NichesSection.vue'
+import StackSection from '../components/home/StackSection.vue'
+import PipelineSection from '../components/home/PipelineSection.vue'
+import ProofSection from '../components/home/ProofSection.vue'
 import CasesSection from '../components/home/CasesSection.vue'
-import ProcessSection from '../components/home/ProcessSection.vue'
+import CalculatorSection from '../components/home/CalculatorSection.vue'
 import PricingSection from '../components/home/PricingSection.vue'
-import TeamSection from '../components/home/TeamSection.vue'
-import UrgencySection from '../components/home/UrgencySection.vue'
+import ProcessSection from '../components/home/ProcessSection.vue'
 import FaqSection from '../components/home/FaqSection.vue'
 import CtaSection from '../components/home/CtaSection.vue'
 </script>
@@ -19,18 +16,15 @@ import CtaSection from '../components/home/CtaSection.vue'
 <template>
   <main id="main" class="home">
     <HeroSection />
-    <ForWhomSection />
-    <PainSection />
-    <AlternativesSection />
-    <PromiseSection />
-    <CapabilitiesSection />
-    <OfferSection />
-    <EconomicsSection />
+    <MarqueeBand />
+    <NichesSection />
+    <StackSection />
+    <PipelineSection />
+    <ProofSection />
     <CasesSection />
-    <ProcessSection />
+    <CalculatorSection />
     <PricingSection />
-    <TeamSection />
-    <UrgencySection />
+    <ProcessSection />
     <FaqSection />
     <CtaSection />
   </main>

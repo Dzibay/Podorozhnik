@@ -1,4 +1,5 @@
 import { homeCopy } from './home.js'
+import { extraNiches } from './nichesExtra.js'
 
 /** Общие блоки посадочных — тарифы, команда, принципы с главной */
 const shared = {
@@ -25,6 +26,12 @@ export const niches = {
     slug: 'proizvodstvo',
     homeId: 'production',
     label: 'Производство',
+    card: {
+      title: 'Производство и B2B',
+      text: 'Металлоконструкции, оборудование, стройматериалы. Длинный цикл сделки и дорогие B2B-заявки, которые нельзя терять.',
+      tags: ['Металл', 'Оборудование', 'Стройматериалы'],
+      icon: 'factory',
+    },
     meta: {
       title: 'Маркетинг для производства — заявки с Директа и сайта | Подорожник',
       description:
@@ -176,6 +183,12 @@ export const niches = {
     slug: 'strojka',
     homeId: 'construction',
     label: 'Стройка и ремонт',
+    card: {
+      title: 'Стройка и ремонт',
+      text: 'Подряд, отделка, инженерные системы, благоустройство. Выигрывает тот, кто ответил первым и выглядит надёжнее.',
+      tags: ['Подряд', 'Отделка', 'Инженерка'],
+      icon: 'crane',
+    },
     meta: {
       title: 'Маркетинг для стройки и ремонта — заявки и сайт | Подорожник',
       description:
@@ -322,6 +335,18 @@ export const niches = {
     },
     ...shared,
   },
+}
+
+for (const { faqItems, ...niche } of extraNiches) {
+  niches[niche.slug] = {
+    ...niche,
+    faq: {
+      kicker: 'Вопросы',
+      title: 'Частые вопросы',
+      items: [...faqItems, ...homeCopy.faq.items.slice(0, 3)],
+    },
+    ...shared,
+  }
 }
 
 export const nicheList = Object.values(niches)

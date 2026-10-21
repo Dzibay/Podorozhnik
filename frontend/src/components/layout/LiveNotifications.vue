@@ -35,6 +35,8 @@ function pick() {
 
 function showNext() {
   if (!enabled.value) return
+  // На первом экране тост перекрывал бы главные кнопки
+  if (window.scrollY < window.innerHeight * 0.8) return
   current.value = pick()
   visible.value = true
   clearTimeout(hideTimer)

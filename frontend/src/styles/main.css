@@ -10,8 +10,11 @@
 
 @import "./buttons.css";
 
+@import "./brand.css";
+
 @import "./header.css";
-@import "./home2.css";
+@import "./cards.css";
+@import "./home.css";
 @import "./services.css";
 @import "./pages.css";
 @import "./email-chooser.css";
@@ -29,7 +32,7 @@ body.is-scroll-locked {
 }
 
 body.is-scroll-locked .header {
-  padding-right: var(--scrollbar-gap, 0px);
+  right: var(--scrollbar-gap, 0px);
 }
 
 body.is-scroll-locked .live-toast,

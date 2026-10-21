@@ -1,42 +1,54 @@
 <script setup>
-import { analyticsEvents, routes } from '../../data/site'
 import { homeCopy } from '../../data/home'
-import AppButton from '../ui/AppButton.vue'
+import { contacts } from '../../data/site'
 
-const { pricing } = homeCopy
+const { pricing, offer } = homeCopy
 </script>
 
 <template>
-  <section id="pricing" class="section2" data-section="pricing">
+  <section id="pricing" class="sec sec--cream pricing" data-section="pricing">
     <div class="container">
-      <div class="section2__head">
-        <p class="kicker">{{ pricing.kicker }}</p>
-        <h2 class="section2__title">{{ pricing.title }}</h2>
-        <p class="section2__lead">{{ pricing.lead }}</p>
-      </div>
+      <header class="sec__head">
+        <div>
+          <p v-reveal class="kicker">{{ pricing.kicker }}</p>
+          <h2 v-reveal class="h-1">Абонентка <em>без сюрпризов</em></h2>
+        </div>
+        <p v-reveal class="sec__lead">{{ pricing.lead }}</p>
+      </header>
 
-      <div class="pricing2-grid">
-        <article
-          v-for="plan in pricing.plans"
+      <ol class="plans">
+        <li
+          v-for="(plan, index) in pricing.plans"
           :key="plan.id"
-          class="card2 pricing2-card"
-          :class="{ 'pricing2-card--featured': plan.featured }"
+          v-reveal
+          class="plan"
+          :class="{ 'plan--featured': plan.featured }"
+          :style="{ '--i': index }"
+          data-spot
         >
-          <p v-if="plan.featured" class="pricing2-card__badge">Чаще всего берут</p>
-          <h3 class="pricing2-card__name">{{ plan.name }}</h3>
-          <p class="pricing2-card__price">{{ plan.price }}</p>
-          <ul class="pricing2-card__includes">
+          <span class="plan__top">
+            <span class="mono">{{ String(index + 1).padStart(2, '0') }}</span>
+            <span v-if="plan.featured" class="plan__badge mono">Чаще всего</span>
+          </span>
+          <h3 class="plan__name">{{ plan.name }}</h3>
+          <p class="plan__price">{{ plan.price.replace('/мес', '') }}<small>/мес</small></p>
+          <ul class="plan__list">
             <li v-for="item in plan.includes" :key="item">{{ item }}</li>
           </ul>
-          <p class="pricing2-card__for">{{ plan.forWhom }}</p>
-        </article>
-      </div>
+          <p class="plan__for">{{ plan.forWhom }}</p>
+        </li>
+      </ol>
 
-      <div class="section2__foot">
-        <AppButton :href="routes.contacts" :event-name="analyticsEvents.ctaDiscussProject">
-          {{ pricing.cta }}
-          <span aria-hidden="true">&rarr;</span>
-        </AppButton>
+      <div v-reveal class="pricing__offer">
+        <div class="pricing__offer-badge" aria-hidden="true">
+          <span>24</span>
+          <small>часа</small>
+        </div>
+        <div>
+          <p class="h-3">{{ offer.title }} — разовая работа</p>
+          <p class="pricing__offer-text">{{ offer.lead }} {{ offer.note }}</p>
+        </div>
+        <a class="button" :href="contacts.phoneTel">Узнать цену по телефону</a>
       </div>
     </div>
   </section>
