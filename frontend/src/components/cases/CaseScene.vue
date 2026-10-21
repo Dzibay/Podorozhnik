@@ -118,17 +118,17 @@ onUnmounted(() => {
     </div>
 
     <!-- Интерьеры: чертёж квартиры рисуется линиями -->
-    <svg v-else-if="scene === 'plan'" class="plan" viewBox="0 0 600 420" fill="none">
-      <g class="plan__walls">
+    <svg v-else-if="scene === 'plan'" class="cs-plan" viewBox="0 0 600 420" fill="none">
+      <g class="cs-plan__walls">
         <path pathLength="100" d="M40 40h520v340H40z" />
         <path pathLength="100" d="M300 40v150M300 250v130M40 220h170M260 220h40M420 40v110M420 210v170M420 210h140" />
       </g>
-      <g class="plan__doors">
+      <g class="cs-plan__doors">
         <path pathLength="100" d="M210 220a50 50 0 0 1 50-50" />
         <path pathLength="100" d="M300 190a60 60 0 0 1 60 60" />
         <path pathLength="100" d="M420 150a60 60 0 0 1 60 60" />
       </g>
-      <g class="plan__furniture">
+      <g class="cs-plan__furniture">
         <rect pathLength="100" x="70" y="70" width="120" height="70" />
         <rect pathLength="100" x="70" y="260" width="80" height="80" rx="40" />
         <rect pathLength="100" x="330" y="280" width="60" height="70" />
@@ -136,7 +136,7 @@ onUnmounted(() => {
         <rect pathLength="100" x="330" y="70" width="60" height="100" />
         <rect pathLength="100" x="460" y="250" width="70" height="100" />
       </g>
-      <g class="plan__dims">
+      <g class="cs-plan__dims">
         <path pathLength="100" d="M40 18h520M40 12v12M560 12v12" />
         <text x="300" y="12">12 400</text>
         <path pathLength="100" d="M582 40v340M576 40h12M576 380h12" />

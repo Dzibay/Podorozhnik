@@ -12,7 +12,7 @@ function getObserver() {
     (entries) => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue
-        entry.target.classList.add('is-in')
+        show(entry.target)
         observer.unobserve(entry.target)
       }
     },
@@ -21,16 +21,25 @@ function getObserver() {
   return observer
 }
 
+function show(el) {
+  el._revealed = true
+  el.classList.add('is-in')
+}
+
 export const reveal = {
   mounted(el, binding) {
     if (typeof IntersectionObserver === 'undefined') {
-      el.classList.add('is-in')
+      show(el)
       return
     }
     if (!binding.modifiers.lines) {
       el.setAttribute('data-reveal', binding.value || '')
     }
     getObserver().observe(el)
+  },
+  // динамический :class перезаписывает className и стирает is-in — возвращаем его
+  updated(el) {
+    if (el._revealed) el.classList.add('is-in')
   },
   unmounted(el) {
     observer?.unobserve(el)

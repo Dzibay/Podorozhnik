@@ -331,7 +331,7 @@
 }
 
 /* Интерьеры: чертёж */
-.plan {
+.cs-plan {
   position: absolute;
   inset: 14% 6% 12% 4%;
   width: 90%;
@@ -339,48 +339,48 @@
   overflow: visible;
 }
 
-.plan path,
-.plan rect {
+.cs-plan path,
+.cs-plan rect {
   stroke-dasharray: 100;
   stroke-dashoffset: 0;
   animation: draw 2.4s var(--ease) both;
 }
 
-.plan__walls {
+.cs-plan__walls {
   stroke: var(--case-ink);
   stroke-width: 6;
   stroke-linecap: square;
 }
 
-.plan__doors {
+.cs-plan__doors {
   stroke: var(--case-accent);
   stroke-width: 1.5;
 }
 
-.plan__doors path {
+.cs-plan__doors path {
   animation-delay: 1.2s;
 }
 
-.plan__furniture {
+.cs-plan__furniture {
   fill: color-mix(in srgb, var(--case-accent-2) 10%, transparent);
   stroke: var(--case-accent-2);
   stroke-width: 1.5;
 }
 
-.plan__furniture rect {
+.cs-plan__furniture rect {
   animation-delay: 1.5s;
 }
 
-.plan__dims {
+.cs-plan__dims {
   stroke: var(--case-accent);
   stroke-width: 1;
 }
 
-.plan__dims path {
+.cs-plan__dims path {
   animation-delay: 2s;
 }
 
-.plan__dims text {
+.cs-plan__dims text {
   fill: var(--case-accent);
   stroke: none;
   font-family: var(--font-mono);
