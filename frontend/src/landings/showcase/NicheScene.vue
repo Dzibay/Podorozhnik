@@ -19,6 +19,11 @@ const loaders = {
   clinic: () => import('../scenes/clinic').then((m) => m.mountClinic),
   logistics: () => import('../scenes/logistics').then((m) => m.mountLogistics),
   school: () => import('../scenes/school').then((m) => m.mountSchool),
+  village: () => import('../scenes/village').then((m) => m.mountVillage),
+  garage: () => import('../scenes/garage').then((m) => m.mountGarage),
+  cleaning: () => import('../scenes/cleaning').then((m) => m.mountCleaning),
+  food: () => import('../scenes/food').then((m) => m.mountFood),
+  beauty: () => import('../scenes/beauty').then((m) => m.mountBeauty),
 }
 
 const canvas = ref(null)
