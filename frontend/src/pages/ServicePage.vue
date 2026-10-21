@@ -1,18 +1,24 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { analyticsEvents, routes } from '../data/site'
 import { getGroup, getService } from '../data/services'
 import { nicheList, nichePath } from '../data/niches'
 import AppButton from '../components/ui/AppButton.vue'
+import { getProduct } from '../data/products'
+
+// IT-направления показываются отдельной посадочной с живым демо
+const ProductPage = defineAsyncComponent(() => import('../landings/products/ProductPage.vue'))
 
 const route = useRoute()
 const service = computed(() => getService(route.params.slug))
 const group = computed(() => (service.value ? getGroup(service.value.group) : null))
+const product = computed(() => getProduct(route.params.slug))
 </script>
 
 <template>
-  <main id="main" class="page page--service">
+  <ProductPage v-if="product" :key="route.params.slug" :product="product" :slug="route.params.slug" />
+  <main v-else id="main" class="page page--service">
     <div class="page-glow" aria-hidden="true"></div>
     <div v-if="service" class="container service2">
       <nav class="service2-crumb" aria-label="Навигация">

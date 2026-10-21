@@ -1,0 +1,1046 @@
+/* Посадочные IT-направлений: первый экран с живым демо и блоки под ним.
+   Опирается на lp-* (landing-base) и ns-* (showcase), цвета — из переменных темы. */
+
+/* ---------- первый экран ---------- */
+.pd-hero {
+  align-items: center;
+}
+
+.pd-hero__glow {
+  position: absolute;
+  inset: -20% -10% auto auto;
+  z-index: -1;
+  width: min(60rem, 90vw);
+  aspect-ratio: 1;
+  background:
+    radial-gradient(closest-side, color-mix(in srgb, var(--lp-accent) 26%, transparent), transparent 70%),
+    radial-gradient(closest-side at 30% 70%, color-mix(in srgb, var(--ns-accent-2) 16%, transparent), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.pd-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.pd-hero__copy {
+  min-width: 0;
+}
+
+.pd-hero__title {
+  max-width: 14ch;
+  font-size: clamp(2.3rem, 4.4vw, 4.4rem);
+}
+
+.pd-hero__lead {
+  max-width: 34rem;
+  color: var(--lp-muted);
+}
+
+.pd-facts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 36rem;
+}
+
+/* ---------- сцена демо ---------- */
+.pd-stage {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.pd-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pd-tab {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--lp-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.pd-tab:hover {
+  color: var(--lp-text);
+}
+
+.pd-tab.is-active {
+  border-color: var(--lp-accent);
+  background: color-mix(in srgb, var(--lp-accent) 16%, transparent);
+  color: var(--lp-text);
+}
+
+.pd-tab:focus-visible {
+  outline: 2px solid var(--lp-accent);
+  outline-offset: 2px;
+}
+
+.pd-demo {
+  position: relative;
+  height: 31rem;
+  min-width: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* общие анимации появления */
+.pd-msg-enter-active,
+.pd-pop-enter-active {
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.pd-msg-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.pd-pop-enter-from {
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+}
+
+.pd-pop-leave-active,
+.pd-msg-leave-active {
+  display: none;
+}
+
+/* сообщения — общие для бота и ассистента */
+.pd-msg {
+  max-width: 85%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.pd-msg p {
+  margin: 0;
+}
+
+.pd-msg--bot {
+  align-self: flex-start;
+  border-bottom-left-radius: 0.3rem;
+  background: color-mix(in srgb, var(--lp-text) 9%, var(--lp-surface));
+}
+
+.pd-msg--user {
+  align-self: flex-end;
+  border-bottom-right-radius: 0.3rem;
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+}
+
+.pd-msg__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.55rem;
+}
+
+.pd-msg__buttons span {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--lp-accent) 50%, transparent);
+  border-radius: 0.5rem;
+  color: var(--ns-accent-2);
+  font-size: 0.8rem;
+  transition: background 0.25s, color 0.25s, transform 0.25s;
+}
+
+.pd-msg__buttons span.is-chosen {
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+  transform: scale(0.95);
+}
+
+.pd-typing {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.pd-typing i {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--lp-muted);
+  animation: pd-dot 1s infinite ease-in-out;
+}
+
+.pd-typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.pd-typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes pd-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+/* карточка уведомления менеджеру */
+.pd-notify {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: 0.2rem;
+  width: min(17rem, 80%);
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--lp-accent) 40%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--lp-surface) 92%, var(--lp-accent));
+  box-shadow: 0 20px 50px rgb(0 0 0 / 0.45);
+  font-size: 0.82rem;
+  color: var(--lp-muted);
+}
+
+.pd-notify strong {
+  color: var(--lp-text);
+  font-size: 0.95rem;
+}
+
+.pd-notify__from {
+  color: var(--ns-accent-2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---------- бот ---------- */
+.pd-bot {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: clamp(0rem, 3vw, 2.5rem);
+}
+
+.pd-phone {
+  display: flex;
+  flex-direction: column;
+  width: min(19rem, 100%);
+  height: 100%;
+  border: 1px solid var(--lp-line);
+  border-radius: 2rem;
+  background: var(--lp-surface);
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.4), inset 0 0 0 6px color-mix(in srgb, var(--lp-bg) 70%, transparent);
+  overflow: hidden;
+}
+
+.pd-phone__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.1rem 1.1rem 0.8rem;
+  border-bottom: 1px solid var(--lp-line);
+}
+
+.pd-phone__avatar {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lp-accent), var(--ns-accent-2));
+  color: var(--ns-on-accent);
+  font-weight: 700;
+}
+
+.pd-phone__name {
+  display: grid;
+  line-height: 1.2;
+}
+
+.pd-phone__name small {
+  color: var(--ns-accent-2);
+  font-size: 0.75rem;
+}
+
+.pd-chat {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent, #000 2.5rem);
+}
+
+/* старые сообщения уезжают вверх за край */
+.pd-chat__feed {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.8rem;
+}
+
+.pd-phone__input {
+  margin: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  color: var(--lp-muted);
+  font-size: 0.82rem;
+}
+
+.pd-bot .pd-notify {
+  top: 5.5rem;
+  right: 0;
+}
+
+/* ---------- веб-сервис ---------- */
+.pd-app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--lp-line);
+  border-radius: 1rem;
+  background: var(--lp-surface);
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+}
+
+.pd-app__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--lp-line);
+  color: var(--lp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.pd-app__bar i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--lp-line);
+}
+
+.pd-app__bar span {
+  margin-left: 0.5rem;
+}
+
+.pd-app__body {
+  display: grid;
+  flex: 1;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  min-height: 0;
+}
+
+.pd-app__nav {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  padding: 0.9rem 0.6rem;
+  border-right: 1px solid var(--lp-line);
+  background: color-mix(in srgb, var(--lp-bg) 40%, transparent);
+}
+
+.pd-app__logo {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  margin: 0 0 0.6rem 0.4rem;
+  border-radius: 0.55rem;
+  background: linear-gradient(135deg, var(--lp-accent), var(--ns-accent-2));
+  color: var(--ns-on-accent);
+  font-weight: 700;
+}
+
+.pd-app__nav span:not(.pd-app__logo) {
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.5rem;
+  color: var(--lp-muted);
+  font-size: 0.82rem;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s, transform 0.3s, background 0.2s, color 0.2s;
+}
+
+.pd-saas:not(.is-stage-0) .pd-app__nav span {
+  opacity: 1;
+  transform: none;
+}
+
+.pd-app__nav span.is-active {
+  background: color-mix(in srgb, var(--lp-accent) 18%, transparent);
+  color: var(--lp-text);
+}
+
+.pd-app__main {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  padding: 0.9rem;
+  min-width: 0;
+}
+
+.pd-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.pd-kpi {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 0.7rem;
+  min-width: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.pd-saas.is-stage-2 .pd-kpi,
+.pd-saas.is-stage-3 .pd-kpi,
+.pd-saas.is-stage-4 .pd-kpi {
+  opacity: 1;
+}
+
+.pd-kpi span {
+  color: var(--lp-muted);
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+.pd-kpi strong {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pd-kpi small {
+  color: var(--lp-muted);
+  font-size: 0.7em;
+}
+
+.pd-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.35rem;
+  padding: 0.6rem 0.4rem 0;
+  border-bottom: 1px solid var(--lp-line);
+  background: repeating-linear-gradient(to top, var(--lp-line) 0 1px, transparent 1px 25%);
+}
+
+.pd-chart span {
+  flex: 1;
+  height: 0;
+  border-radius: 0.3rem 0.3rem 0 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--lp-accent) 55%, transparent), var(--lp-accent));
+  transition: height 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d);
+}
+
+.pd-chart span:last-child {
+  background: linear-gradient(to top, var(--lp-accent), var(--ns-accent-2));
+}
+
+.pd-saas.is-stage-3 .pd-chart span,
+.pd-saas.is-stage-4 .pd-chart span {
+  height: var(--h);
+}
+
+.pd-table {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.pd-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--lp-text) 4%, transparent);
+  font-size: 0.78rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s, transform 0.35s;
+}
+
+.pd-row.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.pd-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pd-row span + span {
+  color: var(--lp-muted);
+}
+
+.pd-row em {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ns-accent-2) 16%, transparent);
+  color: var(--ns-accent-2);
+  font-size: 0.7rem;
+  font-style: normal;
+}
+
+.pd-row em.is-ok {
+  background: color-mix(in srgb, #4ade80 16%, transparent);
+  color: #86efac;
+}
+
+.pd-toast {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  max-width: calc(100% - 2rem);
+  padding: 0.7rem 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--lp-accent) 40%, transparent);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--lp-surface) 88%, var(--lp-accent));
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.45);
+  font-size: 0.8rem;
+}
+
+.pd-toast__dot {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 4px rgb(74 222 128 / 0.2);
+}
+
+/* ---------- автоматизация ---------- */
+.pd-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 1rem;
+  background: var(--lp-surface);
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.4);
+}
+
+.pd-flow__chain {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  padding: 0.4rem 0 0;
+}
+
+/* провод идёт от центра первого узла к центру последнего */
+.pd-flow__wire {
+  position: absolute;
+  top: calc(0.4rem + 1.3rem);
+  left: calc(50% / var(--n));
+  right: calc(50% / var(--n));
+  height: 2px;
+  background: var(--lp-line);
+}
+
+.pd-flow__fill {
+  display: block;
+  width: calc(var(--p) / (var(--n) - 1) * 100%);
+  height: 100%;
+  background: linear-gradient(90deg, var(--lp-accent), var(--ns-accent-2));
+  transition: width 0.45s ease;
+}
+
+.pd-flow__packet {
+  position: absolute;
+  top: calc(0.4rem + 1.3rem - 0.3rem);
+  left: calc(50% / var(--n) + var(--p) * (100% - 100% / var(--n)) / (var(--n) - 1) - 0.3rem);
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--ns-accent-2);
+  box-shadow: 0 0 14px var(--ns-accent-2);
+  transition: left 0.45s ease;
+}
+
+.pd-node {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  text-align: center;
+}
+
+.pd-node__dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 0.8rem;
+  background: var(--lp-bg);
+  color: var(--lp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.pd-node.is-active .pd-node__dot {
+  border-color: var(--lp-accent);
+  color: var(--lp-text);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--lp-accent) 18%, transparent), 0 0 30px color-mix(in srgb, var(--lp-accent) 40%, transparent);
+  transform: scale(1.08);
+}
+
+.pd-node.is-done .pd-node__dot {
+  border-color: transparent;
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+}
+
+.pd-node__title {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--lp-muted);
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pd-node.is-active .pd-node__title,
+.pd-node.is-done .pd-node__title {
+  color: var(--lp-text);
+}
+
+.pd-log {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--lp-bg) 60%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  overflow: hidden;
+}
+
+.pd-log__head {
+  margin-bottom: 0.6rem;
+  color: var(--lp-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pd-log ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pd-log li {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.pd-log time {
+  color: var(--lp-muted);
+}
+
+.pd-log b {
+  color: var(--lp-accent);
+  font-weight: 600;
+}
+
+.pd-log span {
+  overflow-wrap: anywhere;
+}
+
+.pd-result {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.8rem;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--lp-accent) 24%, transparent), color-mix(in srgb, var(--ns-accent-2) 14%, transparent));
+  font-weight: 600;
+}
+
+.pd-result__check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--lp-accent);
+  color: var(--ns-on-accent);
+}
+
+/* ---------- AI-ассистент ---------- */
+.pd-ai__win {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--lp-line);
+  border-radius: 1rem;
+  background: var(--lp-surface);
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+}
+
+.pd-ai__head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--lp-line);
+}
+
+.pd-ai__head small {
+  margin-left: auto;
+  color: var(--ns-accent-2);
+  font-size: 0.75rem;
+}
+
+.pd-ai__orb {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--lp-accent), var(--ns-accent-2), var(--lp-accent));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--lp-accent) 50%, transparent);
+}
+
+.pd-ai__orb.is-busy {
+  animation: pd-spin 1.2s linear infinite;
+}
+
+@keyframes pd-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.pd-ai__feed {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.pd-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.pd-sources.is-on {
+  opacity: 1;
+}
+
+.pd-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 100%;
+  padding: 0.35rem 0.65rem;
+  border: 1px dashed var(--lp-line);
+  border-radius: 0.5rem;
+  color: var(--lp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+
+.pd-source i {
+  flex: none;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--lp-line);
+  transition: background 0.3s;
+}
+
+.pd-source.is-found {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--ns-accent-2) 50%, transparent);
+  background: color-mix(in srgb, var(--ns-accent-2) 10%, transparent);
+  color: var(--lp-text);
+}
+
+.pd-source.is-found i {
+  background: var(--ns-accent-2);
+}
+
+.pd-ai__answer {
+  max-width: 92%;
+}
+
+.pd-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 0.15em;
+  vertical-align: -0.12em;
+  background: var(--ns-accent-2);
+  animation: pd-blink 0.8s steps(2) infinite;
+}
+
+@keyframes pd-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.pd-ai .pd-notify {
+  right: -0.5rem;
+  bottom: -1rem;
+}
+
+/* ---------- блоки ниже ---------- */
+.pd-task__idx {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--lp-accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.pd-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--lp-line);
+  border-radius: 1.2rem;
+  background: var(--lp-line);
+  list-style: none;
+  overflow: hidden;
+}
+
+.pd-step {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 1.4rem 1.2rem 1.6rem;
+  background: var(--lp-bg);
+}
+
+.pd-step__num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(100deg, var(--lp-accent), var(--ns-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pd-step__term {
+  color: var(--ns-accent-2);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pd-step h3 {
+  margin: 0.3rem 0 0;
+  font-size: 1.05rem;
+}
+
+.pd-step p {
+  margin: 0;
+  color: var(--lp-muted);
+  font-size: 0.9rem;
+}
+
+.pd-stack-sec {
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+.pd-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pd-stack li {
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lp-surface) 70%, transparent);
+  font-size: 0.9rem;
+}
+
+.pd-format {
+  position: relative;
+}
+
+.pd-format__term {
+  margin: 0.2rem 0 1rem;
+  color: var(--ns-accent-2);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.pd-format ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  color: var(--lp-muted);
+}
+
+/* ---------- адаптив ---------- */
+@media (max-width: 1100px) {
+  .pd-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .pd-hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pd-hero__title {
+    max-width: none;
+  }
+
+  .pd-demo {
+    height: 28rem;
+  }
+
+  .pd-bot {
+    justify-content: center;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .pd-hero__title {
+    font-size: clamp(1.6rem, 7.6vw, 2.5rem);
+  }
+
+  .pd-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pd-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pd-demo {
+    height: 27rem;
+    font-size: 0.85rem;
+  }
+
+  .pd-app__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pd-app__nav {
+    display: none;
+  }
+
+  .pd-kpis {
+    gap: 0.35rem;
+  }
+
+  .pd-kpi {
+    padding: 0.5rem;
+  }
+
+  .pd-kpi span {
+    overflow: hidden;
+    font-size: 0.62rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pd-kpi strong {
+    font-size: 0.8rem;
+  }
+
+  .pd-flow {
+    padding: 0.9rem;
+  }
+
+  .pd-node__dot {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .pd-flow__wire {
+    top: calc(0.4rem + 1.1rem);
+  }
+
+  .pd-flow__packet {
+    top: calc(0.4rem + 1.1rem - 0.3rem);
+  }
+
+  .pd-node__title {
+    font-size: 0.66rem;
+  }
+
+  .pd-log li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .pd-log time {
+    display: none;
+  }
+
+  .pd-ai .pd-notify {
+    right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-demo *,
+  .pd-msg-enter-active,
+  .pd-pop-enter-active {
+    animation: none !important;
+    transition: none !important;
+  }
+}
