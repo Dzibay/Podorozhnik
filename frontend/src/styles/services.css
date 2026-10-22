@@ -25,7 +25,8 @@
 .page--cases,
 .page--contacts,
 .page--legal,
-.page--empty {
+.page--empty,
+.page--niches {
   position: relative;
   overflow: hidden;
 }
@@ -359,5 +360,12 @@
 
   .service2-niches__grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* номер в кнопке звонка: на узком экране остаётся просто «Позвонить» */
+@media (max-width: 720px) {
+  .cta-num {
+    display: none;
   }
 }

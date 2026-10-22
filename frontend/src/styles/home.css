@@ -1961,3 +1961,193 @@
     animation: none;
   }
 }
+
+/* ---------- Два направления (под первым экраном) ---------- */
+
+.tracks__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.track {
+  --sp-accent: var(--red);
+  --sp-ink: var(--ink);
+  --sp-muted: #5a5650;
+  --sp-line: color-mix(in srgb, var(--ink) 13%, transparent);
+  --sp-surface: var(--cream);
+  --sp-on-accent: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+  padding: clamp(1.25rem, 2.6vw, 2.25rem);
+  border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, #fff 55%, var(--paper));
+  color: var(--ink);
+}
+
+.track--build {
+  --sp-accent: var(--orange);
+  --sp-ink: var(--paper);
+  --sp-muted: var(--color-muted-inv);
+  --sp-line: color-mix(in srgb, var(--paper) 14%, transparent);
+  --sp-surface: var(--ink-3);
+  --sp-on-accent: var(--ink);
+  border-color: transparent;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.track__index {
+  color: var(--red);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.track--build .track__index {
+  color: var(--orange);
+}
+
+.track__title {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, 2.3rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.track__stage {
+  position: relative;
+  height: 12.5rem;
+  overflow: hidden;
+  border: 1px solid var(--sp-line);
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(ellipse 70% 80% at 100% 0%, color-mix(in srgb, var(--sp-accent) 12%, transparent), transparent 70%),
+    color-mix(in srgb, var(--ink) 3%, transparent);
+}
+
+.track--build .track__stage {
+  background:
+    radial-gradient(ellipse 70% 80% at 100% 0%, color-mix(in srgb, var(--sp-accent) 14%, transparent), transparent 70%),
+    var(--ink-2);
+}
+
+.track__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.track__list li + li {
+  border-top: 1px solid var(--sp-line);
+}
+
+.track__link {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  padding: 0.85rem 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.track__name {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.track__tag {
+  color: var(--sp-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-align: right;
+}
+
+.track__arrow {
+  color: var(--sp-accent);
+  transition: transform 0.3s var(--ease);
+}
+
+.track__link:hover .track__name {
+  color: var(--sp-accent);
+}
+
+.track__link:hover .track__arrow {
+  transform: translateX(4px);
+}
+
+.track__all {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid var(--sp-line);
+  border-radius: 999px;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.track__all:hover {
+  border-color: var(--sp-accent);
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+}
+
+/* на главной — шесть избранных ниш тремя колонками; ниже 960px — общая сетка ниш */
+@media (min-width: 961px) {
+  /* заголовки панелей в две строки — сцены стоят на одной высоте */
+  .track__title {
+    min-height: 2.1em;
+  }
+
+  .niches__grid--featured {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.niches__more p {
+  margin: 0;
+}
+
+.niches__phone {
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .tracks__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .track__link {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .track__tag {
+    grid-row: 2;
+    text-align: left;
+  }
+
+  .niches__more {
+    flex-direction: column;
+    text-align: center;
+  }
+}

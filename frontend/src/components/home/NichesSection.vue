@@ -1,10 +1,11 @@
 <script setup>
 import { homeCopy } from '../../data/home'
-import { contacts } from '../../data/site'
-import { nicheList, nichePath } from '../../data/niches'
-import NicheIcon from '../ui/NicheIcon.vue'
+import { contacts, routes } from '../../data/site'
+import { getNiche, nicheList } from '../../data/niches'
+import NicheCard from '../ui/NicheCard.vue'
 
 const { niches: copy } = homeCopy
+const featured = copy.featured.map(getNiche)
 </script>
 
 <template>
@@ -22,31 +23,21 @@ const { niches: copy } = homeCopy
         <p v-reveal class="sec__lead">{{ copy.lead }}</p>
       </header>
 
-      <ul class="niches__grid">
-        <li v-for="(niche, index) in nicheList" :key="niche.slug" v-reveal :style="{ '--i': index % 4 }">
-          <RouterLink :to="nichePath(niche.slug)" class="niche" data-spot data-cursor="Смотреть">
-            <span class="niche__top">
-              <span class="niche__num mono">{{ String(index + 1).padStart(2, '0') }}</span>
-              <span class="niche__arrow" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                  <path d="M7 17 17 7M8 7h9v9" />
-                </svg>
-              </span>
-            </span>
-            <NicheIcon :name="niche.card.icon" />
-            <span class="niche__title">{{ niche.card.title }}</span>
-            <span class="niche__text">{{ niche.card.text }}</span>
-            <span class="niche__tags">
-              <span v-for="tag in niche.card.tags" :key="tag">{{ tag }}</span>
-            </span>
-          </RouterLink>
+      <ul class="niches__grid niches__grid--featured">
+        <li v-for="(niche, index) in featured" :key="niche.slug" v-reveal :style="{ '--i': index % 3 }">
+          <NicheCard :niche="niche" :num="index + 1" />
         </li>
       </ul>
 
-      <p v-reveal class="niches__more">
-        {{ copy.more }}
-        <a class="button button--accent" :href="contacts.phoneTel">{{ contacts.phoneDisplay }}</a>
-      </p>
+      <div v-reveal class="niches__more">
+        <RouterLink class="button button--primary niches__all" :to="routes.niches">
+          {{ copy.all }} · {{ nicheList.length }} <span aria-hidden="true">&rarr;</span>
+        </RouterLink>
+        <p>
+          {{ copy.more }}
+          <a class="niches__phone" :href="contacts.phoneTel">{{ contacts.phoneDisplay }}</a>
+        </p>
+      </div>
     </div>
   </section>
 </template>

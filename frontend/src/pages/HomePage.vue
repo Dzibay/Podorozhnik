@@ -1,6 +1,7 @@
 <script setup>
 import HeroSection from '../components/home/HeroSection.vue'
 import MarqueeBand from '../components/home/MarqueeBand.vue'
+import TracksSection from '../components/home/TracksSection.vue'
 import NichesSection from '../components/home/NichesSection.vue'
 import StackSection from '../components/home/StackSection.vue'
 import PipelineSection from '../components/home/PipelineSection.vue'
@@ -17,6 +18,7 @@ import CtaSection from '../components/home/CtaSection.vue'
   <main id="main" class="home">
     <HeroSection />
     <MarqueeBand />
+    <TracksSection />
     <NichesSection />
     <StackSection />
     <PipelineSection />

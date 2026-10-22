@@ -7,6 +7,7 @@ import { applyOrganizationJsonLd } from './utils/meta'
 import { installPerf } from './utils/perf'
 import { installSpotlight, reveal } from './directives/reveal'
 import { magnetic } from './directives/magnetic'
+import { play } from './directives/play'
 import './styles/main.css'
 
 installPerf()
@@ -15,6 +16,7 @@ const app = createApp(App)
 app.use(router)
 app.directive('reveal', reveal)
 app.directive('magnetic', magnetic)
+app.directive('play', play)
 installAnalytics(router)
 applyOrganizationJsonLd(contacts)
 app.mount('#app')

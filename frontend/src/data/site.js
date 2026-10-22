@@ -23,6 +23,7 @@ export const routes = {
   home: '/',
   services: '/services',
   service: (slug) => `/services/${slug}`,
+  niches: '/dlya',
   niche: (slug) => `/dlya/${slug}`,
   cases: '/cases',
   case: (slug) => `/cases/${slug}`,
@@ -34,7 +35,7 @@ export const routes = {
 
 export const headerNav = [
   { href: routes.services, label: 'Услуги' },
-  { href: '/#niches', label: 'Ниши' },
+  { href: routes.niches, label: 'Ниши' },
   { href: routes.cases, label: 'Кейсы' },
   { href: '/#pricing', label: 'Тарифы' },
   { href: routes.contacts, label: 'Контакты' },

@@ -13,7 +13,7 @@ const siteUrl = (raw.startsWith('http') ? raw : `https://${raw}`).replace(/\/$/,
 
 const ADMIN_PATH = '/admin-panel'
 
-const staticPaths = ['/', '/services', '/cases', '/agency', '/contacts', '/privacy', '/consent']
+const staticPaths = ['/', '/services', '/dlya', '/cases', '/agency', '/contacts', '/privacy', '/consent']
 const servicePaths = services.map((item) => `/services/${item.slug}`)
 const nichePaths = nicheList.map((item) => `/dlya/${item.slug}`)
 const casePaths = cases.map((item) => `/cases/${item.slug}`)

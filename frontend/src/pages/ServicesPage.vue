@@ -27,21 +27,6 @@ const chain = [
   { slug: 'analytics', label: 'Аналитика', text: 'показывает, что окупилось, а что нет' },
 ]
 
-/** Превью крутится, только пока карточка на экране */
-const vPlay = {
-  mounted(el) {
-    if (typeof IntersectionObserver === 'undefined') {
-      el.classList.add('is-playing')
-      return
-    }
-    el._playIo = new IntersectionObserver(([entry]) => el.classList.toggle('is-playing', entry.isIntersecting))
-    el._playIo.observe(el)
-  },
-  unmounted(el) {
-    el._playIo?.disconnect()
-  },
-}
-
 function onCall(place) {
   track('click_phone', { place: `services-${place}` })
 }
@@ -144,7 +129,7 @@ function onCall(place) {
         <div class="page-cta2__actions">
           <!-- tel: — обычная ссылка, RouterLink её бы не открыл -->
           <a class="button button--primary" :href="contacts.phoneTel" @click="onCall('cta')">
-            Позвонить<span class="hub-cta__num">&nbsp;{{ contacts.phoneDisplay }}</span>
+            Позвонить<span class="cta-num">&nbsp;{{ contacts.phoneDisplay }}</span>
           </a>
           <AppButton :href="routes.service('express-audit')" variant="outline" event-name="">
             Бесплатный аудит
