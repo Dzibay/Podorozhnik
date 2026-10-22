@@ -1,9 +1,12 @@
 <script setup>
 import { contacts, footerNav, routes, site } from '../../data/site'
-import { serviceGroups } from '../../data/services'
+import { getService, serviceTracks } from '../../data/services'
 import { nicheList, nichePath } from '../../data/niches'
 import BrandMark from '../ui/BrandMark.vue'
 import EmailChooser from '../ui/EmailChooser.vue'
+
+// под двумя направлениями — отдельные посадочные IT-услуг
+const productLinks = ['telegram-bots', 'saas', 'automation', 'ai-assistants'].map(getService)
 
 /** Градиентная «подсветка» гигантского логотипа следует за курсором */
 function onMove(event) {
@@ -34,8 +37,11 @@ function onMove(event) {
           <div>
             <p class="footer__title">Услуги</p>
             <ul class="footer__list">
-              <li v-for="group in serviceGroups" :key="group.id">
+              <li v-for="group in serviceTracks" :key="group.id">
                 <RouterLink :to="`${routes.services}#${group.id}`">{{ group.title }}</RouterLink>
+              </li>
+              <li v-for="item in productLinks" :key="item.slug">
+                <RouterLink :to="routes.service(item.slug)">{{ item.shortTitle }}</RouterLink>
               </li>
             </ul>
           </div>

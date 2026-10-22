@@ -26,6 +26,49 @@ export const serviceGroups = [
   },
 ]
 
+/**
+ * Два направления для страницы услуг: «привести клиентов» и «автоматизировать».
+ * У каждой карточки — живое мини-превью (`preview`) и короткий ориентир (`tag`).
+ * `wide` — карточка на две колонки: так ряды в сетке из трёх закрываются целиком.
+ */
+export const serviceTracks = [
+  {
+    id: 'clients',
+    title: 'Привести клиентов',
+    caption: 'Заявки и звонки',
+    lead: 'Реклама, SEO и страницы, которые превращают переходы в звонки. Плюс аналитика и работа с отделом продаж — чтобы заявки доходили до денег.',
+    items: [
+      { slug: 'yandex-direct', preview: 'direct', tag: 'Первые заявки — на 3–7 день', wide: true },
+      { slug: 'seo', preview: 'seo', tag: 'Рост позиций за 3–6 месяцев' },
+      { slug: 'landing-pages', preview: 'landing', tag: 'Своя страница под каждое направление' },
+      { slug: 'analytics', preview: 'funnel', tag: 'Видно, какой рубль принёс продажу' },
+      { slug: 'sales-support', preview: 'call', tag: 'Заявки не теряются после звонка' },
+      { slug: 'marketing-strategy', preview: 'plan', tag: 'План с цифрами на квартал' },
+      { slug: 'express-audit', preview: 'audit', tag: 'Бесплатно, за 24 часа', wide: true },
+    ],
+  },
+  {
+    id: 'build',
+    title: 'Автоматизировать и разработать',
+    caption: 'Сайты, боты, системы',
+    lead: 'Сайты, боты, веб-сервисы и связки между системами. Всё самописное: код и права остаются у вас, рутина уходит на машину.',
+    items: [
+      { slug: 'site-24h', preview: 'timer', tag: 'Рабочая версия через 24 часа', wide: true },
+      { slug: 'site-scale', preview: 'tree', tag: 'Каталоги, фильтры, сотни страниц' },
+      { slug: 'telegram-bots', preview: 'bot', tag: 'Запуск за 1–3 недели' },
+      { slug: 'saas', preview: 'dash', tag: 'MVP за 6–10 недель' },
+      { slug: 'automation', preview: 'flow', tag: 'Первая связка за 2–4 недели' },
+      { slug: 'ai-assistants', preview: 'ai', tag: 'Ответ клиенту за 10–30 секунд' },
+      { slug: 'custom-dev', preview: 'board', tag: 'Под ваш процесс, а не наоборот' },
+      { slug: 'site-support', preview: 'pulse', tag: 'От 15 000 ₽/мес' },
+    ],
+  },
+]
+
+export function getTrack(slug) {
+  return serviceTracks.find((track) => track.items.some((item) => item.slug === slug))
+}
+
 export const services = [
   // ---------- Трафик ----------
   {

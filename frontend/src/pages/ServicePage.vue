@@ -2,7 +2,7 @@
 import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { analyticsEvents, routes } from '../data/site'
-import { getGroup, getService } from '../data/services'
+import { getService, getTrack } from '../data/services'
 import { nicheList, nichePath } from '../data/niches'
 import AppButton from '../components/ui/AppButton.vue'
 import { getProduct } from '../data/products'
@@ -12,7 +12,7 @@ const ProductPage = defineAsyncComponent(() => import('../landings/products/Prod
 
 const route = useRoute()
 const service = computed(() => getService(route.params.slug))
-const group = computed(() => (service.value ? getGroup(service.value.group) : null))
+const group = computed(() => (service.value ? getTrack(service.value.slug) : null))
 const product = computed(() => getProduct(route.params.slug))
 </script>
 

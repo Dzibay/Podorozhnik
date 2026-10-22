@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getGroup, getService, legacyServiceRedirects } from '../data/services'
+import { getService, getTrack, legacyServiceRedirects } from '../data/services'
 import { getProduct } from '../data/products'
 import { getNiche } from '../data/niches'
 import { getCase } from '../data/cases'
@@ -177,7 +177,7 @@ router.beforeEach((to) => {
   if (!service) {
     return { name: 'not-found', params: { pathMatch: to.path.slice(1).split('/') } }
   }
-  const group = getGroup(service.group)
+  const track = getTrack(service.slug)
   const product = getProduct(service.slug)
   to.meta.title = product?.meta.title || `${service.title} — Подорожник`
   to.meta.description = product?.meta.description || service.lead
@@ -186,7 +186,7 @@ router.beforeEach((to) => {
   to.meta.breadcrumb = [
     { name: 'Главная', path: '/' },
     { name: 'Услуги', path: '/services' },
-    { name: group?.title || 'Услуга', path: `/services#${service.group}` },
+    { name: track?.title || 'Услуга', path: `/services#${track?.id || ''}` },
     { name: service.shortTitle, path: `/services/${service.slug}` },
   ]
 })
