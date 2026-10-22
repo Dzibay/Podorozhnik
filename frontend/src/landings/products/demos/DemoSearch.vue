@@ -24,12 +24,12 @@ const ours = computed(() => props.scenario.results.find((r) => r.ours))
 const others = computed(() => props.scenario.results.filter((r) => !r.ours))
 const pos = computed(() => (month.value >= 0 ? props.scenario.months[month.value].pos : props.scenario.months?.[0]?.pos))
 
-// в выдаче всегда четыре строки: наш сайт на своём месте или последним с номером позиции
+// в выдаче всегда три строки: наш сайт на своём месте или последним с номером позиции
 const rows = computed(() => {
   if (props.scenario.mode === 'ads') return props.scenario.results
   const p = pos.value
-  const list = others.value.slice(0, 3)
-  if (p <= 4) list.splice(p - 1, 0, ours.value)
+  const list = others.value.slice(0, 2)
+  if (p <= 3) list.splice(p - 1, 0, ours.value)
   else list.push(ours.value)
   return list
 })
@@ -88,16 +88,16 @@ const maxVisits = computed(() => Math.max(...(props.scenario.months || [{ visits
             v-for="(row, i) in rows"
             :key="row.url"
             class="pd-serp__item"
-            :class="{ 'is-ours': row.ours, 'is-clicked': row.ours && clicked, 'is-far': row.ours && pos > 4 }"
+            :class="{ 'is-ours': row.ours, 'is-clicked': row.ours && clicked, 'is-far': row.ours && pos > 3 }"
             :style="{ '--d': `${i * 90}ms` }"
           >
             <span class="pd-serp__url">
               <em v-if="row.ad">Реклама</em>
-              <b v-if="row.ours && scenario.mode === 'seo' && pos > 4">#{{ pos }}</b>
+              <b v-if="row.ours && scenario.mode === 'seo' && pos > 3">#{{ pos }}</b>
               {{ row.url }}
             </span>
             <strong>{{ row.title }}</strong>
-            <span class="pd-serp__text">{{ row.text }}</span>
+            <span v-if="row.ours" class="pd-serp__text">{{ row.text }}</span>
           </li>
         </TransitionGroup>
 

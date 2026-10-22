@@ -62,7 +62,7 @@ const marks = { ok: '✓', warn: '!', bad: '×' }
           <span class="pd-check__mark">{{ i < checked ? marks[item.status] : '' }}</span>
           <span class="pd-check__text">
             <strong>{{ item.label }}</strong>
-            <span>{{ i < checked ? item.note : i === current ? 'Проверяем…' : '' }}</span>
+            <span>{{ i < checked ? item.note : i === current ? scenario.busy || 'Проверяем…' : '' }}</span>
           </span>
         </li>
       </ul>

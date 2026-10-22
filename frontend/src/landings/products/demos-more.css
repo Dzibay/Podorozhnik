@@ -185,7 +185,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
-  margin: auto 0 3.2rem;
+  margin: auto 0 3.4rem;
   opacity: 0;
   transition: opacity 0.4s;
 }
@@ -212,7 +212,7 @@
 }
 
 .pd-visits {
-  margin: auto 0 3.2rem;
+  margin: auto 0 3.4rem;
 }
 
 .pd-visits__head {
@@ -226,7 +226,7 @@
   display: flex;
   align-items: flex-end;
   gap: 0.35rem;
-  height: 3.6rem;
+  height: 3rem;
 }
 
 .pd-visits__bars span {
@@ -561,7 +561,7 @@
   grid-template-rows: minmax(0, 1fr) auto;
   gap: 0.8rem 1rem;
   min-height: 0;
-  padding: 0.9rem;
+  padding: 0.9rem 0.9rem 3.6rem;
 }
 
 .pd-plan__chart {
@@ -1000,6 +1000,11 @@
 
   .pd-search__stats dd {
     font-size: 0.62rem;
+  }
+
+  /* на узком окне выдача короче, чтобы под ней остались цифры */
+  .pd-serp__item:nth-child(n + 4) {
+    display: none;
   }
 }
 
