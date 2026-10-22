@@ -661,6 +661,125 @@
   opacity: 0.7;
 }
 
+/* ---------- Заглушка вместо 3D-сцены (новые ниши) ---------- */
+
+.ns-poster {
+  position: relative;
+  overflow: hidden;
+  container-type: size;
+}
+
+.ns-poster__grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--lp-text) 22%, transparent) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(55% 60% at 58% 50%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(55% 60% at 58% 50%, #000 20%, transparent 75%);
+}
+
+.ns-poster__stage {
+  position: absolute;
+  top: 50%;
+  left: 58%;
+  width: min(72cqh, 80cqw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.ns-poster__ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--lp-accent) 55%, transparent);
+  animation: ns-poster-spin 60s linear infinite;
+}
+
+.ns-poster__ring--outer {
+  inset: 0;
+}
+
+.ns-poster__ring--inner {
+  inset: 18%;
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--ns-accent-2) 35%, transparent);
+  border-top-color: var(--ns-accent-2);
+  animation-duration: 24s;
+  animation-direction: reverse;
+}
+
+.ns-poster__core {
+  position: absolute;
+  inset: 32%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--lp-accent) 28%, var(--lp-surface)), var(--lp-surface) 70%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--lp-accent) 40%, transparent),
+    0 0 80px var(--ns-glow);
+  color: var(--lp-accent);
+}
+
+.ns-poster__core .niche-icon {
+  width: 52%;
+  height: 52%;
+  stroke-width: 1.2;
+}
+
+.ns-poster__tag {
+  position: absolute;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--lp-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lp-surface) 85%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--lp-text);
+  font-size: 0.82rem;
+  white-space: nowrap;
+  animation: ns-poster-float 7s ease-in-out infinite;
+}
+
+.ns-poster__tag::before {
+  content: "";
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: var(--lp-accent);
+  vertical-align: 0.08em;
+}
+
+.ns-poster__tag--1 {
+  top: 8%;
+  right: 2%;
+}
+
+.ns-poster__tag--2 {
+  top: 58%;
+  left: 0;
+  animation-delay: -2.3s;
+}
+
+.ns-poster__tag--3 {
+  bottom: 6%;
+  right: 10%;
+  animation-delay: -4.6s;
+}
+
+@keyframes ns-poster-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ns-poster-float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 /* ---------- Адаптив ---------- */
 
 @media (max-width: 960px) {
@@ -677,6 +796,20 @@
     width: auto;
     height: min(82vw, 30rem);
     margin: 0 calc(var(--lp-pad) * -1) -3rem;
+  }
+
+  .ns-hero .ns-poster {
+    height: min(70vw, 22rem);
+    margin-bottom: -1rem;
+  }
+
+  .ns-poster__stage {
+    left: 50%;
+    width: min(78cqh, 70cqw);
+  }
+
+  .ns-poster__tag--2 {
+    left: -6%;
   }
 
   .ns-hero__shade {
@@ -759,7 +892,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ns-search__caret {
+  .ns-search__caret,
+  .ns-poster__ring,
+  .ns-poster__tag {
     animation: none;
   }
 }

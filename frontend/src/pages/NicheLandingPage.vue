@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import LandingShell from '../landings/kit/LandingShell.vue'
 import LeadForm from '../components/ui/LeadForm.vue'
 import NicheScene from '../landings/showcase/NicheScene.vue'
+import NichePoster from '../landings/showcase/NichePoster.vue'
 import NicheCalc from '../landings/showcase/NicheCalc.vue'
 import NicheJourney from '../landings/showcase/NicheJourney.vue'
 import NicheCases from '../landings/showcase/NicheCases.vue'
@@ -53,7 +54,8 @@ function onCall(place) {
     <main id="main">
       <!-- 1. Hero: у витрины — 3D-сцена ниши и рыночные ориентиры -->
       <section v-if="show" class="lp-hero ns-hero">
-        <NicheScene class="ns-hero__scene" :scene="show.scene" :still="show.still" />
+        <NicheScene v-if="show.scene" class="ns-hero__scene" :scene="show.scene" :still="show.still" />
+        <NichePoster v-else class="ns-hero__scene" :icon="niche.card.icon" :tags="niche.card.tags" />
         <div class="ns-hero__shade" aria-hidden="true" />
         <div class="lp-wrap ns-hero__inner">
           <p class="lp-kicker">{{ niche.hero.kicker }}</p>
@@ -200,7 +202,7 @@ function onCall(place) {
       </section>
 
       <!-- 7. Cases / niche experience (без выдуманных цифр) -->
-      <NicheCases v-if="show" :slugs="show.cases" />
+      <NicheCases v-if="show?.cases?.length" :slugs="show.cases" />
       <section v-else class="lp-section" id="lp-cases">
         <div class="lp-wrap">
           <p class="lp-kicker">{{ niche.cases.kicker }}</p>

@@ -1,5 +1,6 @@
 import { homeCopy } from './home.js'
 import { extraNiches } from './nichesExtra.js'
+import { moreNiches } from './nichesMore/index.js'
 
 /** Общие блоки посадочных — тарифы, команда, принципы с главной */
 const shared = {
@@ -337,7 +338,7 @@ export const niches = {
   },
 }
 
-for (const { faqItems, ...niche } of extraNiches) {
+for (const { faqItems, ...niche } of [...extraNiches, ...moreNiches]) {
   niches[niche.slug] = {
     ...niche,
     faq: {

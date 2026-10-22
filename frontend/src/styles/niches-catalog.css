@@ -1,0 +1,238 @@
+/* Каталог ниш /dlya: липкий фильтр по группам, поиск, группы с карточками */
+
+/* clip вместо hidden — иначе липкая панель фильтра не прилипает */
+.page.page--niches {
+  overflow: clip;
+}
+
+.nc-bar {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 calc(var(--container-pad) * -1);
+  padding: 0.75rem var(--container-pad);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
+.nc-filter {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.nc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, #fff 50%, var(--paper));
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.nc-chip:hover {
+  border-color: color-mix(in srgb, var(--red) 40%, transparent);
+}
+
+.nc-chip[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.nc-chip__count {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.nc-chip[aria-pressed="true"] .nc-chip__count {
+  color: color-mix(in srgb, var(--paper) 65%, transparent);
+}
+
+.nc-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 0 15rem;
+  color: var(--color-muted);
+}
+
+.nc-search svg {
+  position: absolute;
+  left: 0.9rem;
+  pointer-events: none;
+}
+
+.nc-search input {
+  width: 100%;
+  padding: 0.6rem 0.9rem 0.6rem 2.4rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, #fff 70%, var(--paper));
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.nc-search input:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 1px;
+}
+
+.nc-status {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 0;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nc-group {
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+  scroll-margin-top: calc(var(--header-height) + 5rem);
+}
+
+.nc-group__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.nc-group__index {
+  color: var(--red);
+  font-size: var(--fs-label);
+}
+
+.page .nc-group__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.nc-group__text {
+  grid-column: 2;
+  margin: 0.35rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.nc-group__count {
+  grid-column: 3;
+  grid-row: 1;
+  color: var(--color-muted);
+  font-size: var(--fs-label);
+  white-space: nowrap;
+}
+
+.nc-grid .niche {
+  min-height: 19rem;
+}
+
+.nc-empty {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  max-width: 34rem;
+  margin: 2rem 0 0;
+  padding: 1.75rem;
+  border: 1px dashed color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: 1.25rem;
+}
+
+.nc-empty p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.nc-empty .nc-empty__title {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.page--niches .page-cta2 {
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+@media (max-width: 1180px) {
+  .nc-bar {
+    flex-wrap: wrap;
+  }
+
+  .nc-search {
+    flex: 1 1 100%;
+    order: -1;
+  }
+}
+
+/* на телефоне чипы — одна лента со скроллом вбок, поиск над ней */
+@media (max-width: 720px) {
+  .nc-bar {
+    gap: 0.6rem;
+    padding-block: 0.6rem;
+  }
+
+  .nc-filter {
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    margin: 0 calc(var(--container-pad) * -1);
+    padding: 0 var(--container-pad);
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .nc-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nc-chip {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.84rem;
+  }
+
+  .nc-group__head {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .nc-group__text {
+    grid-column: 1 / -1;
+  }
+
+  .nc-group__count {
+    display: none;
+  }
+
+  .nc-grid .niche {
+    min-height: 0;
+  }
+}
