@@ -8,8 +8,16 @@ import DemoBot from './demos/DemoBot.vue'
 import DemoSaas from './demos/DemoSaas.vue'
 import DemoFlow from './demos/DemoFlow.vue'
 import DemoAi from './demos/DemoAi.vue'
+import DemoSearch from './demos/DemoSearch.vue'
+import DemoBuild from './demos/DemoBuild.vue'
+import DemoReport from './demos/DemoReport.vue'
+import DemoPlan from './demos/DemoPlan.vue'
+import DemoCrm from './demos/DemoCrm.vue'
+import DemoAudit from './demos/DemoAudit.vue'
+import NicheCalc from '../showcase/NicheCalc.vue'
 import '../showcase/showcase.css'
 import './product.css'
+import './demos-more.css'
 import { productEstimateNote } from '../../data/products'
 import { contacts } from '../../data/site'
 import { track } from '../../analytics/tracker'
@@ -20,7 +28,18 @@ const props = defineProps({
   slug: { type: String, required: true },
 })
 
-const demos = { bot: DemoBot, saas: DemoSaas, flow: DemoFlow, ai: DemoAi }
+const demos = {
+  bot: DemoBot,
+  saas: DemoSaas,
+  flow: DemoFlow,
+  ai: DemoAi,
+  search: DemoSearch,
+  build: DemoBuild,
+  report: DemoReport,
+  plan: DemoPlan,
+  crm: DemoCrm,
+  audit: DemoAudit,
+}
 const demo = computed(() => demos[props.product.demo])
 
 // сценарии демо идут по кругу, клик по вкладке переключает сразу
@@ -29,6 +48,9 @@ const scenario = computed(() => props.product.scenarios[active.value])
 function nextScenario() {
   active.value = (active.value + 1) % props.product.scenarios.length
 }
+
+// маркетинговым услугам — калькулятор потерянных заявок, IT — калькулятор рутины
+const leaksCalc = computed(() => props.product.calc.kind === 'leaks')
 
 const vars = computed(() => {
   const t = props.product.theme
@@ -74,7 +96,7 @@ function onCall(place) {
                 Позвонить
                 <span class="lp-btn__num">{{ contacts.phoneDisplay }}</span>
               </a>
-              <a class="lp-btn lp-btn--outline" href="#lp-calc">Посчитать экономию</a>
+              <a class="lp-btn lp-btn--outline" href="#lp-calc">{{ leaksCalc ? 'Посчитать потери' : 'Посчитать экономию' }}</a>
             </div>
             <dl class="ns-facts pd-facts">
               <div v-for="fact in product.facts" :key="fact.label">
@@ -124,7 +146,8 @@ function onCall(place) {
       </section>
 
       <!-- 3. Калькулятор рутины -->
-      <ProductCalc :calc="product.calc" :slug="slug" />
+      <NicheCalc v-if="leaksCalc" :calc="product.calc" :slug="slug" />
+      <ProductCalc v-else :calc="product.calc" :slug="slug" />
 
       <!-- 4. Этапы -->
       <section class="lp-section" id="lp-steps">
@@ -148,7 +171,7 @@ function onCall(place) {
       <!-- 5. Интеграции и стек -->
       <section class="lp-section pd-stack-sec" aria-label="Интеграции и технологии">
         <div class="lp-wrap">
-          <p class="lp-kicker">С чем работаем</p>
+          <p class="lp-kicker">{{ product.stackLabel || 'С чем работаем' }}</p>
           <ul class="pd-stack">
             <li v-for="item in product.stack" :key="item">{{ item }}</li>
           </ul>
@@ -161,7 +184,7 @@ function onCall(place) {
           <p class="lp-kicker">Форматы</p>
           <div class="lp-section__head">
             <h2>С чего можно начать</h2>
-            <p class="lp-lead">Стоимость называем после короткого брифа. Она фиксируется до старта и не меняется по ходу работы.</p>
+            <p class="lp-lead">{{ product.formatsLead || 'Стоимость называем после короткого брифа. Она фиксируется до старта и не меняется по ходу работы.' }}</p>
           </div>
           <div class="lp-grid-3">
             <article

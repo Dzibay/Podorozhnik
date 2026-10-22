@@ -4,6 +4,9 @@
  * Цифры в facts и calc — ориентиры, на странице подписаны как оценка.
  */
 
+import { marketingProducts } from './productsMore/marketing.js'
+import { buildProducts } from './productsMore/build.js'
+
 export const productEstimateNote =
   'Оценка по нашим проектам и открытым данным. У вашего бизнеса цифры могут отличаться — точные посчитаем на брифе.'
 
@@ -563,6 +566,8 @@ export const products = {
     },
   },
 }
+
+Object.assign(products, marketingProducts, buildProducts)
 
 export function getProduct(slug) {
   return products[slug] || null
