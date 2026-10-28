@@ -1,5 +1,5 @@
 <script setup>
-import { nichePath } from '../../data/niches'
+import { routes } from '../../data/site'
 import NicheIcon from './NicheIcon.vue'
 
 /** Карточка ниши: главная и каталог /dlya */
@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-  <RouterLink :to="nichePath(niche.slug)" class="niche" data-spot data-cursor="Смотреть">
+  <RouterLink :to="routes.niche(niche.slug)" class="niche" data-spot data-cursor="Смотреть">
     <span class="niche__top">
       <span class="niche__num mono">{{ String(num).padStart(2, '0') }}</span>
       <span class="niche__arrow" aria-hidden="true">

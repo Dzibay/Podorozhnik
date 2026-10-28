@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { contacts, routes, site } from '../../data/site'
 import BrandMark from '../../components/ui/BrandMark.vue'
 import './landing-base.css'
@@ -13,7 +13,24 @@ const props = defineProps({
   // своя палитра страницы (CSS-переменные) и класс оформления — у нишевых витрин
   vars: { type: Object, default: null },
   variant: { type: String, default: '' },
+  // ссылки внизу страницы: колонки { title, links: [{ label, to }] } — соседние ниши, услуги
+  related: { type: Array, default: () => [] },
 })
+
+const route = useRoute()
+// те же крошки, что в разметке BreadcrumbList: их задаёт роутер
+const crumbs = computed(() => route.meta.breadcrumb || [])
+const sections = {
+  title: 'Подорожник',
+  links: [
+    { label: 'Услуги', to: routes.services },
+    { label: 'Ниши', to: routes.niches },
+    { label: 'Кейсы', to: routes.cases },
+    { label: 'Подход', to: routes.agency },
+    { label: 'Контакты', to: routes.contacts },
+  ],
+}
+const columns = computed(() => [...props.related, sections])
 
 const root = ref(null)
 const themeClass = computed(() => [`lp lp--${props.theme === 'light' ? 'light' : 'dark'}`, props.variant && `lp--${props.variant}`])
@@ -34,6 +51,29 @@ onMounted(paintRoot)
 // переход между нишами переиспользует компонент — перекрашиваем фон под новую палитру
 watch(() => props.vars, () => nextTick(paintRoot))
 onUnmounted(clearRoot)
+
+// Нижняя кнопка на телефоне дублирует кнопки первого экрана и наезжает на них —
+// показываем её, когда они ушли из вида. До гидратации она скрыта.
+const heroActionsVisible = ref(true)
+let heroObserver = null
+
+function watchHeroActions() {
+  heroObserver?.disconnect()
+  const actions = root.value?.querySelector('.lp-hero__actions')
+  if (!actions || typeof IntersectionObserver === 'undefined') {
+    heroActionsVisible.value = false
+    return
+  }
+  heroObserver = new IntersectionObserver(([entry]) => {
+    heroActionsVisible.value = entry.isIntersecting
+  })
+  heroObserver.observe(actions)
+}
+
+onMounted(watchHeroActions)
+// у ниш с витриной и без неё разные герои — после перехода следим за новыми кнопками
+watch(() => route.path, () => nextTick(watchHeroActions))
+onUnmounted(() => heroObserver?.disconnect())
 </script>
 
 <template>
@@ -56,6 +96,27 @@ onUnmounted(clearRoot)
 
     <slot />
 
+    <nav class="lp-map" aria-label="Разделы сайта">
+      <div class="lp-wrap">
+        <ol v-if="crumbs.length" class="lp-crumbs">
+          <li v-for="(crumb, index) in crumbs" :key="crumb.path">
+            <RouterLink v-if="index < crumbs.length - 1" :to="crumb.path">{{ crumb.name }}</RouterLink>
+            <span v-else aria-current="page">{{ crumb.name }}</span>
+          </li>
+        </ol>
+        <div class="lp-map__cols">
+          <div v-for="column in columns" :key="column.title">
+            <p class="lp-map__title">{{ column.title }}</p>
+            <ul class="lp-map__list">
+              <li v-for="link in column.links" :key="link.to">
+                <RouterLink :to="link.to">{{ link.label }}</RouterLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
     <footer class="lp-footer">
       <div class="lp-wrap lp-footer__inner">
         <RouterLink :to="routes.home">{{ site.wordmark }}</RouterLink>
@@ -66,7 +127,7 @@ onUnmounted(clearRoot)
       </div>
     </footer>
 
-    <div v-if="ctaLabel" class="lp-sticky">
+    <div v-if="ctaLabel" class="lp-sticky" :class="{ 'is-hidden': heroActionsVisible }">
       <a class="lp-btn" :href="ctaHref">{{ ctaLabel }}</a>
     </div>
   </div>

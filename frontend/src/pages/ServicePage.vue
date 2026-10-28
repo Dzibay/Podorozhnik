@@ -3,7 +3,7 @@ import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { analyticsEvents, routes } from '../data/site'
 import { getService, getTrack } from '../data/services'
-import { nicheList, nichePath } from '../data/niches'
+import { nicheIndex } from 'virtual:niche-index'
 import AppButton from '../components/ui/AppButton.vue'
 import { getProduct } from '../data/products'
 
@@ -67,10 +67,10 @@ const product = computed(() => getProduct(route.params.slug))
         <h2 class="service2-niches__title">Чаще всего работаем с</h2>
         <div class="service2-niches__grid">
           <RouterLink
-            v-for="niche in nicheList"
+            v-for="niche in nicheIndex"
             :key="niche.slug"
             class="card2 service2-niche"
-            :to="nichePath(niche.slug)"
+            :to="routes.niche(niche.slug)"
           >
             <h3>{{ niche.label }}</h3>
             <span class="card2__arrow" aria-hidden="true">&rarr;</span>

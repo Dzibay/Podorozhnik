@@ -18,8 +18,11 @@ import NicheCalc from '../showcase/NicheCalc.vue'
 import '../showcase/showcase.css'
 import './product.css'
 import './demos-more.css'
+import { nicheIndex } from 'virtual:niche-index'
 import { productEstimateNote } from '../../data/products'
-import { contacts } from '../../data/site'
+import { featuredNiches } from '../../data/nicheGroups'
+import { getService, keyServices, services } from '../../data/services'
+import { contacts, routes } from '../../data/site'
 import { track } from '../../analytics/tracker'
 
 /** Посадочная IT-направления: живое демо в первом экране, калькулятор рутины, этапы и форматы */
@@ -52,6 +55,32 @@ function nextScenario() {
 // маркетинговым услугам — калькулятор потерянных заявок, IT — калькулятор рутины
 const leaksCalc = computed(() => props.product.calc.kind === 'leaks')
 
+// ссылки внизу страницы: услуги того же направления, затем главные, и ниши с витриной
+const nicheLabels = new Map(nicheIndex.map((niche) => [niche.slug, niche.label]))
+const related = computed(() => {
+  const current = getService(props.slug)
+  const sameGroup = services.filter((item) => item.group === current?.group && item.slug !== props.slug)
+  const others = [...sameGroup, ...keyServices.map(getService)].filter(
+    (item, index, list) => item.slug !== props.slug && list.indexOf(item) === index,
+  )
+  return [
+    {
+      title: 'Другие услуги',
+      links: [
+        ...others.slice(0, 8).map((item) => ({ label: item.shortTitle, to: routes.service(item.slug) })),
+        { label: 'Все услуги →', to: routes.services },
+      ],
+    },
+    {
+      title: 'Ниши',
+      links: [
+        ...featuredNiches.map((slug) => ({ label: nicheLabels.get(slug), to: routes.niche(slug) })),
+        { label: 'Все ниши →', to: routes.niches },
+      ],
+    },
+  ]
+})
+
 const vars = computed(() => {
   const t = props.product.theme
   return {
@@ -76,7 +105,14 @@ function onCall(place) {
 </script>
 
 <template>
-  <LandingShell theme="dark" variant="showcase" :vars="vars" cta-label="Позвонить" :cta-href="contacts.phoneTel">
+  <LandingShell
+    theme="dark"
+    variant="showcase"
+    :vars="vars"
+    cta-label="Позвонить"
+    :cta-href="contacts.phoneTel"
+    :related="related"
+  >
     <main id="main" class="pd">
       <!-- 1. Первый экран: текст слева, живое демо справа -->
       <section class="lp-hero pd-hero">
@@ -108,15 +144,15 @@ function onCall(place) {
           </div>
 
           <div class="pd-stage">
-            <div class="pd-tabs" role="tablist" aria-label="Сценарии демо">
+            <!-- демо декоративное (aria-hidden), поэтому сценарии — переключатели, а не вкладки без панели -->
+            <div class="pd-tabs" role="group" aria-label="Сценарии демо">
               <button
                 v-for="(item, i) in product.scenarios"
                 :key="item.id"
                 type="button"
-                role="tab"
                 class="pd-tab"
                 :class="{ 'is-active': i === active }"
-                :aria-selected="i === active"
+                :aria-pressed="i === active"
                 @click="active = i"
               >
                 {{ item.label }}
@@ -146,7 +182,7 @@ function onCall(place) {
       </section>
 
       <!-- 3. Калькулятор рутины -->
-      <NicheCalc v-if="leaksCalc" :calc="product.calc" :slug="slug" />
+      <NicheCalc v-if="leaksCalc" :calc="product.calc" :slug="slug" :note="productEstimateNote" />
       <ProductCalc v-else :calc="product.calc" :slug="slug" />
 
       <!-- 4. Этапы -->

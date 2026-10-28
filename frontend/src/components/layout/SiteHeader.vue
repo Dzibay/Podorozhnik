@@ -113,7 +113,7 @@ const headerClass = computed(() => ({
     </div>
   </header>
 
-  <Teleport to="body">
+  <Teleport to="#teleports">
     <Transition name="mnav">
       <nav v-if="menuOpen" id="mobile-nav" class="mnav" aria-label="Мобильная навигация">
         <ul class="mnav__list">

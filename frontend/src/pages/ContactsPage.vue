@@ -3,27 +3,19 @@ import { onMounted, ref } from 'vue'
 import { contactsCopy, homeCopy } from '../data/home'
 import { contacts } from '../data/site'
 import { track } from '../analytics/tracker'
+import { workStatus } from '../utils/workHours'
 import LeadForm from '../components/ui/LeadForm.vue'
 import EmailChooser from '../components/ui/EmailChooser.vue'
 
 const hours = homeCopy.cta.hours
 
-/** Рабочее время по Москве: пн–пт, 10:00–19:00 */
-function isWorkingNow() {
-  const parts = new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Europe/Moscow',
-    weekday: 'short',
-    hour: 'numeric',
-    hourCycle: 'h23',
-  }).formatToParts(new Date())
-  const day = parts.find((part) => part.type === 'weekday')?.value
-  const hour = Number(parts.find((part) => part.type === 'hour')?.value)
-  return !['Sat', 'Sun'].includes(day) && hour >= 10 && hour < 19
-}
-
+// в готовом HTML — «на связи»; рабочее время по Москве проверяем уже в браузере
 const online = ref(true)
+const back = ref('утром')
 onMounted(() => {
-  online.value = isWorkingNow()
+  const now = workStatus()
+  online.value = now.online
+  back.value = now.back
 })
 
 const steps = [
@@ -57,7 +49,7 @@ const steps = [
         </a>
         <p v-reveal class="ct-status mono" :class="{ 'ct-status--off': !online }">
           <span class="live-dot" aria-hidden="true" />
-          {{ online ? 'Сейчас на связи' : 'Сейчас не в офисе — перезвоним утром' }} · {{ hours }}
+          {{ online ? 'Сейчас на связи' : `Сейчас не в офисе — перезвоним ${back}` }} · {{ hours }}
         </p>
 
         <div class="ct-channels">

@@ -70,6 +70,10 @@
   backdrop-filter: blur(8px);
 }
 
+.hero__status--off .live-dot {
+  background: var(--orange);
+}
+
 .hero__wordmark {
   display: grid;
   margin: 0;
@@ -97,6 +101,10 @@
   font-variation-settings: "wght" 820;
   animation: char-in 1.2s var(--ease) both;
   animation-delay: calc(0.15s + var(--c) * 45ms);
+}
+
+.hero__char::before {
+  content: attr(data-char);
 }
 
 @keyframes char-in {
@@ -395,7 +403,7 @@
   background: color-mix(in srgb, var(--ink) 5%, transparent);
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -1889,6 +1897,14 @@
 
   .stack__role {
     max-width: 14rem;
+  }
+}
+
+/* на телефоне низ экрана занят панелью «Позвонить / Telegram» (float.css) — первый экран кончается над ней */
+@media (max-width: 720px) {
+  .hero {
+    min-height: calc(100vh - 4.5rem);
+    min-height: calc(100svh - 4.5rem - env(safe-area-inset-bottom));
   }
 }
 

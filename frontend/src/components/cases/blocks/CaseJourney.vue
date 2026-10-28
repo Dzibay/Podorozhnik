@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { calmMotion, useScrollProgress } from '../useScrollProgress'
+import { useCalm } from '../../../utils/perf'
+import { useScrollProgress } from '../useScrollProgress'
 
 /**
  * Путь клиента: секция закрепляется, а линия маршрута прорисовывается по мере прокрутки.
@@ -12,7 +13,7 @@ const props = defineProps({
 
 const root = ref(null)
 const progress = useScrollProgress(root, 'pin')
-const reduced = calmMotion()
+const reduced = useCalm()
 
 const W = 1200
 const nodes = computed(() => {
@@ -34,7 +35,7 @@ const path = computed(() =>
   }, ''),
 )
 
-const draw = computed(() => (reduced ? 1 : Math.min(1, Math.max(0, (progress.value - 0.04) / 0.82))))
+const draw = computed(() => (reduced.value ? 1 : Math.min(1, Math.max(0, (progress.value - 0.04) / 0.82))))
 
 const dot = computed(() => {
   const all = nodes.value

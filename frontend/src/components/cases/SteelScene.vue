@@ -1,12 +1,13 @@
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { perf } from '../../utils/perf'
+import { perf, useLite } from '../../utils/perf'
 import { calmMotion } from './useScrollProgress'
 
 /**
  * Обёртка 3D-сцены: three.js грузится отдельным чанком только на этой странице.
  * В облегчённом режиме вместо сцены — заранее отрендеренный кадр, three.js не скачивается вовсе.
  */
+const lite = useLite()
 const canvas = ref(null)
 let api = null
 let disposed = false
@@ -57,9 +58,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="steel" :class="{ 'steel--still': perf.lite }">
+  <div class="steel" :class="{ 'steel--still': lite }">
     <img
-      v-if="perf.lite"
+      v-if="lite"
       class="steel__still"
       src="/img/cases/greydstroy-steel.webp"
       srcset="/img/cases/greydstroy-steel-640.webp 640w, /img/cases/greydstroy-steel.webp 1100w"

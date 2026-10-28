@@ -1,7 +1,7 @@
 <script setup>
 import { contacts, routes } from '../data/site'
 import { getService, serviceTracks } from '../data/services'
-import { getProduct } from '../data/products'
+import { productAccents } from 'virtual:product-accents'
 import { track } from '../analytics/tracker'
 import AppButton from '../components/ui/AppButton.vue'
 import ServicePreview from '../components/services/ServicePreview.vue'
@@ -14,7 +14,7 @@ const tracks = serviceTracks.map((item, index) => ({
   cards: item.items.map((card) => {
     const service = getService(card.slug)
     // у IT-посадочных своя палитра — превью красим в их акцент
-    const accent = getProduct(card.slug)?.theme.accent
+    const accent = productAccents[card.slug]
     return { ...card, service, style: accent ? { '--sp-accent': accent } : null }
   }),
 }))

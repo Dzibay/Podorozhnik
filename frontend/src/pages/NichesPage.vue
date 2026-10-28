@@ -1,8 +1,9 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { contacts, routes } from '../data/site'
 import { nicheGroups } from '../data/nicheGroups'
+import { nicheCards } from 'virtual:niche-cards'
 import { track } from '../analytics/tracker'
 import NicheCard from '../components/ui/NicheCard.vue'
 import '../styles/niches-catalog.css'
@@ -11,21 +12,33 @@ import '../styles/niches-catalog.css'
 const route = useRoute()
 const router = useRouter()
 
+// только карточки ниш, а не тексты их посадочных
+const cards = new Map(nicheCards.map((niche) => [niche.slug, niche]))
+
 // сквозная нумерация карточек — по порядку групп
 let counter = 0
 const groups = nicheGroups.map((group, index) => ({
   ...group,
   index: String(index + 1).padStart(2, '0'),
-  items: group.niches.map((niche) => ({
-    niche,
-    num: ++counter,
-    haystack: [niche.card.title, niche.label, niche.card.text, ...niche.card.tags].join(' ').toLowerCase(),
-  })),
+  items: group.slugs
+    .map((slug) => cards.get(slug))
+    .filter(Boolean)
+    .map((niche) => ({
+      niche,
+      num: ++counter,
+      haystack: [niche.card.title, niche.label, niche.card.text, ...niche.card.tags].join(' ').toLowerCase(),
+    })),
 }))
 const total = counter
 
-const active = ref(groups.some((g) => g.id === route.query.g) ? route.query.g : 'all')
+const active = ref('all')
 const query = ref('')
+
+// фильтр из адреса — после гидрации: готовый HTML каталога собран без него
+onMounted(() => {
+  const id = route.query.g
+  if (groups.some((g) => g.id === id)) active.value = id
+})
 
 watch(active, (id) => {
   router.replace({ query: id === 'all' ? {} : { g: id }, hash: '' })

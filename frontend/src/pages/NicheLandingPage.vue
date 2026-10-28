@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import LandingShell from '../landings/kit/LandingShell.vue'
 import LeadForm from '../components/ui/LeadForm.vue'
 import NicheScene from '../landings/showcase/NicheScene.vue'
@@ -10,8 +10,10 @@ import NicheJourney from '../landings/showcase/NicheJourney.vue'
 import NicheCases from '../landings/showcase/NicheCases.vue'
 import '../landings/showcase/showcase.css'
 import { getNiche } from '../data/niches'
+import { nicheGroups } from '../data/nicheGroups'
 import { estimateNote, getShowcase } from '../data/nicheShowcase'
-import { contacts } from '../data/site'
+import { getService, keyServices } from '../data/services'
+import { contacts, routes } from '../data/site'
 import { track } from '../analytics/tracker'
 
 const route = useRoute()
@@ -37,6 +39,29 @@ const showVars = computed(() => {
   }
 })
 
+// ссылки внизу страницы: соседние ниши той же группы и главные услуги
+const related = computed(() => {
+  const slug = route.params.slug
+  const group = nicheGroups.find((item) => item.slugs.includes(slug))
+  const neighbours = group ? group.slugs.filter((item) => item !== slug) : []
+  return [
+    {
+      title: group ? group.title : 'Ниши',
+      links: [
+        ...neighbours.map((item) => ({ label: getNiche(item).label, to: routes.niche(item) })),
+        { label: 'Все ниши →', to: routes.niches },
+      ],
+    },
+    {
+      title: 'Услуги',
+      links: [
+        ...keyServices.map((item) => ({ label: getService(item).shortTitle, to: routes.service(item) })),
+        { label: 'Все услуги →', to: routes.services },
+      ],
+    },
+  ]
+})
+
 function onCall(place) {
   track('click_phone', { place: `landing-${place}`, niche: route.params.slug })
 }
@@ -50,6 +75,7 @@ function onCall(place) {
     :vars="showVars"
     cta-label="Позвонить"
     :cta-href="contacts.phoneTel"
+    :related="related"
   >
     <main id="main">
       <!-- 1. Hero: у витрины — 3D-сцена ниши и рыночные ориентиры -->
@@ -123,7 +149,7 @@ function onCall(place) {
         </div>
       </section>
 
-      <NicheCalc v-if="show" :calc="show.calc" :slug="route.params.slug" />
+      <NicheCalc v-if="show" :calc="show.calc" :slug="route.params.slug" :note="estimateNote" />
 
       <!-- 3. Alternatives -->
       <section class="lp-section" id="lp-alts">
@@ -219,26 +245,22 @@ function onCall(place) {
         </div>
       </section>
 
-      <!-- 8. Process CJM -->
+      <!-- 8. Process CJM: этапы и сроки одной строкой — подробный рассказ о них на главной -->
       <section class="lp-section" id="lp-process">
         <div class="lp-wrap">
           <p class="lp-kicker">{{ niche.process.kicker }}</p>
           <div class="lp-section__head">
             <h2>{{ niche.process.title }}</h2>
           </div>
-          <div class="lp-process">
-            <article
-              v-for="(phase, index) in niche.process.phases"
-              :key="phase.id"
-              class="lp-process__item"
-            >
-              <span class="lp-process__idx">{{ String(index + 1).padStart(2, '0') }}</span>
+          <ol class="lp-process lp-process--compact">
+            <li v-for="(phase, index) in niche.process.phases" :key="phase.id" class="lp-process__item">
+              <span class="lp-process__idx" aria-hidden="true">{{ String(index + 1).padStart(2, '0') }}</span>
               <div>
-                <h3>{{ phase.title }} — {{ phase.tagline }}</h3>
-                <p>{{ phase.text }}</p>
+                <h3>{{ phase.title }}</h3>
+                <p>{{ phase.tagline }}</p>
               </div>
-            </article>
-          </div>
+            </li>
+          </ol>
         </div>
       </section>
 
@@ -272,40 +294,29 @@ function onCall(place) {
         </div>
       </section>
 
-      <!-- 10. Team -->
+      <!-- 10. Команда и принципы — коротко, они одни на все ниши; подробно — на странице агентства -->
       <section class="lp-section" id="lp-team">
         <div class="lp-wrap">
           <p class="lp-kicker">{{ niche.team.kicker }}</p>
           <div class="lp-section__head">
             <h2>{{ niche.team.title }}</h2>
-            <p class="lp-lead">{{ niche.team.lead }}</p>
           </div>
+          <ul class="lp-roles" aria-label="Кто ведёт проект">
+            <li v-for="m in niche.team.members" :key="m.role">{{ m.role }}</li>
+          </ul>
           <div class="lp-grid-4">
-            <article v-for="m in niche.team.members" :key="m.role" class="lp-card">
-              <h3>{{ m.role }}</h3>
-              <p>{{ m.text }}</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 11. Principles -->
-      <section class="lp-section" id="lp-principles">
-        <div class="lp-wrap">
-          <p class="lp-kicker">{{ niche.principles.kicker }}</p>
-          <div class="lp-section__head">
-            <h2>{{ niche.principles.title }}</h2>
-          </div>
-          <div class="lp-grid-2">
             <article v-for="item in niche.principles.items" :key="item.title" class="lp-card">
               <h3>{{ item.title }}</h3>
               <p>{{ item.text }}</p>
             </article>
           </div>
+          <p class="lp-foot-note">
+            <RouterLink :to="routes.agency">Подробнее о команде и подходе →</RouterLink>
+          </p>
         </div>
       </section>
 
-      <!-- 12. FAQ -->
+      <!-- 11. FAQ -->
       <section class="lp-section" id="lp-faq">
         <div class="lp-wrap">
           <p class="lp-kicker">{{ niche.faq.kicker }}</p>
@@ -321,7 +332,7 @@ function onCall(place) {
         </div>
       </section>
 
-      <!-- 13. Form + lead magnet -->
+      <!-- 12. Form + lead magnet -->
       <section class="lp-section lp-section--dark" id="lp-form">
         <div class="lp-wrap lp-form-block">
           <div>

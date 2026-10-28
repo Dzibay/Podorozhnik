@@ -52,7 +52,6 @@
 
 .cp-brief__word {
   display: inline-block;
-  margin-right: 0.24em;
   opacity: 0.16;
   transition:
     opacity 0.5s var(--ease),

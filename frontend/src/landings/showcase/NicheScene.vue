@@ -1,6 +1,6 @@
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { calmMotion, perf } from '../../utils/perf'
+import { calmMotion, perf, useLite } from '../../utils/perf'
 
 /**
  * 3D-сцена ниши. three.js и сама сцена грузятся отдельным чанком только здесь;
@@ -44,6 +44,7 @@ const loaders = {
   flowers: () => import('../scenes/flowers').then((m) => m.mountFlowers),
 }
 
+const lite = useLite()
 const canvas = ref(null)
 let api = null
 let disposed = false
@@ -107,7 +108,7 @@ onUnmounted(() => {
 <template>
   <div class="ns-scene" aria-hidden="true">
     <img
-      v-if="perf.lite"
+      v-if="lite"
       class="ns-scene__still"
       :src="`${still}.webp`"
       :srcset="`${still}-640.webp 640w, ${still}.webp 1100w`"

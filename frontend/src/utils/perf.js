@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 
 /**
  * Облегчённый режим для телефонов и слабых компьютеров.
@@ -8,7 +8,8 @@ import { reactive } from 'vue'
  * На остальных устройствах первые секунды меряем частоту кадров: если она стабильно
  * проседает, режим включается на ходу и запоминается до конца сессии.
  *
- * Компоненты читают perf.lite, CSS — класс html.is-lite.
+ * Компоненты читают perf.lite, CSS — класс html.is-lite. В шаблонах — useLite()/useCalm():
+ * страницы приходят готовым HTML (полная версия), и до гидрации разметка должна с ним совпадать.
  * Для проверки: ?lite=1 или ?lite=0 в адресе (запоминается в sessionStorage).
  */
 export const perf = reactive({ lite: false, why: '' })
@@ -88,3 +89,22 @@ export function installPerf() {
 
 /** Спокойный режим: без сцен, завязанных на прокрутку, и бесконечных анимаций */
 export const calmMotion = () => perf.lite || mq('(prefers-reduced-motion: reduce)')
+
+/** true после монтирования компонента: на сервере и во время гидрации — false */
+function useMounted() {
+  const mounted = ref(false)
+  onMounted(() => (mounted.value = true))
+  return mounted
+}
+
+/** perf.lite для шаблонов: до монтирования — полная версия, как в пререндере */
+export function useLite() {
+  const mounted = useMounted()
+  return computed(() => mounted.value && perf.lite)
+}
+
+/** calmMotion() для шаблонов и вычислений, от которых зависит разметка */
+export function useCalm() {
+  const mounted = useMounted()
+  return computed(() => mounted.value && calmMotion())
+}

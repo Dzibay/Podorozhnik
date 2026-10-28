@@ -139,7 +139,7 @@ function deviceType() {
 }
 
 function isAdminRoute(route) {
-  if (route?.meta?.bare) return true
+  if (route?.meta?.admin) return true
   const path = location.pathname
   return path === '/admin-panel' || path.startsWith('/admin-panel/') || path.includes('pd-panel-')
 }
@@ -311,7 +311,7 @@ export function installAnalytics(router) {
   })
 
   router.afterEach((to) => {
-    if (to.meta?.bare) return
+    if (to.meta?.admin) return
     requestAnimationFrame(() => trackPageview(to))
   })
 }

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { perf } from '../../../utils/perf'
+import { useLite } from '../../../utils/perf'
 
 /**
  * Разбор решений: слева — решения, справа — закреплённое окно браузера.
@@ -13,7 +13,8 @@ const props = defineProps({
   label: { type: String, default: '' },
 })
 
-const lite = computed(() => perf.lite && props.shot.crops)
+const isLite = useLite()
+const lite = computed(() => isLite.value && props.shot.crops)
 const crop = (i) => props.shot.src.replace('-desktop.webp', `-d${i + 1}.webp`)
 
 const active = ref(0)

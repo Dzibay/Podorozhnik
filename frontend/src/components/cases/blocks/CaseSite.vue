@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { perf } from '../../../utils/perf'
+import { useLite } from '../../../utils/perf'
 import { useScrollProgress } from '../useScrollProgress'
 
 /**
@@ -16,6 +16,7 @@ const props = defineProps({
   url: { type: String, default: '' },
 })
 
+const lite = useLite()
 const root = ref(null)
 const stage = ref(null)
 const progress = useScrollProgress(root)
@@ -69,7 +70,7 @@ function onLeave() {
         </div>
       </div>
 
-      <div v-if="perf.lite" class="cp-site__solo">
+      <div v-if="lite" class="cp-site__solo">
         <div class="cp-phone cp-phone--solo">
           <div class="cp-phone__view cp-phone__scroll" tabindex="0" :aria-label="`Сайт ${site.label} — мобильная версия, можно листать`">
             <img

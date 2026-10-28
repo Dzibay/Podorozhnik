@@ -47,10 +47,10 @@
   --color-cta-ink: var(--paper);
 
   /* Типографика */
-  --font-display: "Unbounded", system-ui, sans-serif;
-  --font-hero: "Unbounded", system-ui, sans-serif;
-  --font-body: "Golos Text", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Unbounded Variable", "Unbounded", system-ui, sans-serif;
+  --font-hero: "Unbounded Variable", "Unbounded", system-ui, sans-serif;
+  --font-body: "Golos Text Variable", "Golos Text", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
 
   --fs-mega: clamp(4.5rem, 15.5vw, 16rem);
   --fs-h1: clamp(2.6rem, 6vw, 5.6rem);

@@ -1,4 +1,5 @@
-import { getNiche } from './niches.js'
+/** Ниши с 3D-витриной: на главной и в ссылках со страниц услуг */
+export const featuredNiches = ['proizvodstvo', 'strojka', 'mebel', 'medicina', 'avto', 'horeca']
 
 /** Группы каталога ниш: порядок групп и ниш внутри — как на странице /dlya */
 export const nicheGroups = [
@@ -32,4 +33,4 @@ export const nicheGroups = [
     text: 'Быстрые заказы и Карты рядом с домом',
     slugs: ['internet-magaziny', 'cvety', 'avto', 'remont-tehniki', 'uslugi'],
   },
-].map((group) => ({ ...group, niches: group.slugs.map(getNiche).filter(Boolean) }))
+]

@@ -1,3 +1,5 @@
+import { featuredNiches } from './nicheGroups.js'
+
 /**
  * Тексты главной. Общие блоки (тарифы, команда, принципы, оффер,
  * процесс, FAQ) переиспользуются нишевыми посадочными — см. niches.js.
@@ -55,7 +57,7 @@ export const homeCopy = {
     more: 'Нет вашей ниши? Позвоните — честно скажем, сможем ли помочь.',
     all: 'Все ниши',
     // на главной — шесть ниш с 3D-витриной, остальные в каталоге /dlya
-    featured: ['proizvodstvo', 'strojka', 'mebel', 'medicina', 'avto', 'horeca'],
+    featured: featuredNiches,
   },
   stack: {
     kicker: 'Почему мы',

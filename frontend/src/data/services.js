@@ -325,6 +325,18 @@ export const legacyServiceRedirects = {
   targeting: 'yandex-direct',
 }
 
+/** Главные услуги: прямые ссылки в подвале сайта и внизу посадочных */
+export const keyServices = [
+  'yandex-direct',
+  'seo',
+  'landing-pages',
+  'site-24h',
+  'analytics',
+  'telegram-bots',
+  'automation',
+  'ai-assistants',
+]
+
 export function getService(slug) {
   return services.find((item) => item.slug === slug)
 }

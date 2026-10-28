@@ -1,11 +1,12 @@
 <script setup>
 import { homeCopy } from '../../data/home'
 import { contacts, routes } from '../../data/site'
-import { getNiche, nicheList } from '../../data/niches'
+import { nicheCards } from 'virtual:niche-cards'
 import NicheCard from '../ui/NicheCard.vue'
 
 const { niches: copy } = homeCopy
-const featured = copy.featured.map(getNiche)
+// только карточки ниш, а не тексты их посадочных
+const featured = copy.featured.map((slug) => nicheCards.find((niche) => niche.slug === slug)).filter(Boolean)
 </script>
 
 <template>
@@ -31,7 +32,7 @@ const featured = copy.featured.map(getNiche)
 
       <div v-reveal class="niches__more">
         <RouterLink class="button button--primary niches__all" :to="routes.niches">
-          {{ copy.all }} · {{ nicheList.length }} <span aria-hidden="true">&rarr;</span>
+          {{ copy.all }} · {{ nicheCards.length }} <span aria-hidden="true">&rarr;</span>
         </RouterLink>
         <p>
           {{ copy.more }}

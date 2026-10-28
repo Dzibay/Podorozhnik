@@ -1,13 +1,13 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { homeCopy } from '../../data/home'
-import { calmMotion } from '../../utils/perf'
+import { useCalm } from '../../utils/perf'
 import BrandMark from '../ui/BrandMark.vue'
 
 const { stack } = homeCopy
 const root = ref(null)
 /* спокойный режим: обычная секция без закрепления — подрядчики списком, под ними итог */
-const calm = computed(calmMotion)
+const calm = useCalm()
 
 /** Стартовые позиции «подрядчиков» вокруг центра (в долях экрана) */
 const spots = [

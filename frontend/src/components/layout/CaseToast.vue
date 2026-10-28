@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { caseThemeVars, cases } from '../../data/cases'
 import { routes } from '../../data/site'
+import { cookieNoteOpen } from '../../utils/cookieNote'
 
 /**
  * Ненавязчивая карточка с результатом из реального кейса.
@@ -15,7 +15,9 @@ const HIDDEN_ROUTES = ['contacts', 'case', 'cases', 'not-found', 'privacy', 'con
 
 const route = useRoute()
 const current = ref(null)
+const theme = ref(null)
 const visible = ref(false)
+let armed = 0
 let readyTimer = 0
 let hideTimer = 0
 let ready = false
@@ -35,12 +37,17 @@ function allowed() {
   return !route.meta.bare && !HIDDEN_ROUTES.includes(route.name) && !session('case-toast-closed') && session('case-toast-count') < SESSION_LIMIT
 }
 
-function show() {
+// кейсы нужны только к моменту показа — в общий бандл они не попадают
+async function show() {
+  shownOnPage = true
+  const page = armed
+  const { caseThemeVars, cases } = await import('../../data/cases')
+  if (page !== armed || !allowed()) return
   const index = session('case-toast-index') % cases.length
   current.value = cases[index]
+  theme.value = caseThemeVars(cases[index])
   session('case-toast-index', index + 1)
   session('case-toast-count', session('case-toast-count') + 1)
-  shownOnPage = true
   visible.value = true
   scheduleHide()
 }
@@ -57,7 +64,8 @@ function pauseHide() {
 }
 
 function onScroll() {
-  if (!ready || shownOnPage || visible.value) return
+  // занято уведомлением о cookie — покажем при первой прокрутке после него
+  if (!ready || shownOnPage || visible.value || cookieNoteOpen.value) return
   if (window.scrollY < window.innerHeight * 1.2 || !allowed()) return
   show()
 }
@@ -68,6 +76,7 @@ function close() {
 }
 
 function arm() {
+  armed++
   clearTimeout(readyTimer)
   ready = false
   shownOnPage = false
@@ -98,7 +107,7 @@ onUnmounted(() => {
     v-if="current"
     class="live-toast"
     :class="{ 'live-toast--on': visible }"
-    :style="caseThemeVars(current)"
+    :style="theme"
     aria-label="Результат из кейса"
     @mouseenter="pauseHide"
     @mouseleave="scheduleHide"

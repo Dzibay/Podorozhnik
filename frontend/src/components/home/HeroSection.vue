@@ -3,11 +3,15 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { homeCopy } from '../../data/home'
 import { contacts } from '../../data/site'
 import { track } from '../../analytics/tracker'
+import { workStatus } from '../../utils/workHours'
 import HeroShader from './HeroShader.vue'
 
 const { hero } = homeCopy
 const rows = [['П', 'О', 'Д', 'О'], ['Р', 'О', 'Ж', 'Н', 'И', 'К']]
 
+// в готовом HTML — «на связи»; в нерабочее время после загрузки честно пишем, когда перезвоним
+const status = ref(hero.status)
+const offline = ref(false)
 const wordmark = ref(null)
 const tickerIndex = ref(0)
 let tickerTimer = 0
@@ -44,6 +48,12 @@ function onCall() {
 }
 
 onMounted(() => {
+  const now = workStatus()
+  if (!now.online) {
+    offline.value = true
+    status.value = `Сейчас не в офисе — перезвоним ${now.back}`
+  }
+
   tickerTimer = window.setInterval(() => {
     tickerIndex.value = (tickerIndex.value + 1) % hero.ticker.length
   }, 2200)
@@ -72,27 +82,31 @@ onUnmounted(() => {
     <div class="hero__inner container">
       <div class="hero__top">
         <p class="kicker hero__in" style="--d: 0.1s">{{ hero.kicker }}</p>
-        <p class="hero__status mono hero__in" style="--d: 0.2s">
+        <p class="hero__status mono hero__in" :class="{ 'hero__status--off': offline }" style="--d: 0.2s">
           <span class="live-dot" aria-hidden="true" />
-          {{ hero.status }}
+          {{ status }}
         </p>
       </div>
 
-      <h1 ref="wordmark" class="hero__wordmark" aria-label="Подорожник — внешний отдел маркетинга и IT">
+      <h1 ref="wordmark" class="hero__wordmark">
+        <!-- текст заголовка для поисковиков и экранных дикторов; буквы ниже рисует CSS из data-char,
+             чтобы «П О Д О…» не попадало в текст заголовка -->
+        <span class="visually-hidden">Подорожник — внешний отдел маркетинга и IT </span>
         <span v-for="(row, r) in rows" :key="r" class="hero__row" :class="`hero__row--${r}`" aria-hidden="true">
           <span
             v-for="(char, c) in row"
             :key="c"
             class="hero__char"
+            :data-char="char"
             :style="{ '--c': r * 4 + c }"
-          >{{ char }}</span>
+          />
         </span>
       </h1>
 
       <div class="hero__bottom">
         <p class="hero__lead hero__in" style="--d: 0.75s">{{ hero.lead }}</p>
 
-        <p class="hero__ticker hero__in" style="--d: 0.85s" aria-live="polite">
+        <p class="hero__ticker hero__in" style="--d: 0.85s">
           <span class="mono">{{ hero.tickerPrefix }}</span>
           <span class="hero__ticker-window">
             <Transition name="tick" mode="out-in">

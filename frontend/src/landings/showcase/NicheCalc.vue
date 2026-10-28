@@ -1,7 +1,6 @@
 <script setup>
 import { computed, reactive, watch } from 'vue'
 import { contacts } from '../../data/site'
-import { estimateNote } from '../../data/nicheShowcase'
 import { track } from '../../analytics/tracker'
 
 /**
@@ -12,6 +11,8 @@ import { track } from '../../analytics/tracker'
 const props = defineProps({
   calc: { type: Object, required: true },
   slug: { type: String, required: true },
+  // подпись об оценке: у ниш и услуг она своя, а файлы их данных тяжёлые — пусть передаёт страница
+  note: { type: String, required: true },
 })
 
 const state = reactive({ leads: 0, check: 0, close: 0, on: [] })
@@ -106,7 +107,7 @@ function onCall() {
             <span class="live-dot" aria-hidden="true" />
             Разобрать мои цифры
           </a>
-          <p class="ns-note">{{ estimateNote }}</p>
+          <p class="ns-note">{{ note }}</p>
         </div>
       </div>
     </div>

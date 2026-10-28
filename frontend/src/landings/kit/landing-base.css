@@ -99,6 +99,73 @@
   color: var(--orange);
 }
 
+/* ---------- Над подвалом: крошки, соседние ниши и услуги, разделы сайта ---------- */
+
+.lp-map {
+  padding: 3.5rem 0 2.75rem;
+  border-bottom: 1px solid var(--color-line-inv);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.lp-crumbs,
+.lp-map__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-crumbs,
+.lp-map__title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted-inv);
+}
+
+.lp-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.6rem;
+  margin-bottom: 2.5rem;
+}
+
+.lp-crumbs li + li::before {
+  content: '/';
+  margin-right: 0.6rem;
+  opacity: 0.5;
+}
+
+.lp-crumbs [aria-current] {
+  color: var(--paper);
+}
+
+.lp-map__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 2.25rem 2rem;
+}
+
+.lp-map__title {
+  margin: 0 0 1rem;
+}
+
+.lp-map__list {
+  display: grid;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.lp-map a {
+  color: inherit;
+  transition: color 0.3s var(--lp-ease);
+}
+
+.lp-map a:hover {
+  color: var(--orange);
+}
+
 .lp-sticky {
   position: fixed;
   left: 0;
@@ -109,6 +176,15 @@
   border-top: 1px solid var(--lp-line);
   background: color-mix(in srgb, var(--lp-bg) 92%, transparent);
   backdrop-filter: blur(10px);
+  transition:
+    transform 0.35s var(--lp-ease),
+    visibility 0.35s;
+}
+
+/* пока видны кнопки первого экрана — их дубль внизу не нужен (LandingShell) */
+.lp-sticky.is-hidden {
+  transform: translateY(100%);
+  visibility: hidden;
 }
 
 @media (min-width: 721px) {
@@ -325,7 +401,8 @@
   margin-bottom: 2.25rem;
 }
 
-.lp-hero__trust {
+.lp-hero__trust,
+.lp-roles {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -334,7 +411,13 @@
   list-style: none;
 }
 
-.lp-hero__trust li {
+/* роли команды над принципами на посадочных ниш */
+.lp-roles {
+  margin-bottom: 1.5rem;
+}
+
+.lp-hero__trust li,
+.lp-roles li {
   padding: 0.5rem 0.85rem;
   border: 1px solid var(--lp-line);
   background: color-mix(in srgb, var(--lp-bg) 55%, transparent);
@@ -551,6 +634,41 @@
   line-height: 1.55;
 }
 
+/* Посадочные ниш: этапы и сроки одной строкой, без пересказа главной */
+.lp-process--compact {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-process--compact .lp-process__item {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.5rem 1.25rem 1.5rem 0;
+}
+
+.lp-process--compact .lp-process__item:hover {
+  padding-left: 0;
+}
+
+.lp-process--compact .lp-process__idx {
+  font-size: 2rem;
+}
+
+.lp-process--compact .lp-process__item h3 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+}
+
+.lp-process--compact .lp-process__item p {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 /* ---------- FAQ ---------- */
 
 .lp-faq {
@@ -680,6 +798,17 @@
   font-size: 0.9rem;
 }
 
+.lp-foot-note a {
+  color: var(--lp-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color 0.3s var(--lp-ease);
+}
+
+.lp-foot-note a:hover {
+  color: var(--lp-accent);
+}
+
 .lp-pricing-foot {
   margin-top: 2rem;
 }
@@ -693,8 +822,15 @@
 
   .lp-grid-3,
   .lp-steps,
-  .lp-form-block {
+  .lp-form-block,
+  .lp-process--compact {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-process--compact .lp-process__item {
+    grid-template-columns: 4rem minmax(0, 1fr);
+    align-items: center;
+    padding: 1.1rem 0;
   }
 
   .lp-header__phone {

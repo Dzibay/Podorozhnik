@@ -5,6 +5,7 @@ import SiteFooter from './components/layout/SiteFooter.vue'
 import CaseToast from './components/layout/CaseToast.vue'
 import SiteFloat from './components/layout/SiteFloat.vue'
 import SiteCursor from './components/layout/SiteCursor.vue'
+import CookieNote from './components/layout/CookieNote.vue'
 
 const route = useRoute()
 </script>
@@ -16,5 +17,6 @@ const route = useRoute()
   <SiteFooter v-if="!route.meta.bare" />
   <CaseToast />
   <SiteFloat />
+  <CookieNote />
   <SiteCursor />
 </template>

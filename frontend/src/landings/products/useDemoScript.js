@@ -6,7 +6,8 @@ const reducedMotion = () => typeof window !== 'undefined' && window.matchMedia('
  * Проигрывает сценарий демо: список шагов [{ at: мс от начала, run() }].
  * Играет, только пока демо на экране и вкладка видна; после последнего шага
  * ждёт `hold` и начинает сначала. При «уменьшить движение» сразу показывает
- * финальный кадр — все шаги подряд без пауз.
+ * финальный кадр — все шаги подряд без пауз, но только после монтирования:
+ * до него разметка должна совпадать с готовым HTML из пререндера.
  *
  * `build(scenario)` пересобирает шаги под выбранный сценарий и сбрасывает состояние.
  * `onEnd` вызывается один раз, когда сценарий доигран, — вместо повтора.
@@ -21,16 +22,18 @@ export function useDemoScript(root, build, { hold = 3500, onEnd = null } = {}) {
   let visible = false
   let observer = null
   let scenario = null
+  let mounted = false
+
+  function finish() {
+    while (index < steps.length) steps[index++].run()
+  }
 
   function load(next) {
     scenario = next
     steps = build(next).sort((a, b) => a.at - b.at)
     index = 0
     clock = 0
-    if (reducedMotion()) {
-      steps.forEach((s) => s.run())
-      index = steps.length
-    }
+    if (mounted && reducedMotion()) finish()
   }
 
   function tick(now) {
@@ -63,6 +66,8 @@ export function useDemoScript(root, build, { hold = 3500, onEnd = null } = {}) {
   }
 
   onMounted(() => {
+    mounted = true
+    if (reducedMotion()) finish()
     if (typeof IntersectionObserver === 'undefined') visible = true
     else {
       observer = new IntersectionObserver(([entry]) => {

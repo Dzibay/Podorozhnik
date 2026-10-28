@@ -1,12 +1,17 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+import { nicheIndex } from 'virtual:niche-index'
 import { contacts, footerNav, routes, site } from '../../data/site'
-import { getService, serviceTracks } from '../../data/services'
-import { nicheList, nichePath } from '../../data/niches'
+import { getService, keyServices } from '../../data/services'
 import BrandMark from '../ui/BrandMark.vue'
 import EmailChooser from '../ui/EmailChooser.vue'
 
-// под двумя направлениями — отдельные посадочные IT-услуг
-const productLinks = ['telegram-bots', 'saas', 'automation', 'ai-assistants'].map(getService)
+// главные услуги — прямыми ссылками на их посадочные
+const serviceLinks = keyServices.map(getService)
+
+// год сборки совпадает с пререндером; после загрузки — текущий
+const year = ref(__BUILD_YEAR__)
+onMounted(() => (year.value = new Date().getFullYear()))
 
 /** Градиентная «подсветка» гигантского логотипа следует за курсором */
 function onMove(event) {
@@ -37,11 +42,11 @@ function onMove(event) {
           <div>
             <p class="footer__title">Услуги</p>
             <ul class="footer__list">
-              <li v-for="group in serviceTracks" :key="group.id">
-                <RouterLink :to="`${routes.services}#${group.id}`">{{ group.title }}</RouterLink>
-              </li>
-              <li v-for="item in productLinks" :key="item.slug">
+              <li v-for="item in serviceLinks" :key="item.slug">
                 <RouterLink :to="routes.service(item.slug)">{{ item.shortTitle }}</RouterLink>
+              </li>
+              <li>
+                <RouterLink :to="routes.services">Все услуги →</RouterLink>
               </li>
             </ul>
           </div>
@@ -49,8 +54,8 @@ function onMove(event) {
           <div>
             <p class="footer__title">Ниши</p>
             <ul class="footer__list footer__list--2">
-              <li v-for="niche in nicheList" :key="niche.slug">
-                <RouterLink :to="nichePath(niche.slug)">{{ niche.label }}</RouterLink>
+              <li v-for="niche in nicheIndex" :key="niche.slug">
+                <RouterLink :to="routes.niche(niche.slug)">{{ niche.label }}</RouterLink>
               </li>
             </ul>
           </div>
@@ -82,7 +87,7 @@ function onMove(event) {
           <RouterLink :to="routes.privacy">Политика обработки персональных данных</RouterLink>
           <RouterLink :to="routes.consent">Согласие на обработку данных</RouterLink>
         </p>
-        <p>© {{ new Date().getFullYear() }} {{ site.name }} · {{ site.brandLine }}</p>
+        <p>© {{ year }} {{ site.name }} · {{ site.brandLine }}</p>
       </div>
     </div>
   </footer>

@@ -1,9 +1,12 @@
 <script setup>
+import { useId } from 'vue'
+
 /** Знак бренда: лист подорожника с дуговыми прожилками. */
 defineProps({
   mono: { type: Boolean, default: false },
 })
-const gradientId = `pd-leaf-${Math.random().toString(36).slice(2, 8)}`
+// одинаковый id на сервере и в браузере: случайный ломал бы гидрацию
+const gradientId = `pd-leaf-${useId()}`
 </script>
 
 <template>
